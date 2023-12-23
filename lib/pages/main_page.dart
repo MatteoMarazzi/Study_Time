@@ -10,12 +10,28 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  List domande = [];
+
+  final _controller = TextEditingController();
+
+  void salvaDomanda() async{
+    setState(() {
+      domande.add(_controller.text);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
   
-  void createQuestion() {
+  void createQuestion() async{
     showDialog(
       context: context,
       builder: (context){
-        return DialogueBox();
+        return DialogueBox(
+          controller: _controller,
+          OnSalva: salvaDomanda,
+          OnAnnulla: () => Navigator.of(context).pop(),
+        );
       });
   }
 

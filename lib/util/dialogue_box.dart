@@ -4,7 +4,11 @@ import 'package:app/util/buttons.dart';
 import 'package:flutter/material.dart';
 
 class DialogueBox extends StatelessWidget {
-  const DialogueBox({super.key});
+  final controller;
+  VoidCallback OnSalva;
+  VoidCallback OnAnnulla;
+
+  DialogueBox({super.key,required this.controller,required this.OnSalva,required this.OnAnnulla});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +18,7 @@ class DialogueBox extends StatelessWidget {
         child: Column(
           children: [
             TextField(
+              controller: controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Scrivi la domanda",
@@ -21,8 +26,9 @@ class DialogueBox extends StatelessWidget {
             ),
             Row(
               children: [
-                MyButtons(name: 'Salva', onPressed: () {}),
-                MyButtons(name: 'Annulla', onPressed: () {})
+                MyButtons(name: 'Salva', onPressed: OnSalva),
+
+                MyButtons(name: 'Annulla', onPressed: OnAnnulla)
               ],
             )
           ],
