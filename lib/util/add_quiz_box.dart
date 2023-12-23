@@ -3,12 +3,12 @@
 import 'package:app/util/buttons.dart';
 import 'package:flutter/material.dart';
 
-class DialogueBox extends StatelessWidget {
+class AddQuizBox extends StatelessWidget {
   final controller;
   VoidCallback OnSalva;
   VoidCallback OnAnnulla;
 
-  DialogueBox({super.key,required this.controller,required this.OnSalva,required this.OnAnnulla});
+  AddQuizBox({super.key,required this.controller,required this.OnSalva,required this.OnAnnulla});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class DialogueBox extends StatelessWidget {
               controller: controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Scrivi la domanda",
+                hintText: "Nome quiz",
               ),
             ),
             Row(
