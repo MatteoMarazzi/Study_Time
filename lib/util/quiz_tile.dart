@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class QuizTile extends StatelessWidget {
-  String quizName;
+  final String quizName;
   VoidCallback OnOpenQuiz;
   QuizTile({super.key, required this.quizName, required this.OnOpenQuiz});
 
@@ -15,7 +15,7 @@ class QuizTile extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20),
           width: 400,
-          height: 50,
+          height: 70,
           decoration: BoxDecoration(
             color: Colors.deepOrange,
             borderRadius: BorderRadius.circular(5)

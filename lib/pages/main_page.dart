@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   void saveQuiz() async{
     if(_controller.text!= Null){
        setState(() {
-      quiz.add(_controller.text);
+      quiz.add([_controller.text]);
       _controller.clear();
       });
     }  
@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   void openQuiz(int index) async{
-
+    
   }
 
   @override
