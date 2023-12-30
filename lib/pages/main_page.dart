@@ -1,5 +1,7 @@
+import 'package:app/pages/quiz_page.dart';
+import 'package:app/util/Quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
-import 'package:app/util/quiz_tile.dart';
+import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -12,15 +14,15 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  List quiz = [];
+  List <Quiz> quizzes = [];
 
   final _controller = TextEditingController();
 
   void saveQuiz() async{
     if(_controller.text!= Null){
        setState(() {
-      quiz.add([_controller.text]);
-      _controller.clear();
+        quizzes.add(Quiz(_controller.text));
+        _controller.clear();
       });
     }  
     Navigator.of(context).pop();
@@ -39,7 +41,11 @@ class _MainPageState extends State<MainPage> {
   }
 
   void openQuiz(int index) async{
-    
+    Navigator.push(
+      context, MaterialPageRoute(
+        builder: (context) => QuizPage()
+      )
+    );
   }
 
   @override
@@ -50,11 +56,11 @@ class _MainPageState extends State<MainPage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-        itemCount: quiz.length,
+        itemCount: quizzes.length,
         itemBuilder: (context, index){
-          return QuizTile(
-            quizName: quiz[index][0],
-            OnOpenQuiz: () => openQuiz(index)
+          return Tile(
+            quizName: quizzes[index].nome,
+            OnOpenTile: () => openQuiz(index)
           );
         },
       ),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class QuizTile extends StatelessWidget {
+class Tile extends StatelessWidget {
   final String quizName;
-  VoidCallback OnOpenQuiz;
-  QuizTile({super.key, required this.quizName, required this.OnOpenQuiz});
+  VoidCallback OnOpenTile;
+  Tile({super.key, required this.quizName, required this.OnOpenTile});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: OnOpenQuiz,
+      onTap: OnOpenTile,
       child: Padding(
         padding: const EdgeInsets.all(25.0),
         child: Container(
