@@ -4,7 +4,10 @@ import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
 
 class QuizPage extends StatefulWidget {
-  QuizPage({super.key});
+  QuizPage({super.key, required this.title});
+
+  final String title;
+
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -40,6 +43,16 @@ class _QuizPageState extends State<QuizPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.title,
+          style : TextStyle(
+          
+          color: Colors.white
+          )
+          ),
+        backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
+      ),
       body: ListView.builder(
         itemCount: domande.length,
         itemBuilder: (context, index){

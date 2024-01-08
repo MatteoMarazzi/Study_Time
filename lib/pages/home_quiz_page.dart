@@ -4,15 +4,15 @@ import 'package:app/util/add_quiz_box.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key, required this.title});
+class HomeQuizPage extends StatefulWidget {
+  const HomeQuizPage({super.key, required this.title});
   final String title;
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<HomeQuizPage> createState() => _HomeQuizPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _HomeQuizPageState extends State<HomeQuizPage> {
 
   List <Quiz> quizzes = [];
 
@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
   void openQuiz(int index) async{
     Navigator.push(
       context, MaterialPageRoute(
-        builder: (context) => QuizPage()
+        builder: (context) => QuizPage(title: "DOMANDE")
       )
     );
   }
@@ -52,9 +52,15 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+        backgroundColor: const Color.fromRGBO(2, 67, 69, 1)
+,
+
+        title: Text(
+          textAlign: TextAlign.left,
+            widget.title,
+            style : TextStyle(color: Colors.white)
+          ),
+       ),
       body: ListView.builder(
         itemCount: quizzes.length,
         itemBuilder: (context, index){
