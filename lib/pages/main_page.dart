@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
   void openQuiz(int index) async{
     Navigator.push(
       context, MaterialPageRoute(
-        builder: (context) => QuizPage()
+        builder: (context) => QuizPage(title: "               DOMANDE")
       )
     );
   }
