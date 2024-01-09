@@ -1,4 +1,5 @@
 import 'package:app/pages/home_quiz_page.dart';
+import 'package:app/util/clock.dart';
 import 'package:flutter/material.dart';
 
 
@@ -66,14 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // ignore: prefer_const_constructors
       body: Center(
-        
+        child: ClockWidget()
         // ignore: prefer_const_constructors
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-        ),
-      ),
+         ),
       
     );
   }
