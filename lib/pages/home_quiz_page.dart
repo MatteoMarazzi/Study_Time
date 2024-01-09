@@ -73,6 +73,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: createQuiz,
         child: const Icon(Icons.add),
+        backgroundColor: Color.fromARGB(255, 8, 73, 108),
       ),
     );
   }

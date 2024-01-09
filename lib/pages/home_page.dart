@@ -1,5 +1,4 @@
 import 'package:app/pages/home_quiz_page.dart';
-import 'package:app/util/clock.dart';
 import 'package:flutter/material.dart';
 
 
@@ -62,15 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // ignore: prefer_const_constructors
       drawer: Drawer(
-        backgroundColor: const Color.fromRGBO(23, 77, 127, 1),
+        backgroundColor: Color.fromARGB(255, 127, 159, 190),
         ),
-
-      // ignore: prefer_const_constructors
-      body: Center(
-        child: ClockWidget()
-        // ignore: prefer_const_constructors
-         ),
-      
     );
   }
 }
