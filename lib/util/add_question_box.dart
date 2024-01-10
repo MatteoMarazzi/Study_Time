@@ -1,6 +1,7 @@
 import 'package:app/util/buttons.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AddQuestionBox extends StatelessWidget {
   final controller;
   VoidCallback OnSalva;

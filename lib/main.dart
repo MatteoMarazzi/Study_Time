@@ -1,4 +1,4 @@
-import 'package:app/pages/main_page.dart';
+import 'package:app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,10 +14,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(2, 67, 69, 1)),
         useMaterial3: true,
       ),
-      home: const MainPage(title: 'App studio'),
+      home: const MyHomePage(title: "APP STUDIO"),
     );
   }
 }
