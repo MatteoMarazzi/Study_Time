@@ -1,6 +1,7 @@
 import 'package:app/pages/home_quiz_page.dart';
+import 'package:app/pages/tomato_method.dart';
+import 'package:app/util/home_options.dart';
 import 'package:flutter/material.dart';
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -63,6 +64,21 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
         backgroundColor: Color.fromARGB(255, 127, 159, 190),
         ),
+      body: Center(
+      child : Column(
+        children: [
+          SizedBox(height: 20),
+         RoundedRectangle(
+          color: Colors.red,
+          backgroundColor: Colors.red,
+          destinationPage: tomato(),
+         ),
+        SizedBox(height: 20),
+         RoundedRectangle(color: Colors.yellow, backgroundColor:Colors.yellow,
+         destinationPage: HomeQuizPage(title: "QUIZ"),)
+        ],
+      )
+      )
     );
   }
 }
