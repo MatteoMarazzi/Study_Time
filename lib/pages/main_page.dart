@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:app/pages/quiz_page.dart';
 import 'package:app/util/Quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key, required this.title});
@@ -21,7 +26,8 @@ class _MainPageState extends State<MainPage> {
   void saveQuiz() async{
     if(_controller.text!= Null){
        setState(() {
-        quizzes.add(Quiz(_controller.text));
+        quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
+        storage(quizzes.last);
         _controller.clear();
       });
     }  
@@ -37,7 +43,8 @@ class _MainPageState extends State<MainPage> {
           OnSalva: saveQuiz,
           OnAnnulla: () => Navigator.of(context).pop(),
         );
-      });
+      }
+    );
   }
 
   void openQuiz(int index) async{
@@ -46,6 +53,29 @@ class _MainPageState extends State<MainPage> {
         builder: (context) => QuizPage()
       )
     );
+  }
+
+  Future storage(Quiz q) async{
+    Directory d = await getApplicationDocumentsDirectory();
+    File f = File("${d.path}/prova.txt");
+    f.writeAsString("hello");
+
+    var dbpath = await getDatabasesPath();
+    var fname = dbpath + "/prova.txt";
+
+    var db = await openDatabase(fname,
+      onCreate: (db, version) {
+        print("db not found, creating a new one");
+        db.execute('''
+          CREATE TABLE quizzes(
+            nome varchar
+            id int,
+          )'''
+        );
+      },
+      version: 1
+    );
+    db.insert("quizzes", q.toMap());
   }
 
   @override
@@ -65,7 +95,7 @@ class _MainPageState extends State<MainPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: createQuiz,
+        onPressed: () {createQuiz();},
         child: const Icon(Icons.add),
       ),
     );
