@@ -22,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-
+      backgroundColor: const Color.fromRGBO(175, 238, 238, 1.0),
       appBar: AppBar(
          
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
@@ -55,9 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
            ),
               ),
-            
-
-          ],
+            ],
       )
         ),
 
@@ -69,10 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
          RoundedRectangle(
           color: Colors.red,
           backgroundColor: Colors.red,
+          boxTitle: "POMODORO",
           destinationPage: tomato(),
          ),
         SizedBox(height: 20),
-         RoundedRectangle(color: Colors.yellow, backgroundColor:Colors.yellow,
+         RoundedRectangle(
+          color: Colors.yellow,
+           backgroundColor:Colors.yellow,
+           boxTitle: "QUIZ",
          destinationPage: HomeQuizPage(title: "QUIZ"),)
         ],
       )
