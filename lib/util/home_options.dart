@@ -21,7 +21,12 @@ class RoundedRectangle extends StatelessWidget {
           MaterialPageRoute(builder: (context) => destinationPage), // Utilizziamo il widget destinazione per la navigazione
         );
       },
-      child: Container(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15), 
+      child: Row(
+      children : [
+        Expanded(
+          child: Container(
         width: 325, // Bordo esterno larghezza
         height: 80, // Bordo esterno altezza
         decoration: BoxDecoration(
@@ -39,6 +44,10 @@ class RoundedRectangle extends StatelessWidget {
           ),
         ),
       ),
+        )
+      ],
+      )
+      )
     );
   }
 }
