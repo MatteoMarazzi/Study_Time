@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(2, 67, 69, 1)),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: const Color.fromRGBO(2, 67, 69, 1)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: "APP STUDIO"),

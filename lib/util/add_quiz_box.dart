@@ -9,7 +9,11 @@ class AddQuizBox extends StatelessWidget {
   VoidCallback OnSalva;
   VoidCallback OnAnnulla;
 
-  AddQuizBox({super.key,required this.controller,required this.OnSalva,required this.OnAnnulla});
+  AddQuizBox(
+      {super.key,
+      required this.controller,
+      required this.OnSalva,
+      required this.OnAnnulla});
 
   @override
   Widget build(BuildContext context) {
@@ -20,25 +24,22 @@ class AddQuizBox extends StatelessWidget {
           children: [
             Expanded(
               child: Center(
-                child : TextField(
-              
-              controller: controller,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Nome quiz",
-                hintStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                )
+                child: TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Nome quiz",
+                      hintStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      )),
+                ),
               ),
             ),
-              ),
-            ),
-            Row(              
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MyButtons(name: 'Salva', onPressed: OnSalva),
-
                 MyButtons(name: 'Annulla', onPressed: OnAnnulla)
               ],
             )

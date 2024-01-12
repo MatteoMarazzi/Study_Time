@@ -6,9 +6,13 @@ class AddQuestionBox extends StatelessWidget {
   final controller;
   VoidCallback OnSalva;
   VoidCallback OnAnnulla;
-  AddQuestionBox({super.key, required this.controller,required this.OnSalva,required this.OnAnnulla});
+  AddQuestionBox(
+      {super.key,
+      required this.controller,
+      required this.OnSalva,
+      required this.OnAnnulla});
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Container(
@@ -25,7 +29,6 @@ class AddQuestionBox extends StatelessWidget {
             Row(
               children: [
                 MyButtons(name: 'Salva', onPressed: OnSalva),
-
                 MyButtons(name: 'Annulla', onPressed: OnAnnulla)
               ],
             )
