@@ -49,8 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             )),
-        body: Center(
-            child: Column(
+        body: SingleChildScrollView(
+            child: Center(
+                child: Column(
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             SizedBox(height: 20),
@@ -84,6 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
               weightImage: 250,
             )
           ],
-        )));
+        ))));
   }
 }
