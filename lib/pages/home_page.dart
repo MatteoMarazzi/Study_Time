@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
@@ -69,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
               destinationPage: HomeQuizPage(title: "QUIZ"),
               pathImage: 'assets/quiz_1.png',
               heightImage: 130,
-              weightImage: 240,
+              weightImage: 250,
             ),
             SizedBox(height: 20),
             Home_tile(

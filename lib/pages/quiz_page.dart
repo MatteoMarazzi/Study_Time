@@ -37,6 +37,10 @@ class _QuizPageState extends State<QuizPage> {
         });
   }
 
+  deleteQuestion(int index) {}
+
+  modifyQuestion(int index) {}
+
   openQuestion(int index) {}
 
   @override
@@ -50,8 +54,11 @@ class _QuizPageState extends State<QuizPage> {
         itemCount: domande.length,
         itemBuilder: (context, index) {
           return Tile(
-              quizName: domande[index].text,
-              OnOpenTile: () => openQuestion(index));
+            quizName: domande[index].text,
+            OnOpenTile: () => openQuestion(index),
+            OnOpenElimina: deleteQuestion(index),
+            OnOpenModifica: modifyQuestion(index),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(

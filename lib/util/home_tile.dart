@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Home_tile extends StatelessWidget {
-  final Color
-      color; //ANCORA NON IMPLEMENTATO, HO MESSO DI DEFAUL IL NERO.Sarebbe colore scritte
+  final Color color;
   final Color backgroundColor; // Aggiungiamo il colore di sfondo
   final Widget destinationPage; // Correggo il tipo del parametro
   final String boxTitle;
