@@ -23,7 +23,7 @@ class Tile extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(20),
             width: 400,
-            height: 70,
+            height: 80,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
