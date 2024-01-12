@@ -5,7 +5,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Tile extends StatelessWidget {
   final String quizName;
   VoidCallback OnOpenTile;
-  Tile({super.key, required this.quizName, required this.OnOpenTile});
+  //VoidCallback OnOpenModifica;
+  //VoidCallback OnOpenElimina;
+  Tile({
+    super.key,
+    required this.quizName,
+    required this.OnOpenTile,
+    //required this.OnOpenModifica,
+    //required this.OnOpenElimina
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +26,11 @@ class Tile extends StatelessWidget {
             width: 400,
             height: 70,
             child: Row(
-              children: [
-                Text(quizName),
-                PopupMenuItem(child: FaIcon(FontAwesomeIcons.ellipsis))
-              ],
-            ),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(quizName),
+                  PopupMenuItem(child: FaIcon(FontAwesomeIcons.ellipsis)),
+                ]),
             decoration: BoxDecoration(
                 color: Colors.deepOrange,
                 borderRadius: BorderRadius.circular(5)),

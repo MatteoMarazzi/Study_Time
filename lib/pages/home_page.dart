@@ -20,9 +20,8 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
             backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
             title: Stack(
-              //nuova funzione che permette di sovrapposizionare
+              //nuova funzione che permette di sovrapposizionare dei Widget, utilissimo per libertà di posizionamento
               children: [
-                //dei Widget, utilissimo per libertà di posizionamento
                 Center(
                   child: Text(
                     widget.title,
@@ -30,8 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Positioned(
-                  //scelta di usare il positioned per infinita possibilita
-                  right: 0, //di posizionamento.
+                  //scelta di usare il positioned per infinita possibilita di posizionamento.
+                  right: 0,
                   bottom: -9,
                   child: IconButton(
                     onPressed: () {
