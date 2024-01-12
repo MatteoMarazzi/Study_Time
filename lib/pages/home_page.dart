@@ -1,6 +1,6 @@
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
-import 'package:app/util/home_tiles.dart';
+import 'package:app/util/home_tile.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -50,18 +50,24 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
           children: [
             SizedBox(height: 20),
-            HomeTile(
+            Home_tile(
               color: Colors.red,
               backgroundColor: Colors.red,
               boxTitle: "POMODORO",
               destinationPage: TomatoMethod(),
+              pathImage: 'assets/Tomato_2.png',
+              heightImage: 130,
+              weightImage: 250,
             ),
             SizedBox(height: 20),
-            HomeTile(
+            Home_tile(
               color: Colors.yellow,
               backgroundColor: Colors.yellow,
               boxTitle: "QUIZ",
               destinationPage: HomeQuizPage(title: "QUIZ"),
+              pathImage: 'assets/allarm_clock.png',
+              heightImage: 130,
+              weightImage: 250,
             )
           ],
         )));

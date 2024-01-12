@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class RoundedRectangle extends StatelessWidget {
+class Home_tile extends StatelessWidget {
   final Color
       color; //ANCORA NON IMPLEMENTATO, HO MESSO DI DEFAUL IL NERO.Sarebbe colore scritte
   final Color backgroundColor; // Aggiungiamo il colore di sfondo
@@ -11,7 +11,7 @@ class RoundedRectangle extends StatelessWidget {
   final double heightImage;
   final double weightImage;
 
-  const RoundedRectangle({
+  const Home_tile({
     Key? key,
     required this.color,
     required this.backgroundColor, // Aggiorniamo il costruttore
