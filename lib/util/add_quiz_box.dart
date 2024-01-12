@@ -18,14 +18,24 @@ class AddQuizBox extends StatelessWidget {
         height: 200,
         child: Column(
           children: [
-            TextField(
+            Expanded(
+              child: Center(
+                child : TextField(
+              
               controller: controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Nome quiz",
+                hintStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                )
               ),
             ),
-            Row(
+              ),
+            ),
+            Row(              
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MyButtons(name: 'Salva', onPressed: OnSalva),
 

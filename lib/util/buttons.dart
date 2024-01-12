@@ -14,7 +14,13 @@ class MyButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onPressed,
-      child: Text(name),
+      child: Text(
+        name,
+        style : TextStyle(
+         fontSize: 20,
+         fontWeight: FontWeight.w400,
+        )
+        ),
     );
   }
 }
