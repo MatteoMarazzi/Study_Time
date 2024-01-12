@@ -1,6 +1,8 @@
-import 'package:app/pages/home_quiz_page.dart';
-import 'package:flutter/material.dart';
 
+import 'package:app/pages/home_quiz_page.dart';
+import 'package:app/pages/tomato_method.dart';
+import 'package:app/util/home_options.dart';
+import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -14,32 +16,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
- // int _counter = 0;
 
- // void _incrementCounter() {
- //   setState(() {
- //     print("Incremento di 2");
- //     _counter = _counter + 2;
-
- //   });
- // }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-
+      backgroundColor: const Color.fromRGBO(175, 238, 238, 1.0),
       appBar: AppBar(
          
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
-        actions: <Widget>[
-          IconButton(
+
+
+         title: Stack(                  //nuova funzione che permette di sovrapposizionare
+          children : [                  //dei Widget, utilissimo per libertà di posizionamento
+            Center(
+             child : Text(
+                    widget.title,
+                    style: TextStyle(color: Colors.white),
+                  ),
+            ),
+            Positioned(                  //scelta di usare il positioned per infinita possibilita
+              right: 0,                  //di posizionamento. 
+              bottom: -9,
+              child: IconButton(
+            
              onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  // ignore: prefer_const_constructors
-                  builder: (context) => HomeQuizPage(title: "                     QUIZ"),
+                  builder: (context) => HomeQuizPage(title: "QUIZ"),
                   ),
                 );
              },
@@ -48,33 +54,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ),
            ),
-        ],
-
-        title: Center(
-          child : Text(
-            widget.title,
-            textAlign: TextAlign.center,
-            style : TextStyle(color: Colors.white)
-          ),
-        )
+              ),
+            ],
+      )
         ),
 
-      // ignore: prefer_const_constructors
-      drawer: Drawer(
-        backgroundColor: const Color.fromRGBO(23, 77, 127, 1),
-        ),
 
-      // ignore: prefer_const_constructors
       body: Center(
-        
-        // ignore: prefer_const_constructors
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-        ),
-      ),
-      
+      child : Column(
+        children: [
+          SizedBox(height: 20),
+         RoundedRectangle(
+          color: Colors.red,
+          backgroundColor: Colors.red,
+          boxTitle: "POMODORO",
+          destinationPage: tomato(),
+         ),
+        SizedBox(height: 20),
+         RoundedRectangle(
+          color: Colors.yellow,
+           backgroundColor:Colors.yellow,
+           boxTitle: "QUIZ",
+         destinationPage: HomeQuizPage(title: "QUIZ"),)
+        ],
+      )
+      )
     );
   }
 }
