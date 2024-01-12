@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
@@ -55,23 +53,23 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             SizedBox(height: 20),
             Home_tile(
-              color: Colors.red,
+              color: Colors.black,
               backgroundColor: Colors.red,
               boxTitle: "POMODORO",
               destinationPage: TomatoMethod(),
-              pathImage: 'assets/Tomato_2.png',
+              pathImage: 'assets/tomato_2.png',
               heightImage: 130,
               weightImage: 250,
             ),
             SizedBox(height: 20),
             Home_tile(
-              color: Colors.yellow,
+              color: Colors.black,
               backgroundColor: Colors.yellow,
               boxTitle: "QUIZ",
               destinationPage: HomeQuizPage(title: "QUIZ"),
               pathImage: 'assets/quiz_1.png',
               heightImage: 130,
-              weightImage: 250,
+              weightImage: 240,
             ),
             SizedBox(height: 20),
             Home_tile(
