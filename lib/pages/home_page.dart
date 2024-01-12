@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.red,
               backgroundColor: Colors.red,
               boxTitle: "POMODORO",
-              destinationPage: TomatoMehod(),
+              destinationPage: TomatoMethod(),
             ),
             SizedBox(height: 20),
             HomeTile(

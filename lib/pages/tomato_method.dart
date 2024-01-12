@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TomatoMehod extends StatefulWidget {
-  const TomatoMehod({super.key});
+class TomatoMethod extends StatefulWidget {
+  const TomatoMethod({super.key});
 
   @override
-  State<TomatoMehod> createState() => _TomatoMehodState();
+  State<TomatoMethod> createState() => _TomatoMethodState();
 }
 
-class _TomatoMehodState extends State<TomatoMehod> {
+class _TomatoMethodState extends State<TomatoMethod> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
