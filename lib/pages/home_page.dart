@@ -1,6 +1,6 @@
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
-import 'package:app/util/home_options.dart';
+import 'package:app/util/home_tiles.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -20,9 +20,8 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
             backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
             title: Stack(
-              //nuova funzione che permette di sovrapposizionare
+              //nuova funzione che permette di sovrapposizionare dei Widget, utilissimo per libertà di posizionamento
               children: [
-                //dei Widget, utilissimo per libertà di posizionamento
                 Center(
                   child: Text(
                     widget.title,
@@ -30,8 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Positioned(
-                  //scelta di usare il positioned per infinita possibilita
-                  right: 0, //di posizionamento.
+                  //scelta di usare il positioned per infinita possibilita di posizionamento.
+                  right: 0,
                   bottom: -9,
                   child: IconButton(
                     onPressed: () {
@@ -51,24 +50,18 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
           children: [
             SizedBox(height: 20),
-            RoundedRectangle(
-              color: Colors.black,
+            HomeTile(
+              color: Colors.red,
               backgroundColor: Colors.red,
               boxTitle: "POMODORO",
-              destinationPage: tomato(),
-              pathImage: 'assets/Tomato_2.png',
-              heightImage: 130,
-              weightImage: 250,
+              destinationPage: TomatoMehod(),
             ),
             SizedBox(height: 20),
-            RoundedRectangle(
-              color: Colors.black,
+            HomeTile(
+              color: Colors.yellow,
               backgroundColor: Colors.yellow,
               boxTitle: "QUIZ",
               destinationPage: HomeQuizPage(title: "QUIZ"),
-              pathImage: 'assets/allarm_clock.png',
-              heightImage: 130,
-              weightImage: 250,
             )
           ],
         )));

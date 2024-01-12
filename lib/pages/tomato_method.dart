@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
-class tomato extends StatefulWidget {
-  const tomato({super.key});
+class TomatoMehod extends StatefulWidget {
+  const TomatoMehod({super.key});
 
   @override
-  State<tomato> createState() => _tomatoState();
+  State<TomatoMehod> createState() => _TomatoMehodState();
 }
 
-
-
-class _tomatoState extends State<tomato> {
+class _TomatoMehodState extends State<TomatoMehod> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
+      appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 155, 17, 7),
         title: Text("METODO DEL POMODORO"),
-      
       ),
     );
   }

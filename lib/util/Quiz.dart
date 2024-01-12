@@ -1,18 +1,14 @@
+import 'package:app/util/question.dart';
 
-import 'package:app/util/Domanda.dart';
-
-class Quiz{
+class Quiz {
   String nome;
   int id;
-  late List<Domanda> domande;
+  late List<Question> domande;
 
-  Quiz({required this.nome,required this.id});
+  Quiz({required this.nome, required this.id});
 
-  static Quiz fromMap(Map<String,dynamic> map) =>
-  Quiz(nome : map["nome"], id: map["id"]);
+  static Quiz fromMap(Map<String, dynamic> map) =>
+      Quiz(nome: map["nome"], id: map["id"]);
 
-  Map<String, dynamic> toMap() => {
-    "name" : nome,
-    "id" : id
-  };
+  Map<String, dynamic> toMap() => {"name": nome, "id": id};
 }
