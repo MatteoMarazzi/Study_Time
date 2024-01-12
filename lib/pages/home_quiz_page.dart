@@ -25,7 +25,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
     if (_controller.text != Null) {
       setState(() {
         quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
-        storage(quizzes.last);
+        //storage(quizzes.last);
         _controller.clear();
       });
     }
@@ -49,7 +49,23 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         MaterialPageRoute(builder: (context) => QuizPage(title: "DOMANDE")));
   }
 
-  Future storage(Quiz q) async {
+  modifyQuiz(int index) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AddQuizBox(
+              controller: _controller,
+              OnSalva: () {
+                setState(() {
+                  quizzes[index].nome = _controller.text;
+                  Navigator.of(context).pop();
+                });
+              },
+              OnAnnulla: (() => Navigator.of(context).pop()));
+        });
+  }
+
+/*  Future storage(Quiz q) async {
     Directory d = await getApplicationDocumentsDirectory();
     File f = File("${d.path}/prova.txt");
     f.writeAsString("hello");
@@ -67,7 +83,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
     }, version: 1);
     db.insert("quizzes", q.toMap());
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +98,13 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         itemCount: quizzes.length,
         itemBuilder: (context, index) {
           return Tile(
-              quizName: quizzes[index].nome, OnOpenTile: () => openQuiz(index));
+            quizName: quizzes[index].nome,
+            OnOpenTile: () => openQuiz(index),
+            OnOpenElimina: () => setState(() {
+              quizzes.removeAt(index);
+            }),
+            OnOpenModifica: () => modifyQuiz(index),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(

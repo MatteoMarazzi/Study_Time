@@ -5,15 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Tile extends StatelessWidget {
   final String quizName;
   VoidCallback OnOpenTile;
-  //VoidCallback OnOpenModifica;
-  //VoidCallback OnOpenElimina;
-  Tile({
-    super.key,
-    required this.quizName,
-    required this.OnOpenTile,
-    //required this.OnOpenModifica,
-    //required this.OnOpenElimina
-  });
+  VoidCallback OnOpenModifica;
+  VoidCallback OnOpenElimina;
+  Tile(
+      {super.key,
+      required this.quizName,
+      required this.OnOpenTile,
+      required this.OnOpenModifica,
+      required this.OnOpenElimina});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,14 @@ class Tile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(quizName),
-                  PopupMenuItem(child: FaIcon(FontAwesomeIcons.ellipsis)),
+                  PopupMenuButton(
+                    itemBuilder: (BuildContext context) => [
+                      PopupMenuItem(
+                          onTap: OnOpenModifica, child: Text('modifica')),
+                      PopupMenuItem(
+                          onTap: OnOpenElimina, child: Text('elimina'))
+                    ],
+                  ),
                 ]),
             decoration: BoxDecoration(
                 color: Colors.deepOrange,
