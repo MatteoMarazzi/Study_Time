@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:app/util/home_tile.dart';
@@ -48,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
             )),
         body: Center(
             child: Column(
+          // ignore: prefer_const_literals_to_create_immutables
           children: [
             SizedBox(height: 20),
             Home_tile(
@@ -65,7 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Colors.yellow,
               boxTitle: "QUIZ",
               destinationPage: HomeQuizPage(title: "QUIZ"),
-              pathImage: 'assets/allarm_clock.png',
+              pathImage: 'assets/quiz_1.png',
+              heightImage: 130,
+              weightImage: 250,
+            ),
+            SizedBox(height: 20),
+            Home_tile(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              backgroundColor: Color.fromARGB(255, 39, 199, 74),
+              boxTitle: "ESAMI",
+              destinationPage: Exam_page(),
+              pathImage: 'assets/exam_1.png',
               heightImage: 130,
               weightImage: 250,
             )
