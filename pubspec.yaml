@@ -66,6 +66,7 @@ flutter:
   assets:
      - assets/tomato.png
      - assets/allarm_clock.png
+     - assets/Tomato_2.png
      
   #   - images/a_dot_ham.jpeg
 
