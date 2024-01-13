@@ -4,14 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // ignore: must_be_immutable
 class Tile extends StatelessWidget {
   final String quizName;
-  final String quizDescription;
   VoidCallback OnOpenTile;
   VoidCallback OnOpenModifica;
   VoidCallback OnOpenElimina;
   Tile(
       {super.key,
       required this.quizName,
-      required this.quizDescription,
       required this.OnOpenTile,
       required this.OnOpenModifica,
       required this.OnOpenElimina});
@@ -29,23 +27,23 @@ class Tile extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        quizName,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                      Text(
+                  //   Column(
+                  //      mainAxisAlignment: MainAxisAlignment.start,
+                  //    children: [
+                  Text(
+                    quizName,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
+                  /*       Text(
                         quizDescription,
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.w200),
                       )
-                    ],
-                  ),
+                    ],*/
+                  // ),
                   PopupMenuButton(
                     itemBuilder: (BuildContext context) => [
                       PopupMenuItem(

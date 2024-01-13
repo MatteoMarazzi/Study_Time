@@ -57,8 +57,8 @@ class _QuizPageState extends State<QuizPage> {
           return Tile(
             quizName: domande[index].text,
             OnOpenTile: () => openQuestion(index),
-            OnOpenElimina: deleteQuestion(index),
-            OnOpenModifica: modifyQuestion(index),
+            OnOpenElimina: () => deleteQuestion(index),
+            OnOpenModifica: () => modifyQuestion(index),
           );
         },
       ),
