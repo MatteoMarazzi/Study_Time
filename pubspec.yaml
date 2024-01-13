@@ -38,6 +38,9 @@ dependencies:
   path_provider: ^2.1.1
   sqflite: ^2.3.0
   shared_preferences: ^2.2.2
+  calendar_date_picker2: ^0.5.3
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +73,7 @@ flutter:
      - assets/quiz_1.png
      - assets/exam_1.png
      - assets/music_1.png
+     - assets/calendar.png
      
   #   - images/a_dot_ham.jpeg
 

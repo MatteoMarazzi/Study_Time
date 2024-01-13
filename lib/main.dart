@@ -1,5 +1,6 @@
 import 'package:app/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,16 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: const Color.fromRGBO(2, 67, 69, 1)),
         useMaterial3: true,
       ),
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('zh', ''),
+        Locale('he', ''),
+        Locale('es', ''),
+        Locale('ru', ''),
+        Locale('ko', ''),
+        Locale('hi', ''),
+      ],
       home: const MyHomePage(title: "APP STUDIO"),
     );
   }
