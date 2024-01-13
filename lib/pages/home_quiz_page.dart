@@ -89,6 +89,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
+        centerTitle: true,
         title: Text(
             textAlign: TextAlign.left,
             widget.title,

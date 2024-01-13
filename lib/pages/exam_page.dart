@@ -7,7 +7,8 @@ class Exam_page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Esami'),
+        title: Text('ESAMI'),
+        centerTitle: true,
         backgroundColor: Colors.green,
       ),
     );

@@ -48,6 +48,7 @@ class _QuizPageState extends State<QuizPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        centerTitle: true,
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
       ),
       body: ListView.builder(

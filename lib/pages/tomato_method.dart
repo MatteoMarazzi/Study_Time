@@ -14,6 +14,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 155, 17, 7),
         title: Text("METODO DEL POMODORO"),
+        centerTitle: true,
       ),
     );
   }
