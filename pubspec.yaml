@@ -38,7 +38,8 @@ dependencies:
   path_provider: ^2.1.1
   sqflite: ^2.3.0
   shared_preferences: ^2.2.2
-  calendar_date_picker2: ^0.5.3
+  lottie: ^2.6.0                    #per pulsanti animati
+  calendar_date_picker2: ^0.5.3     #per calendari sofisticati
   flutter_localizations:
     sdk: flutter
 
@@ -74,6 +75,8 @@ flutter:
      - assets/exam_1.png
      - assets/music_1.png
      - assets/calendar.png
+     - assets/study.json
+     - assets/calendar_1.json
      
   #   - images/a_dot_ham.jpeg
 
