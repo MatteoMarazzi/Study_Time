@@ -19,11 +19,11 @@ class Tile extends StatelessWidget {
     return GestureDetector(
         onTap: OnOpenTile,
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(20),
           child: Container(
             padding: EdgeInsets.all(20),
             width: 400,
-            height: 80,
+            height: 100,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
