@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app/pages/quiz_page.dart';
-import 'package:app/util/Quiz.dart';
+import 'package:app/util/quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
