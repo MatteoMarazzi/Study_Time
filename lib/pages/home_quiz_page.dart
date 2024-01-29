@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:app/pages/quiz_page.dart';
-import 'package:app/util/quiz.dart';
+import 'package:app/objects/quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
+import 'package:app/util/localDB.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,18 +18,17 @@ class HomeQuizPage extends StatefulWidget {
 }
 
 class _HomeQuizPageState extends State<HomeQuizPage> {
-  List<Quiz> quizzes = [];
+  //List<Quiz> quizzes = [];
 
   final _controller = TextEditingController();
 
   void saveQuiz() async {
-    if (_controller.text != Null) {
-      setState(() {
-        quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
-        //storage(quizzes.last);
-        _controller.clear();
-      });
-    }
+    await LocalDataBase().addDataLocally(Name: _controller.text);
+    await LocalDataBase().readAllData();
+    _controller.clear();
+    setState(() {
+      //quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
+    });
     Navigator.of(context).pop();
   }
 
@@ -49,20 +49,29 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         MaterialPageRoute(builder: (context) => QuizPage(title: "DOMANDE")));
   }
 
-  modifyQuiz(int index) {
-    showDialog(
+  void modifyQuiz(int index) async {
+    await showDialog(
         context: context,
         builder: (context) {
           return AddQuizBox(
               controller: _controller,
-              OnSalva: () {
+              OnSalva: () async {
+                await LocalDataBase()
+                    .updateData(Name: _controller.text, id: index + 1);
+                _controller.clear();
+                await LocalDataBase().readAllData();
                 setState(() {
-                  quizzes[index].nome = _controller.text;
                   Navigator.of(context).pop();
                 });
               },
               OnAnnulla: (() => Navigator.of(context).pop()));
         });
+  }
+
+  void deleteQuiz(int index) async {
+    await LocalDataBase().deleteData(id: index + 1);
+    await LocalDataBase().readAllData();
+    setState(() {});
   }
 
 /*  Future storage(Quiz q) async {
@@ -96,15 +105,13 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-        itemCount: quizzes.length,
+        itemCount: WholeDataList.length,
         itemBuilder: (context, index) {
           return Tile(
-            quizName: quizzes[index].nome,
+            quizName: WholeDataList[index]['Name'],
             OnOpenTile: () => openQuiz(index),
-            OnOpenElimina: () => setState(() {
-              quizzes.removeAt(index);
-            }),
             OnOpenModifica: () => modifyQuiz(index),
+            OnOpenElimina: () => deleteQuiz(index),
           );
         },
       ),

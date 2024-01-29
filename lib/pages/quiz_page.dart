@@ -1,4 +1,4 @@
-import 'package:app/util/question.dart';
+import 'package:app/objects/question.dart';
 import 'package:app/util/add_question_box.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
