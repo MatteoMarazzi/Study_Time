@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             SizedBox(height: 20),
             Home_tile(
+              standard: 1,
               color: Colors.black,
               backgroundColor: Colors.red,
               boxTitle: "POMODORO",
@@ -57,27 +58,36 @@ class _MyHomePageState extends State<MyHomePage> {
               weightImage: 250,
             ),
             SizedBox(height: 20),
-            Home_tile(
-              color: Colors.black,
-              backgroundColor: Colors.yellow,
-              boxTitle: "QUIZ",
-              destinationPage: HomeQuizPage(title: "QUIZ"),
-              pathImage: 'assets/quiz_1.png',
-              heightImage: 130,
-              weightImage: 250,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Home_tile(
+                    standard: 2,
+                    color: Colors.black,
+                    backgroundColor: Colors.yellow,
+                    boxTitle: "QUIZ",
+                    destinationPage: HomeQuizPage(title: "QUIZ"),
+                    pathImage: 'assets/quiz_1.png',
+                    heightImage: 130,
+                    weightImage: 250,
+                  ),
+                  Home_tile(
+                    standard: 2,
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    backgroundColor: Color.fromARGB(255, 39, 199, 74),
+                    boxTitle: "ESAMI",
+                    destinationPage: Exam_page(),
+                    pathImage: 'assets/exam_1.png',
+                    heightImage: 130,
+                    weightImage: 250,
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 20),
             Home_tile(
-              color: const Color.fromARGB(255, 0, 0, 0),
-              backgroundColor: Color.fromARGB(255, 39, 199, 74),
-              boxTitle: "ESAMI",
-              destinationPage: Exam_page(),
-              pathImage: 'assets/exam_1.png',
-              heightImage: 130,
-              weightImage: 250,
-            ),
-            SizedBox(height: 20),
-            Home_tile(
+              standard: 1,
               color: const Color.fromARGB(255, 0, 0, 0),
               backgroundColor: Color.fromARGB(255, 176, 8, 218),
               boxTitle: "MUSICA",
