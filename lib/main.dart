@@ -1,6 +1,8 @@
 import 'package:app/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,11 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 217, 255, 0)),
-        useMaterial3: true,
-      ),
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [
         Locale('en', ''),
@@ -30,6 +27,16 @@ class MyApp extends StatelessWidget {
         Locale('hi', ''),
       ],
       home: const MyHomePage(title: "APP STUDIO"),
+      builder: (context, child) {
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: Colors.black, // Colore della barra di stato
+            statusBarIconBrightness:
+                Brightness.light, // Luminosità delle icone della barra di stato
+          ),
+          child: child!,
+        );
+      },
     );
   }
 }

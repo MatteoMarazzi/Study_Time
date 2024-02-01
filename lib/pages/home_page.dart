@@ -19,9 +19,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
         backgroundColor: const Color.fromRGBO(175, 238, 238, 1.0),
-        appBar: AppBar(
+/*        appBar: AppBar(
             backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
             title: Text(
               widget.title,
@@ -40,12 +42,44 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 icon: Image.asset('assets/tomato.png'),
               ),
-            ]),
+            ]),*/
+
         body: SingleChildScrollView(
             child: Center(
                 child: Column(
           // ignore: prefer_const_literals_to_create_immutables
           children: [
+            //aggiunta spazio per le notifiche
+            Padding(
+              padding: EdgeInsets.only(
+                  left: screenSize.width * 0.04,
+                  right: screenSize.width * 0.04,
+                  top: screenSize.height * 0.06),
+              child: Container(
+                height: 300,
+                width: 350,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.blueGrey,
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 8),
+                    Text(
+                      "DOMANDE CASUALI",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          fontSize: 23),
+                    )
+                  ],
+                ),
+              ),
+            ),
+
             SizedBox(height: 20),
             Home_tile(
               standard: 1,
