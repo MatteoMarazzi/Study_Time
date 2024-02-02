@@ -4,6 +4,7 @@ import 'dart:math'; //serve per poter fare standard^2
 
 class Home_tile extends StatelessWidget {
   final Color color;
+  final Color shadow_color;
   final Color backgroundColor; // Aggiungiamo il colore di sfondo
   final Widget destinationPage; // Correggo il tipo del parametro
   final String boxTitle;
@@ -15,6 +16,7 @@ class Home_tile extends StatelessWidget {
   const Home_tile({
     Key? key,
     required this.color,
+    required this.shadow_color,
     required this.backgroundColor, // Aggiorniamo il costruttore
     required this.destinationPage, // Aggiorniamo il costruttore con il widget destinazione
     required this.boxTitle,
@@ -51,12 +53,28 @@ class Home_tile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Stack(children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color:
+                            backgroundColor, // Utilizziamo il colore di sfondo
+                        border: Border.all(color: shadow_color, width: 2.0),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
                     Center(
                         child: Container(
                       height: 31.0 * pow(standard, 2.2),
                       child: Text(
                         boxTitle, //titolo assegnato da noi come parametro
                         style: TextStyle(
+                          shadows: [
+                            Shadow(
+                              blurRadius: 1.0, //effetto ombra
+                              color: Color.fromRGBO(
+                                  255, 255, 255, 1), //colore ombra
+                              offset: Offset(1.0, 1.0), //distanza ombra
+                            ),
+                          ],
                           color: color,
                           fontWeight: FontWeight.w500,
                           fontSize: 20,

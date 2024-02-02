@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:app/objects/bar_button.dart';
 import 'package:app/pages/calendar_page.dart';
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
@@ -22,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(175, 238, 238, 1.0),
+      backgroundColor: const Color.fromRGBO(175, 238, 238, 1.0),
 /*        appBar: AppBar(
             backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
             title: Text(
@@ -44,93 +45,137 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ]),*/
 
-        body: SingleChildScrollView(
-            child: Center(
-                child: Column(
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            //aggiunta spazio per le notifiche
-            Padding(
-              padding: EdgeInsets.only(
-                  left: screenSize.width * 0.04,
-                  right: screenSize.width * 0.04,
-                  top: screenSize.height * 0.06),
+      body: SingleChildScrollView(
+          child: Center(
+              child: Column(
+        // ignore: prefer_const_literals_to_create_immutables
+        children: [
+          //aggiunta spazio per le notifiche
+          Padding(
+            padding: EdgeInsets.only(
+                left: screenSize.width * 0.04,
+                right: screenSize.width * 0.04,
+                top: screenSize.height * 0.06),
+            child: Container(
+              height: 300,
+              width: 350,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 2.3,
+                ),
+                borderRadius: BorderRadius.circular(40),
+                color: Color.fromARGB(255, 45, 118, 155),
+              ),
               child: Container(
-                height: 300,
-                width: 350,
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                  ),
                   borderRadius: BorderRadius.circular(40),
-                  color: Colors.blueGrey,
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 125, 185, 215),
+                    width: 1.5,
+                  ),
                 ),
                 child: Column(
                   children: [
                     SizedBox(height: 8),
                     Text(
-                      "DOMANDE CASUALI",
+                      "RIPASSIAMO INSIEME",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
+                          shadows: const [
+                            Shadow(
+                              offset: Offset(1, 2),
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              blurRadius: 10,
+                            )
+                          ],
                           fontSize: 23),
                     )
                   ],
                 ),
               ),
             ),
+          ),
 
-            SizedBox(height: 20),
-            Home_tile(
-              standard: 1,
-              color: Colors.black,
-              backgroundColor: Colors.red,
-              boxTitle: "POMODORO",
-              destinationPage: TomatoMethod(),
-              pathImage: 'assets/tomato_2.png',
-              heightImage: 130,
-              weightImage: 250,
+          SizedBox(height: 20),
+          Home_tile(
+            standard: 1,
+            color: Colors.black,
+            shadow_color: Colors.white,
+            backgroundColor: Colors.red,
+            boxTitle: "POMODORO",
+            destinationPage: TomatoMethod(),
+            pathImage: 'assets/tomato_2.png',
+            heightImage: 130,
+            weightImage: 250,
+          ),
+          SizedBox(height: 20),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Home_tile(
+                  standard: 2,
+                  color: Colors.black,
+                  shadow_color: Colors.white,
+                  backgroundColor: Colors.yellow,
+                  boxTitle: "QUIZ",
+                  destinationPage: HomeQuizPage(title: "QUIZ"),
+                  pathImage: 'assets/quiz_1.png',
+                  heightImage: 130,
+                  weightImage: 250,
+                ),
+                Home_tile(
+                  standard: 2,
+                  color: const Color.fromARGB(255, 0, 0, 0),
+                  shadow_color: Colors.transparent,
+                  backgroundColor: Color.fromARGB(255, 39, 199, 74),
+                  boxTitle: "ESAMI",
+                  destinationPage: Exam_page(),
+                  pathImage: 'assets/exam_1.png',
+                  heightImage: 130,
+                  weightImage: 250,
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Home_tile(
-                    standard: 2,
-                    color: Colors.black,
-                    backgroundColor: Colors.yellow,
-                    boxTitle: "QUIZ",
-                    destinationPage: HomeQuizPage(title: "QUIZ"),
-                    pathImage: 'assets/quiz_1.png',
-                    heightImage: 130,
-                    weightImage: 250,
-                  ),
-                  Home_tile(
-                    standard: 2,
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    backgroundColor: Color.fromARGB(255, 39, 199, 74),
-                    boxTitle: "ESAMI",
-                    destinationPage: Exam_page(),
-                    pathImage: 'assets/exam_1.png',
-                    heightImage: 130,
-                    weightImage: 250,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            Home_tile(
-              standard: 1,
-              color: const Color.fromARGB(255, 0, 0, 0),
-              backgroundColor: Color.fromARGB(255, 176, 8, 218),
-              boxTitle: "MUSICA",
-              destinationPage: music_page(),
-              pathImage: 'assets/music_1.png',
-              heightImage: 130,
-              weightImage: 250,
-            )
+          ),
+          SizedBox(height: 20),
+          Home_tile(
+            standard: 1,
+            color: const Color.fromARGB(255, 0, 0, 0),
+            shadow_color: Colors.transparent,
+            backgroundColor: Color.fromARGB(255, 176, 8, 218),
+            boxTitle: "MUSICA",
+            destinationPage: music_page(),
+            pathImage: 'assets/music_1.png',
+            heightImage: 130,
+            weightImage: 250,
+          )
+        ],
+      ))),
+      bottomNavigationBar: BottomAppBar(
+        color: Color.fromARGB(255, 23, 113, 186),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            bar_Button(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                icon: Icons.home_rounded),
+            bar_Button(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                icon: Icons.search_outlined),
+            bar_Button(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                icon: Icons.bar_chart_sharp),
+            bar_Button(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                icon: Icons.quiz_outlined),
+            bar_Button(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                icon: Icons.folder),
           ],
-        ))));
+        ),
+      ),
+    );
   }
 }
