@@ -4,6 +4,7 @@ import 'package:app/pages/quiz_page.dart';
 import 'package:app/util/Quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
 import 'package:app/util/tile.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,13 +21,22 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   List<Quiz> quizzes = [];
 
   final _controller = TextEditingController();
+  final _controllerd = TextEditingController();
 
-  void saveQuiz() async {
+  Color selectedColor = Colors.black;
+
+  void saveQuiz(Color selectedColor) async {
     if (_controller.text != Null) {
       setState(() {
-        quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
+        quizzes.add(Quiz(
+          nome: _controller.text,
+          id: quizzes.length,
+          descrizione: _controllerd.text,
+          quizColor: selectedColor,
+        ));
         //storage(quizzes.last);
         _controller.clear();
+        _controllerd.clear();
       });
     }
     Navigator.of(context).pop();
@@ -38,7 +48,13 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         builder: (context) {
           return AddQuizBox(
             controller: _controller,
-            OnSalva: saveQuiz,
+            controllerd: _controllerd,
+            onColorSelected: (Color color) {
+              selectedColor = color; // Imposta il colore selezionato
+            },
+            OnSalva: () {
+              saveQuiz(selectedColor);
+            },
             OnAnnulla: () => Navigator.of(context).pop(),
           );
         });
@@ -55,9 +71,15 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         builder: (context) {
           return AddQuizBox(
               controller: _controller,
+              controllerd: _controllerd,
+              onColorSelected: (Color color) {
+                selectedColor = color; // Imposta il colore selezionato
+              },
               OnSalva: () {
                 setState(() {
                   quizzes[index].nome = _controller.text;
+                  quizzes[index].descrizione = _controllerd.text;
+                  quizzes[index].quizColor = selectedColor;
                   Navigator.of(context).pop();
                 });
               },
@@ -96,10 +118,19 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
+        padding: EdgeInsets.only(
+          left: 17,
+          right: 17,
+          bottom: 20,
+          top: 15,
+        ), //contorno intera lista
+
         itemCount: quizzes.length,
         itemBuilder: (context, index) {
           return Tile(
             quizName: quizzes[index].nome,
+            quizDescription: quizzes[index].descrizione,
+            color: quizzes[index].quizColor,
             OnOpenTile: () => openQuiz(index),
             OnOpenElimina: () => setState(() {
               quizzes.removeAt(index);

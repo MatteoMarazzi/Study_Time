@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:flex_color_picker/flex_color_picker.dart'; //aggiunta palette cromatica
 import 'package:app/util/buttons.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +16,16 @@ const Color chosen = Colors.white;
 // ignore: must_be_immutable
 class AddQuizBox extends StatefulWidget {
   final controller;
+  final controllerd;
+  final ValueSetter<Color> onColorSelected;
   VoidCallback OnSalva;
   VoidCallback OnAnnulla;
 
   AddQuizBox(
       {super.key,
       required this.controller,
+      required this.controllerd,
+      required this.onColorSelected,
       required this.OnSalva,
       required this.OnAnnulla});
 
@@ -31,80 +36,83 @@ class AddQuizBox extends StatefulWidget {
 class _AddQuizBoxState extends State<AddQuizBox> {
   Color chosenColor = Colors.red;
   double radius = 17;
+  dynamic colorC = Color.fromARGB(255, 0, 0, 0);
 
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Container(
-        height: 200,
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: TextField(
-                  controller: widget.controller,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Nome quiz",
-                      hintStyle: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      )),
-                ),
-              ),
-            ),
-            Row(children: [
-              Spacer(),
-              CircleWidget(
-                radius: radius,
-                color: k2CustomColor,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      radius = 20;
-                      chosenColor = Color.fromARGB(
-                          255, 54, 73, 244); // Modifica della variabile globale
-                    });
-                  },
-                ),
-              ),
-              Spacer(),
-            ]),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                MyButtons(name: 'Salva', onPressed: widget.OnSalva),
-                MyButtons(name: 'Annulla', onPressed: widget.OnAnnulla)
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CircleWidget extends StatelessWidget {
-  final double radius;
-  final Color color;
-  final Widget child;
-
-  const CircleWidget(
-      {Key? key,
-      required this.radius,
-      required this.color,
-      required this.child})
-      : super(key: key);
-
+  Widget buildColorPicker() => ColorPicker(
+          color: colorC,
+          onColorChanged: (value) {
+            setState(() {
+              colorC = value;
+            });
+            widget.onColorSelected(value);
+          },
+          spacing: 13.6,
+          hasBorder: true,
+          borderColor: Colors.black,
+          borderRadius: 23,
+          enableShadesSelection: false,
+          pickersEnabled: const <ColorPickerType, bool>{
+            ColorPickerType.both: false,
+            ColorPickerType.primary: true,
+            ColorPickerType.accent: false,
+            ColorPickerType.bw: false,
+            ColorPickerType.custom: false,
+            ColorPickerType.wheel: false
+          });
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: radius * 2,
-      height: radius * 2,
-      decoration: BoxDecoration(
-        border: Border.all(width: 2, color: Colors.black),
-        shape: BoxShape.circle,
-        color: color, // Puoi personalizzare il colore del cerchio
+      child: AlertDialog(
+        content: Container(
+          width: 300,
+          height: 438,
+          child: Column(
+            children: [
+              TextField(
+                controller: widget.controller,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Nome quiz",
+                    hintStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: widget.controllerd,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Descrizione",
+                    hintStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Scegli il colore :",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              Container(child: buildColorPicker()),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MyButtons(name: 'Salva', onPressed: widget.OnSalva),
+                  MyButtons(name: 'Annulla', onPressed: widget.OnAnnulla)
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
