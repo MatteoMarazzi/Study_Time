@@ -69,6 +69,7 @@ class _AddQuizBoxState extends State<AddQuizBox> {
           child: Column(
             children: [
               TextField(
+                //si può mettere una max lenght
                 controller: widget.controller,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
