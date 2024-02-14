@@ -19,14 +19,24 @@ class LocalDataBase {
   Future _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE LocalData(id INTEGER PRIMARY KEY,
-      Name TEXT NOT NULL
+      Name TEXT NOT NULL,
+      Description TEXT,
+      red INTEGER,
+      green INTEGER,
+      blue INTEGER
       )
       ''');
   }
 
-  Future addDataLocally({Name}) async {
+  Future addDataLocally({Name, Description, red, green, blue}) async {
     final db = await database;
-    await db.insert("LocalData", {"Name": Name});
+    await db.insert("LocalData", {
+      "Name": Name,
+      "Desciprtion": Description,
+      "red": red,
+      "green": green,
+      "blue": blue
+    });
     return 'added';
   }
 
