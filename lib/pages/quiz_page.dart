@@ -52,10 +52,13 @@ class _QuizPageState extends State<QuizPage> {
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
       ),
       body: ListView.builder(
+        padding: EdgeInsets.all(8), //contorno intera lista
         itemCount: domande.length,
         itemBuilder: (context, index) {
           return Tile(
             quizName: domande[index].text,
+            quizDescription: 'campo da eliminare nelle domande',
+            color: Colors.red,
             OnOpenTile: () => openQuestion(index),
             OnOpenElimina: () => deleteQuestion(index),
             OnOpenModifica: () => modifyQuestion(index),

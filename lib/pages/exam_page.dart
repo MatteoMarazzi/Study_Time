@@ -34,8 +34,10 @@ class _Exam_pageState extends State<Exam_page> {
             child: Lottie.asset('assets/study.json'),
           ),
           Home_tile(
+              standard: 1,
               //FATTO ALLA CAVOLO, DA ELIMINARE DA QUI IN GIU
               color: Colors.black,
+              shadow_color: Colors.transparent,
               backgroundColor: Colors.purple,
               destinationPage: QuizPage(title: 'QUIZ'),
               boxTitle: 'ESAME 1',
