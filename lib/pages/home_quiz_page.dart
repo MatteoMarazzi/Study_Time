@@ -21,6 +21,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   //List<Quiz> quizzes = [];
 
   final _controller = TextEditingController();
+  final _controllerd = TextEditingController();
+  Color selectedColor = Colors.black;
 
   void saveQuiz() async {
     await LocalDataBase().addDataLocally(Name: _controller.text);
@@ -38,6 +40,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         builder: (context) {
           return AddQuizBox(
             controller: _controller,
+            controllerd: _controllerd,
+            onColorSelected: (Color color) {
+              selectedColor = color;
+            },
             OnSalva: saveQuiz,
             OnAnnulla: () => Navigator.of(context).pop(),
           );
@@ -55,6 +61,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         builder: (context) {
           return AddQuizBox(
               controller: _controller,
+              controllerd: _controllerd,
+              onColorSelected: (Color color) {
+                selectedColor = color;
+              },
               OnSalva: () async {
                 await LocalDataBase()
                     .updateData(Name: _controller.text, id: index + 1);
@@ -74,25 +84,6 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
     setState(() {});
   }
 
-/*  Future storage(Quiz q) async {
-    Directory d = await getApplicationDocumentsDirectory();
-    File f = File("${d.path}/prova.txt");
-    f.writeAsString("hello");
-
-    var dbpath = await getDatabasesPath();
-    var fname = dbpath + "/prova.txt";
-
-    var db = await openDatabase(fname, onCreate: (db, version) {
-      print("db not found, creating a new one");
-      db.execute('''
-          CREATE TABLE quizzes(
-            nome varchar
-            id int,
-          )''');
-    }, version: 1);
-    db.insert("quizzes", q.toMap());
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +100,9 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         itemBuilder: (context, index) {
           return Tile(
             quizName: WholeDataList[index]['Name'],
+            quizDescription: WholeDataList[index]['Description'],
+            color: Color.fromRGBO(WholeDataList[index]['red'],
+                WholeDataList[index]['green'], WholeDataList[index]['blue'], 0),
             OnOpenTile: () => openQuiz(index),
             OnOpenModifica: () => modifyQuiz(index),
             OnOpenElimina: () => deleteQuiz(index),
