@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:app/pages/quiz_page.dart';
-import 'package:app/util/Quiz.dart';
+import 'package:app/objects/quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
+import 'package:app/util/localDB.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,18 +18,19 @@ class HomeQuizPage extends StatefulWidget {
 }
 
 class _HomeQuizPageState extends State<HomeQuizPage> {
-  List<Quiz> quizzes = [];
+  //List<Quiz> quizzes = [];
 
   final _controller = TextEditingController();
+  final _controllerd = TextEditingController();
+  Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    if (_controller.text != Null) {
-      setState(() {
-        quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
-        //storage(quizzes.last);
-        _controller.clear();
-      });
-    }
+    await LocalDataBase().addDataLocally(Name: _controller.text);
+    await LocalDataBase().readAllData();
+    _controller.clear();
+    setState(() {
+      //quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
+    });
     Navigator.of(context).pop();
   }
 
@@ -38,6 +40,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         builder: (context) {
           return AddQuizBox(
             controller: _controller,
+            controllerd: _controllerd,
+            onColorSelected: (Color color) {
+              selectedColor = color;
+            },
             OnSalva: saveQuiz,
             OnAnnulla: () => Navigator.of(context).pop(),
           );
@@ -49,15 +55,22 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         MaterialPageRoute(builder: (context) => QuizPage(title: "DOMANDE")));
   }
 
-  modifyQuiz(int index) {
-    showDialog(
+  void modifyQuiz(int index) async {
+    await showDialog(
         context: context,
         builder: (context) {
           return AddQuizBox(
               controller: _controller,
-              OnSalva: () {
+              controllerd: _controllerd,
+              onColorSelected: (Color color) {
+                selectedColor = color;
+              },
+              OnSalva: () async {
+                await LocalDataBase()
+                    .updateData(Name: _controller.text, id: index + 1);
+                _controller.clear();
+                await LocalDataBase().readAllData();
                 setState(() {
-                  quizzes[index].nome = _controller.text;
                   Navigator.of(context).pop();
                 });
               },
@@ -65,25 +78,12 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         });
   }
 
-/*  Future storage(Quiz q) async {
-    Directory d = await getApplicationDocumentsDirectory();
-    File f = File("${d.path}/prova.txt");
-    f.writeAsString("hello");
-
-    var dbpath = await getDatabasesPath();
-    var fname = dbpath + "/prova.txt";
-
-    var db = await openDatabase(fname, onCreate: (db, version) {
-      print("db not found, creating a new one");
-      db.execute('''
-          CREATE TABLE quizzes(
-            nome varchar
-            id int,
-          )''');
-    }, version: 1);
-    db.insert("quizzes", q.toMap());
+  void deleteQuiz(int index) async {
+    await LocalDataBase().deleteData(id: index + 1);
+    await LocalDataBase().readAllData();
+    setState(() {});
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,15 +96,16 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-        itemCount: quizzes.length,
+        itemCount: WholeDataList.length,
         itemBuilder: (context, index) {
           return Tile(
-            quizName: quizzes[index].nome,
+            quizName: WholeDataList[index]['Name'],
+            quizDescription: WholeDataList[index]['Description'],
+            color: Color.fromRGBO(WholeDataList[index]['red'],
+                WholeDataList[index]['green'], WholeDataList[index]['blue'], 0),
             OnOpenTile: () => openQuiz(index),
-            OnOpenElimina: () => setState(() {
-              quizzes.removeAt(index);
-            }),
             OnOpenModifica: () => modifyQuiz(index),
+            OnOpenElimina: () => deleteQuiz(index),
           );
         },
       ),

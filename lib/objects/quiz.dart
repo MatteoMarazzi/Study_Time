@@ -1,4 +1,4 @@
-import 'package:app/util/question.dart';
+import 'package:app/objects/question.dart';
 
 class Quiz {
   String nome;
