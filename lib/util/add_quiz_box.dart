@@ -65,7 +65,7 @@ class _AddQuizBoxState extends State<AddQuizBox> {
       child: AlertDialog(
         content: Container(
           width: 300,
-          height: 438,
+          height: 700,
           child: Column(
             children: [
               TextField(
