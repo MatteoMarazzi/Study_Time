@@ -32,7 +32,7 @@ class LocalDataBase {
     final db = await database;
     await db.insert("LocalData", {
       "Name": Name,
-      "Desciprtion": Description,
+      "Description": Description,
       "red": red,
       "green": green,
       "blue": blue

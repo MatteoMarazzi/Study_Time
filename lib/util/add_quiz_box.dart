@@ -52,19 +52,17 @@ class _AddQuizBoxState extends State<AddQuizBox> {
           });
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Container(
       child: AlertDialog(
         content: Container(
-          /*EdgeInsets.only(
-                left: screenSize.width * 0.04,
-                right: screenSize.width * 0.04,
-                top: screenSize.height * 0.06), */
-          width: 300,
-          height: 700, //originale 450
+          width: screenSize.width * 0.8, //originale 300
+          height: screenSize.height * 0.6, //originale 450
           child: Column(
             children: [
               TextField(
-                //si può mettere una max lenght
+                maxLength: 18, //si può mettere una max lenght
                 controller: widget.controller,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),

@@ -1,11 +1,9 @@
-import 'package:app/main.dart';
 import 'package:app/objects/bar_button.dart';
 import 'package:app/pages/data_page.dart';
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {

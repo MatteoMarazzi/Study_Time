@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:app/pages/quiz_page.dart';
-import 'package:app/objects/quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
 import 'package:app/util/localDB.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 class HomeQuizPage extends StatefulWidget {
   const HomeQuizPage({
@@ -99,7 +94,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         itemBuilder: (context, index) {
           return Tile(
             quizName: WholeDataList[index]['Name'],
-            quizDescription: WholeDataList[index]['Description'],
+            quizDescription: WholeDataList[index]["Description"],
             color: Color.fromRGBO(WholeDataList[index]['red'],
                 WholeDataList[index]['green'], WholeDataList[index]['blue'], 0),
             OnOpenTile: () => openQuiz(index),

@@ -1,4 +1,3 @@
-import 'package:app/objects/bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class data_page extends StatefulWidget {
