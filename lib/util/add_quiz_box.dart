@@ -4,15 +4,6 @@ import 'package:flex_color_picker/flex_color_picker.dart'; //aggiunta palette cr
 import 'package:app/util/buttons.dart';
 import 'package:flutter/material.dart';
 
-const Color k1CustomColor = Colors.black; //COLORI IMPOSTABILI PER I RIQUADRI
-const Color k2CustomColor = Colors.red;
-const Color k3CustomColor = Colors.blue;
-const Color k4CustomColor = Colors.green;
-const Color k5CustomColor = Colors.purple;
-const Color k6CustomColor = Colors.yellow;
-const Color k7CustomColor = Colors.grey;
-const Color chosen = Colors.white;
-
 // ignore: must_be_immutable
 class AddQuizBox extends StatefulWidget {
   final controller;
@@ -61,15 +52,17 @@ class _AddQuizBoxState extends State<AddQuizBox> {
           });
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Container(
       child: AlertDialog(
         content: Container(
-          width: 300,
-          height: 700,
+          width: screenSize.width * 0.8, //originale 300
+          height: screenSize.height * 0.6, //originale 450
           child: Column(
             children: [
               TextField(
-                //si può mettere una max lenght
+                maxLength: 18, //si può mettere una max lenght
                 controller: widget.controller,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),

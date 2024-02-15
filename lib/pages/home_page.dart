@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:app/objects/bar_button.dart';
+import 'package:app/objects/bottom_bar.dart';
 import 'package:app/pages/calendar_page.dart';
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
@@ -9,9 +9,9 @@ import 'package:app/util/home_tile.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({
+    super.key,
+  });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   shadow_color: Colors.white,
                   backgroundColor: Colors.yellow,
                   boxTitle: "QUIZ",
-                  destinationPage: HomeQuizPage(title: "QUIZ"),
+                  destinationPage: HomeQuizPage(),
                   pathImage: 'assets/quiz_1.png',
                   heightImage: 130,
                   weightImage: 250,
@@ -153,29 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ))),
-      bottomNavigationBar: BottomAppBar(
-        color: Color.fromARGB(255, 23, 113, 186),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            bar_Button(
-                color: const Color.fromRGBO(255, 255, 255, 1),
-                icon: Icons.home_rounded),
-            bar_Button(
-                color: const Color.fromRGBO(255, 255, 255, 1),
-                icon: Icons.search_outlined),
-            bar_Button(
-                color: const Color.fromRGBO(255, 255, 255, 1),
-                icon: Icons.bar_chart_sharp),
-            bar_Button(
-                color: const Color.fromRGBO(255, 255, 255, 1),
-                icon: Icons.quiz_outlined),
-            bar_Button(
-                color: const Color.fromRGBO(255, 255, 255, 1),
-                icon: Icons.folder),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomBar(),
     );
   }
 }

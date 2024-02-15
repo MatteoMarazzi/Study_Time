@@ -1,17 +1,13 @@
-import 'dart:io';
-
 import 'package:app/pages/quiz_page.dart';
-import 'package:app/objects/quiz.dart';
 import 'package:app/util/add_quiz_box.dart';
 import 'package:app/util/localDB.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 class HomeQuizPage extends StatefulWidget {
-  const HomeQuizPage({super.key, required this.title});
-  final String title;
+  const HomeQuizPage({
+    super.key,
+  });
 
   @override
   State<HomeQuizPage> createState() => _HomeQuizPageState();
@@ -95,17 +91,15 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
         centerTitle: true,
-        title: Text(
-            textAlign: TextAlign.left,
-            widget.title,
-            style: TextStyle(color: Colors.white)),
+        title: Text('QUIZ',
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
         itemCount: WholeDataList.length,
         itemBuilder: (context, index) {
           return Tile(
             quizName: WholeDataList[index]['Name'],
-            quizDescription: WholeDataList[index]['Description'],
+            quizDescription: WholeDataList[index]["Description"],
             color: Color.fromRGBO(WholeDataList[index]['red'],
                 WholeDataList[index]['green'], WholeDataList[index]['blue'], 0),
             OnOpenTile: () => openQuiz(index),
