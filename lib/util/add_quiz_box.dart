@@ -60,11 +60,7 @@ class _AddQuizBoxState extends State<AddQuizBox> {
                 right: screenSize.width * 0.04,
                 top: screenSize.height * 0.06), */
           width: 300,
-<<<<<<< Updated upstream
-          height: 438,
-=======
           height: 700, //originale 450
->>>>>>> Stashed changes
           child: Column(
             children: [
               TextField(
