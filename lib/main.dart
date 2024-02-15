@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         Locale('ko', ''),
         Locale('hi', ''),
       ],
-      home: const MyHomePage(title: "APP STUDIO"),
+      home: const MyHomePage(),
       builder: (context, child) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(

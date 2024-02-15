@@ -4,15 +4,6 @@ import 'package:flex_color_picker/flex_color_picker.dart'; //aggiunta palette cr
 import 'package:app/util/buttons.dart';
 import 'package:flutter/material.dart';
 
-const Color k1CustomColor = Colors.black; //COLORI IMPOSTABILI PER I RIQUADRI
-const Color k2CustomColor = Colors.red;
-const Color k3CustomColor = Colors.blue;
-const Color k4CustomColor = Colors.green;
-const Color k5CustomColor = Colors.purple;
-const Color k6CustomColor = Colors.yellow;
-const Color k7CustomColor = Colors.grey;
-const Color chosen = Colors.white;
-
 // ignore: must_be_immutable
 class AddQuizBox extends StatefulWidget {
   final controller;
@@ -64,8 +55,16 @@ class _AddQuizBoxState extends State<AddQuizBox> {
     return Container(
       child: AlertDialog(
         content: Container(
+          /*EdgeInsets.only(
+                left: screenSize.width * 0.04,
+                right: screenSize.width * 0.04,
+                top: screenSize.height * 0.06), */
           width: 300,
+<<<<<<< Updated upstream
           height: 438,
+=======
+          height: 700, //originale 450
+>>>>>>> Stashed changes
           child: Column(
             children: [
               TextField(
