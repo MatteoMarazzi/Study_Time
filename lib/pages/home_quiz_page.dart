@@ -10,8 +10,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class HomeQuizPage extends StatefulWidget {
-  const HomeQuizPage({super.key, required this.title});
-  final String title;
+  const HomeQuizPage({
+    super.key,
+  });
 
   @override
   State<HomeQuizPage> createState() => _HomeQuizPageState();
@@ -90,10 +91,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
         centerTitle: true,
-        title: Text(
-            textAlign: TextAlign.left,
-            widget.title,
-            style: TextStyle(color: Colors.white)),
+        title: Text('QUIZ',
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
         itemCount: WholeDataList.length,
