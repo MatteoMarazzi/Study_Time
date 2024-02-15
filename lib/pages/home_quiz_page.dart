@@ -27,7 +27,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   void saveQuiz() async {
     await LocalDataBase().addDataLocally(
         Name: _controller.text,
-        Description: _controllerd,
+        Description: _controllerd.text,
         red: selectedColor.red,
         green: selectedColor.green,
         blue: selectedColor.blue);

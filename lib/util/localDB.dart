@@ -20,7 +20,7 @@ class LocalDataBase {
     await db.execute('''
       CREATE TABLE LocalData(id INTEGER PRIMARY KEY,
       Name TEXT NOT NULL,
-      Description TEXT,
+      Description TEXT NOT NULL,
       red INTEGER,
       green INTEGER,
       blue INTEGER
