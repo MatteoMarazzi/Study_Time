@@ -1,6 +1,7 @@
+import 'package:app/objects/quiz.dart';
 import 'package:app/pages/quiz_page.dart';
 import 'package:app/util/add_quiz_box.dart';
-import 'package:app/util/localDB.dart';
+import 'package:app/util/quizDB.dart';
 import 'package:app/util/tile.dart';
 import 'package:flutter/material.dart';
 
@@ -21,13 +22,11 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    await LocalDataBase().addDataLocally(
-        Name: _controller.text,
-        Description: _controllerd.text,
-        red: selectedColor.red,
-        green: selectedColor.green,
-        blue: selectedColor.blue);
-    await LocalDataBase().readAllData();
+    await LocalDataBase().insertQuiz(Quiz(
+      name: _controller.text,
+      description: _controllerd.text,
+    ));
+    await LocalDataBase().getAllQuizzes();
     _controller.clear();
     setState(() {
       //quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
@@ -70,7 +69,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 await LocalDataBase()
                     .updateData(Name: _controller.text, id: index + 1);
                 _controller.clear();
-                await LocalDataBase().readAllData();
+                await LocalDataBase().getAllQuizzes();
                 setState(() {
                   Navigator.of(context).pop();
                 });
@@ -81,7 +80,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
 
   void deleteQuiz(int index) async {
     await LocalDataBase().deleteData(id: index + 1);
-    await LocalDataBase().readAllData();
+    await LocalDataBase().getAllQuizzes();
     setState(() {});
   }
 
@@ -95,13 +94,12 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-        itemCount: WholeDataList.length,
+        itemCount: QuizzesDataList.length,
         itemBuilder: (context, index) {
           return Tile(
-            quizName: WholeDataList[index]['Name'],
-            quizDescription: WholeDataList[index]["Description"],
-            color: Color.fromRGBO(WholeDataList[index]['red'],
-                WholeDataList[index]['green'], WholeDataList[index]['blue'], 0),
+            quizName: QuizzesDataList[index].name,
+            quizDescription: QuizzesDataList[index].description,
+            color: selectedColor,
             OnOpenTile: () => openQuiz(index),
             OnOpenModifica: () => modifyQuiz(index),
             OnOpenElimina: () => deleteQuiz(index),

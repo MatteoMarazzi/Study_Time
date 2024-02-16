@@ -1,12 +1,14 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import '../objects/quiz.dart';
+
 Database? _database;
-List WholeDataList = [];
+List QuizzesDataList = [];
 
 class LocalDataBase {
   Future get database async {
-    if (_database == null) _database = await _initializeDB('Local.db');
+    if (_database == null) _database = await _initializeDB('Local3.db');
     return _database;
   }
 
@@ -18,40 +20,35 @@ class LocalDataBase {
 
   Future _createDB(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE LocalData(id INTEGER PRIMARY KEY,
-      Name TEXT NOT NULL,
-      Description TEXT NOT NULL,
-      red INTEGER,
-      green INTEGER,
-      blue INTEGER
-      )
-      ''');
+    CREATE TABLE quizzes(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+      description TEXT
+    )
+    ''');
   }
 
-  Future addDataLocally({Name, Description, red, green, blue}) async {
+  Future<int> insertQuiz(Quiz quiz) async {
     final db = await database;
-    await db.insert("LocalData", {
-      "Name": Name,
-      "Description": Description,
-      "red": red,
-      "green": green,
-      "blue": blue
+    return await db.insert("quizzes", quiz.toMap());
+  }
+
+  Future getAllQuizzes() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('quizzes');
+    QuizzesDataList = List.generate(maps.length, (i) {
+      return Quiz(
+        id: maps[i]['id'],
+        name: maps[i]['name'],
+        description: maps[i]['description'],
+      );
     });
-    return 'added';
-  }
-
-  Future readAllData() async {
-    final db = await database;
-    final alldata = await db!.query("LocalData");
-    WholeDataList = alldata;
-    print(WholeDataList);
-    return 'succesfully read';
   }
 
   Future updateData({Name, id}) async {
     final db = await database;
     int dbupdateid = await db
-        .rawUpdate('UPDATE LocalData SET Name= ? WHERE id=?', [Name, id]);
+        .rawUpdate('UPDATE LocalData SET name= ? WHERE id=?', [Name, id]);
     return dbupdateid;
   }
 
