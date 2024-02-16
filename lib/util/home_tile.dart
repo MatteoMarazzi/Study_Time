@@ -1,4 +1,4 @@
-import 'package:app/util/localDB.dart';
+import 'package:app/util/quizDB.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math'; //serve per poter fare standard^2

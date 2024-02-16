@@ -1,14 +1,22 @@
 import 'package:app/objects/question.dart';
+import 'package:flutter/material.dart';
 
 class Quiz {
-  String nome;
-  int id;
+  int? id;
+  String name;
+  String description;
   late List<Question> domande;
 
-  Quiz({required this.nome, required this.id});
+  Quiz({
+    this.id,
+    required this.name,
+    required this.description,
+  });
 
-  static Quiz fromMap(Map<String, dynamic> map) =>
-      Quiz(nome: map["nome"], id: map["id"]);
-
-  Map<String, dynamic> toMap() => {"name": nome, "id": id};
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'description': description,
+    };
+  }
 }
