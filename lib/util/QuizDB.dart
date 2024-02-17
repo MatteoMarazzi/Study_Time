@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -8,7 +9,7 @@ List QuizzesDataList = [];
 
 class LocalDataBase {
   Future get database async {
-    if (_database == null) _database = await _initializeDB('Local3.db');
+    if (_database == null) _database = await _initializeDB('QuizDB.db');
     return _database;
   }
 
@@ -23,7 +24,8 @@ class LocalDataBase {
     CREATE TABLE quizzes(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
-      description TEXT
+      description TEXT,
+      color TEXT
     )
     ''');
   }
@@ -38,10 +40,11 @@ class LocalDataBase {
     final List<Map<String, dynamic>> maps = await db.query('quizzes');
     QuizzesDataList = List.generate(maps.length, (i) {
       return Quiz(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-        description: maps[i]['description'],
-      );
+          id: maps[i]['id'],
+          name: maps[i]['name'],
+          description: maps[i]['description'],
+          color: Color(
+              int.parse('FF${maps[i]['color'].substring(1)}', radix: 16)));
     });
   }
 
