@@ -67,9 +67,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 selectedColor = color;
               },
               OnSalva: () async {
-                await LocalDataBase()
-                    .updateData(Name: _controller.text, id: index + 1);
+                await LocalDataBase().updateData(_controller.text,
+                    _controllerd.text, QuizzesDataList[index]);
                 _controller.clear();
+                _controllerd.clear();
                 await LocalDataBase().getAllQuizzes();
                 setState(() {
                   Navigator.of(context).pop();

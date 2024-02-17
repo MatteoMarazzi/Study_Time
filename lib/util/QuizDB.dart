@@ -22,7 +22,7 @@ class LocalDataBase {
   Future _createDB(Database db, int version) async {
     await db.execute('''
     CREATE TABLE quizzes(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY,
       name TEXT,
       description TEXT,
       color TEXT
@@ -48,16 +48,21 @@ class LocalDataBase {
     });
   }
 
-  Future updateData({Name, id}) async {
+  Future<int> updateData(String name, String description, Quiz quiz) async {
     final db = await database;
-    int dbupdateid = await db
-        .rawUpdate('UPDATE LocalData SET name= ? WHERE id=?', [Name, id]);
+    int dbupdateid = await db.rawUpdate(
+        'UPDATE quizzes SET name = ?, description = ?,color = ? WHERE id = ?', [
+      name,
+      description,
+      int.parse('FF${quiz.color.toHex().substring(1)}', radix: 16),
+      quiz.id
+    ]);
     return dbupdateid;
   }
 
   Future deleteData({id}) async {
     final db = await database;
-    await db!.delete("LocalData", where: 'id=?', whereArgs: [id]);
+    await db!.delete("quizzes", where: 'id=?', whereArgs: [id]);
     return 'succesfully deleted';
   }
 }
