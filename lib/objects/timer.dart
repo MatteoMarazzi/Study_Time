@@ -130,8 +130,11 @@ class _TomatoTimerState extends State<TomatoTimer> {
     final seconds = deadline
         .difference(DateTime.now())
         .inSeconds; //calcola la differenza in secondi tra deadline e DateTime.now()
-    setState(() =>
-        duration = Duration(seconds: seconds)); //aggiorna il tempo calcolato
+    if (seconds >= 0) {
+      //ORA IL TIMER NON PUO' ANDARE IN NEGATIVO
+      setState(() =>
+          duration = Duration(seconds: seconds)); //aggiorna il tempo calcolato
+    }
   }
 }
 

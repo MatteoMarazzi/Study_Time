@@ -15,8 +15,6 @@ class HomeQuizPage extends StatefulWidget {
 }
 
 class _HomeQuizPageState extends State<HomeQuizPage> {
-  //List<Quiz> quizzes = [];
-
   final _controller = TextEditingController();
   final _controllerd = TextEditingController();
   Color selectedColor = Colors.black;

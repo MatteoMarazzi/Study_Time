@@ -23,7 +23,7 @@ class bar_Button extends StatelessWidget {
                   destination), // Utilizziamo il widget destinazione per la navigazione
         );
       },
-      color: Colors.white,
+      color: color,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
     );

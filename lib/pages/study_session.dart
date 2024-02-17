@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
 class studySession extends StatefulWidget {
-  const studySession({super.key});
+  final int studio;
+  final int pausa;
+  final int volte;
+  final bool canModifyValues;
+
+  const studySession(
+      {super.key,
+      required this.studio,
+      required this.pausa,
+      required this.volte,
+      required this.canModifyValues});
 
   @override
   State<studySession> createState() => _studySessionState();
@@ -11,53 +21,113 @@ class _studySessionState extends State<studySession> {
   int _counter = 20;
   int _counter_pause = 5;
   int _nSession = 1;
+  Color color_p1 = Colors.black;
+  Color color_p2 = Colors.black;
+  Color color_p3 = Colors.black;
+  Color color_m1 = Colors.black;
+  Color color_m2 = Colors.black;
+  Color color_m3 = Colors.black;
+
+  void initState() {
+    super.initState();
+    _counter = widget.studio;
+    _counter_pause = widget.pausa;
+    _nSession = widget.volte;
+    if (widget.canModifyValues == false) {
+      color_m1 = Colors.grey;
+      color_m2 = Colors.grey;
+      color_m3 = Colors.grey;
+      color_p3 = Colors.grey;
+      color_p2 = Colors.grey;
+      color_p1 = Colors.grey;
+    }
+  }
 
   void _increment_sessionCounter() {
-    setState(() {
-      if (_nSession < 8) {
-        _nSession = _nSession + 1;
-      }
-    });
+    //NUMERO SESSIONI
+    if (widget.canModifyValues == true) {
+      setState(() {
+        if (_nSession < 8) {
+          _nSession = _nSession + 1;
+          color_m3 = Colors.black;
+        }
+        if (_nSession == 8) {
+          color_p3 = Colors.grey;
+        }
+      });
+    }
   }
 
   void _decrement_sessionCounter() {
-    setState(() {
-      if (_nSession >= 1) {
-        _nSession = _nSession - 1;
-      }
-    });
+    if (widget.canModifyValues == true) {
+      setState(() {
+        if (_nSession > 1) {
+          _nSession = _nSession - 1;
+          color_p3 = Colors.black;
+        }
+        if (_nSession == 1) {
+          color_m3 = Colors.grey;
+        }
+      });
+    }
   }
 
   void _increment_pauseCounter() {
-    setState(() {
-      if (_counter_pause < 25) {
-        _counter_pause = _counter_pause + 2;
-      }
-    });
+    //MIN DI PAUSA
+    if (widget.canModifyValues == true) {
+      setState(() {
+        if (_counter_pause < 25) {
+          _counter_pause = _counter_pause + 2;
+          color_m2 = Colors.black;
+        }
+        if (_counter_pause == 25) {
+          color_p2 = Colors.grey;
+        }
+      });
+    }
   }
 
   void _decrement_pauseCounter() {
-    setState(() {
-      if (_counter_pause > 5) {
-        _counter_pause = _counter_pause - 2;
-      }
-    });
+    if (widget.canModifyValues == true) {
+      setState(() {
+        if (_counter_pause > 5) {
+          _counter_pause = _counter_pause - 2;
+          color_p2 = Colors.black;
+        }
+        if (_counter_pause == 5) {
+          color_m2 = Colors.grey;
+        }
+      });
+    }
   }
 
   void _incrementCounter() {
-    setState(() {
-      if (_counter < 60) {
-        _counter = _counter + 5;
-      }
-    });
+    //Durata mini-sessione
+    if (widget.canModifyValues == true) {
+      setState(() {
+        if (_counter < 60) {
+          _counter = _counter + 5;
+          color_m1 = Colors.black;
+        }
+        if (_counter == 60) {
+          color_p1 = Colors.grey;
+        }
+      });
+    }
   }
 
   void _decrementCounter() {
-    setState(() {
-      if (_counter > 10) {
-        _counter = _counter - 5;
-      }
-    });
+    if (widget.canModifyValues == true) {
+      setState(() {
+        if (_counter > 10) {
+          _counter = _counter - 5;
+          color_p1 = Colors.black;
+        }
+        if (_counter == 10) {
+          color_m1 = Colors.grey;
+        }
+      });
+    }
   }
 
   @override
@@ -92,9 +162,23 @@ class _studySessionState extends State<studySession> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Durata mini-sessione',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(160, 232, 224, 224),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 0.5,
+                        color: Colors.black,
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 2.0, horizontal: 4),
+                    child: Text(
+                      'Durata mini-sessione studio',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -105,6 +189,9 @@ class _studySessionState extends State<studySession> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        SizedBox(
+                          width: 50,
+                        ),
                         Text(
                           '$_counter',
                           style: TextStyle(
@@ -122,6 +209,7 @@ class _studySessionState extends State<studySession> {
                               icon: Icon(
                                 Icons.add,
                                 size: 40,
+                                color: color_p1,
                               ),
                               padding: EdgeInsets.all(0),
                             ),
@@ -134,6 +222,7 @@ class _studySessionState extends State<studySession> {
                               icon: Icon(
                                 Icons.remove,
                                 size: 40,
+                                color: color_m1,
                               ),
                               padding: EdgeInsets.all(0),
                             )
@@ -150,9 +239,23 @@ class _studySessionState extends State<studySession> {
                 SizedBox(
                   height: 50,
                 ),
-                Text(
-                  'Ogni $_counter, quanti min di pausa',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(160, 232, 224, 224),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 0.5,
+                        color: Colors.black,
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 2.0, horizontal: 4),
+                    child: Text(
+                      'Quanti min di pausa a round',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 25,
@@ -163,6 +266,9 @@ class _studySessionState extends State<studySession> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        SizedBox(
+                          width: 50,
+                        ),
                         Text(
                           '$_counter_pause',
                           style: TextStyle(
@@ -180,6 +286,7 @@ class _studySessionState extends State<studySession> {
                               icon: Icon(
                                 Icons.add,
                                 size: 40,
+                                color: color_p2,
                               ),
                               padding: EdgeInsets.all(0),
                             ),
@@ -192,6 +299,7 @@ class _studySessionState extends State<studySession> {
                               icon: Icon(
                                 Icons.remove,
                                 size: 40,
+                                color: color_m2,
                               ),
                               padding: EdgeInsets.all(0),
                             ),
@@ -208,9 +316,23 @@ class _studySessionState extends State<studySession> {
                 SizedBox(
                   height: 40,
                 ),
-                Text(
-                  'Quante mini-sessioni vuoi fare',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(160, 232, 224, 224),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 0.5,
+                        color: Colors.black,
+                      )),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                    child: Text(
+                      'Quanti round nella sessione',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 25,
@@ -242,6 +364,7 @@ class _studySessionState extends State<studySession> {
                           icon: Icon(
                             Icons.add,
                             size: 30,
+                            color: color_p3,
                           ),
                           padding: EdgeInsets.all(0),
                         ),
@@ -254,6 +377,7 @@ class _studySessionState extends State<studySession> {
                           icon: Icon(
                             Icons.remove,
                             size: 30,
+                            color: color_m3,
                           ),
                           padding: EdgeInsets.all(0),
                         ),
