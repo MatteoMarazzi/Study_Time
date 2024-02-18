@@ -14,8 +14,6 @@ class TomatoMethod extends StatefulWidget {
 
 class _TomatoMethodState extends State<TomatoMethod> {
   late Timer selectedTimer;
-  final _controller1 = TextEditingController();
-  final _controller2 = TextEditingController();
   String _null = 'AVVIA LA TUA SESSIONE';
   String _active = 'SESSIONE IN CORSO';
   @override

@@ -40,6 +40,10 @@ class _studySessionState extends State<studySession> {
       color_p3 = Colors.grey;
       color_p2 = Colors.grey;
       color_p1 = Colors.grey;
+    } else if (widget.studio == 0 && widget.pausa == 0 && widget.volte == 0) {
+      _counter = 15;
+      _counter_pause = 15;
+      _nSession = 2;
     }
   }
 
