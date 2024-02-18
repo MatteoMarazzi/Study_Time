@@ -43,26 +43,22 @@ class LocalDataBase {
           id: maps[i]['id'],
           name: maps[i]['name'],
           description: maps[i]['description'],
-          color: Color(
-              int.parse('FF${maps[i]['color'].substring(1)}', radix: 16)));
+          color: Color(int.parse('${maps[i]['color']}', radix: 16)));
     });
   }
 
-  Future<int> updateData(String name, String description, Quiz quiz) async {
+  Future<int> updateData(
+      String name, String description, Color selectedColor, Quiz quiz) async {
     final db = await database;
     int dbupdateid = await db.rawUpdate(
-        'UPDATE quizzes SET name = ?, description = ?,color = ? WHERE id = ?', [
-      name,
-      description,
-      int.parse('FF${quiz.color.toHex().substring(1)}', radix: 16),
-      quiz.id
-    ]);
+        'UPDATE quizzes SET name = ?, description = ?,color = ? WHERE id = ?',
+        [name, description, selectedColor.toHex(), quiz.id]);
     return dbupdateid;
   }
 
-  Future deleteData({id}) async {
+  Future deleteData(Quiz quiz) async {
     final db = await database;
-    await db!.delete("quizzes", where: 'id=?', whereArgs: [id]);
+    await db!.delete("quizzes", where: 'id=?', whereArgs: [quiz.id]);
     return 'succesfully deleted';
   }
 }

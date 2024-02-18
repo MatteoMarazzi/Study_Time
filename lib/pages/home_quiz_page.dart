@@ -68,7 +68,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
               },
               OnSalva: () async {
                 await LocalDataBase().updateData(_controller.text,
-                    _controllerd.text, QuizzesDataList[index]);
+                    _controllerd.text, selectedColor, QuizzesDataList[index]);
                 _controller.clear();
                 _controllerd.clear();
                 await LocalDataBase().getAllQuizzes();
@@ -81,7 +81,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(int index) async {
-    await LocalDataBase().deleteData(id: index + 1);
+    await LocalDataBase().deleteData(QuizzesDataList[index]);
     await LocalDataBase().getAllQuizzes();
     setState(() {});
   }

@@ -19,6 +19,6 @@ class Quiz {
 
 extension ColorExtension on Color {
   String toHex() {
-    return '${value.toRadixString(16).toUpperCase()}';
+    return 'FF${value.toRadixString(16).toUpperCase().substring(1)}';
   }
 }
