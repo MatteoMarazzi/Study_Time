@@ -1,6 +1,6 @@
 import 'package:app/objects/question.dart';
 import 'package:app/util/add_question_box.dart';
-import 'package:app/util/tile.dart';
+import 'package:app/tiles/quiz_tile.dart';
 import 'package:flutter/material.dart';
 
 class QuizPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _QuizPageState extends State<QuizPage> {
 
   void saveQuestion() async {
     setState(() {
-      domande.add(Question(_controller.text));
+      domande.add(Question(text: _controller.text));
       _controller.clear();
     });
     Navigator.of(context).pop();
