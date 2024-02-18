@@ -1,6 +1,7 @@
 import 'package:app/objects/bottom_bar.dart';
 import 'package:app/objects/timer.dart';
 import 'package:app/pages/study_session.dart';
+import 'package:app/pages/timer_page.dart';
 import 'package:app/util/session_tile.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -14,8 +15,24 @@ class TomatoMethod extends StatefulWidget {
 
 class _TomatoMethodState extends State<TomatoMethod> {
   late Timer selectedTimer;
-  String _null = 'AVVIA LA TUA SESSIONE';
-  String _active = 'SESSIONE IN CORSO';
+  late DateTime timer_attivo = DateTime.now().add(const Duration(seconds: 0));
+  DateTime deadline = DateTime.now().add(const Duration(seconds: 0));
+  int counter = 0; //dovrà diventare il numero di volte * 2 (sessione)
+
+  late List<DateTime> dateTimes = [];
+
+  @override
+  void metodo_pomodoro() {
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 25)));
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 32)));
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 57)));
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 64)));
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 89)));
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 96)));
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 121)));
+    dateTimes.add(DateTime.now().add(const Duration(minutes: 128)));
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -27,36 +44,61 @@ class _TomatoMethodState extends State<TomatoMethod> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => timerPage(
+                                //vanno cambiate le variabili passate
+                                timer_attivo: timer_attivo,
+                                pause_time: 7,
+                                study_time: 25,
+                              )), // Utilizziamo il widget destinazione per la navigazione
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromARGB(34, 228, 15, 0),
                     ),
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color.fromARGB(34, 228, 15, 0),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'AVVIA LA TUA SESSIONE',
-                          style: TextStyle(
-                            fontFamily: 'Garamond',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'AVVIA LA TUA SESSIONE',
+                            style: TextStyle(
+                              fontFamily: 'Garamond',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: TomatoTimer(
-                            deadline:
-                                DateTime.now().add(const Duration(seconds: 5)),
-                          )),
-                    ],
+                        Container(
+                            padding: EdgeInsets.only(bottom: 20),
+                            child: TomatoTimer(
+                              deadline: deadline,
+                              onDeadlineUpdated: (newDeadline) {
+                                setState(() {
+                                  if (counter < 8) {
+                                    metodo_pomodoro(); //inizializza qui la lista dei timer e li fa partire
+                                    deadline = dateTimes[counter];
+                                    timer_attivo = dateTimes[counter];
+                                    counter++;
+                                  } else {
+                                    counter = 0;
+                                  }
+                                });
+                              },
+                            )),
+                      ],
+                    ),
                   ),
                 ),
               ),
