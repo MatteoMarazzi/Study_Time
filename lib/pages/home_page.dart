@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:app/objects/bottom_bar.dart';
-import 'package:app/pages/calendar_page.dart';
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/music_page.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:app/util/home_tile.dart';
+import 'package:app/util/quizDB.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,6 +18,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() async {
+    super.initState();
+    await LocalDataBase().getAllQuizzes();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;

@@ -21,11 +21,12 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
 
   void saveQuiz() async {
     await LocalDataBase().insertQuiz(Quiz(
-      name: _controller.text,
-      description: _controllerd.text,
-    ));
+        name: _controller.text,
+        description: _controllerd.text,
+        color: selectedColor));
     await LocalDataBase().getAllQuizzes();
     _controller.clear();
+    _controllerd.clear();
     setState(() {
       //quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
     });
@@ -64,9 +65,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 selectedColor = color;
               },
               OnSalva: () async {
-                await LocalDataBase()
-                    .updateData(Name: _controller.text, id: index + 1);
+                await LocalDataBase().updateData(_controller.text,
+                    _controllerd.text, selectedColor, QuizzesDataList[index]);
                 _controller.clear();
+                _controllerd.clear();
                 await LocalDataBase().getAllQuizzes();
                 setState(() {
                   Navigator.of(context).pop();
@@ -77,7 +79,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(int index) async {
-    await LocalDataBase().deleteData(id: index + 1);
+    await LocalDataBase().deleteData(QuizzesDataList[index]);
     await LocalDataBase().getAllQuizzes();
     setState(() {});
   }
@@ -97,7 +99,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
           return Tile(
             quizName: QuizzesDataList[index].name,
             quizDescription: QuizzesDataList[index].description,
-            color: selectedColor,
+            color: QuizzesDataList[index].color,
             OnOpenTile: () => openQuiz(index),
             OnOpenModifica: () => modifyQuiz(index),
             OnOpenElimina: () => deleteQuiz(index),

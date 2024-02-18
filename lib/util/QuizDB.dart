@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -8,7 +9,7 @@ List QuizzesDataList = [];
 
 class LocalDataBase {
   Future get database async {
-    if (_database == null) _database = await _initializeDB('Local3.db');
+    if (_database == null) _database = await _initializeDB('QuizDB.db');
     return _database;
   }
 
@@ -21,9 +22,10 @@ class LocalDataBase {
   Future _createDB(Database db, int version) async {
     await db.execute('''
     CREATE TABLE quizzes(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY,
       name TEXT,
-      description TEXT
+      description TEXT,
+      color TEXT
     )
     ''');
   }
@@ -38,23 +40,25 @@ class LocalDataBase {
     final List<Map<String, dynamic>> maps = await db.query('quizzes');
     QuizzesDataList = List.generate(maps.length, (i) {
       return Quiz(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-        description: maps[i]['description'],
-      );
+          id: maps[i]['id'],
+          name: maps[i]['name'],
+          description: maps[i]['description'],
+          color: Color(int.parse('${maps[i]['color']}', radix: 16)));
     });
   }
 
-  Future updateData({Name, id}) async {
+  Future<int> updateData(
+      String name, String description, Color selectedColor, Quiz quiz) async {
     final db = await database;
-    int dbupdateid = await db
-        .rawUpdate('UPDATE LocalData SET name= ? WHERE id=?', [Name, id]);
+    int dbupdateid = await db.rawUpdate(
+        'UPDATE quizzes SET name = ?, description = ?,color = ? WHERE id = ?',
+        [name, description, selectedColor.toHex(), quiz.id]);
     return dbupdateid;
   }
 
-  Future deleteData({id}) async {
+  Future deleteData(Quiz quiz) async {
     final db = await database;
-    await db!.delete("LocalData", where: 'id=?', whereArgs: [id]);
+    await db!.delete("quizzes", where: 'id=?', whereArgs: [quiz.id]);
     return 'succesfully deleted';
   }
 }
