@@ -15,21 +15,20 @@ class HomeQuizPage extends StatefulWidget {
 }
 
 class _HomeQuizPageState extends State<HomeQuizPage> {
-  final _controller = TextEditingController();
-  final _controllerd = TextEditingController();
+  final quizNameController = TextEditingController();
+  final quizDescriptionController = TextEditingController();
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
     await LocalDataBase().insertQuiz(Quiz(
-        name: _controller.text,
-        description: _controllerd.text,
+        name: quizNameController.text,
+        description: quizDescriptionController.text,
         color: selectedColor));
     await LocalDataBase().getAllQuizzes();
-    _controller.clear();
-    _controllerd.clear();
-    setState(() {
-      //quizzes.add(Quiz(nome: _controller.text, id: quizzes.length));
-    });
+    quizNameController.clear();
+    quizDescriptionController.clear();
+    setState(() {});
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 
@@ -38,8 +37,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         context: context,
         builder: (context) {
           return AddQuizBox(
-            controller: _controller,
-            controllerd: _controllerd,
+            controller: quizNameController,
+            controllerd: quizDescriptionController,
             onColorSelected: (Color color) {
               selectedColor = color;
             },
@@ -55,20 +54,25 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void modifyQuiz(int index) async {
+    quizNameController.text = QuizzesDataList[index].name;
+    quizDescriptionController.text = QuizzesDataList[index].description;
     await showDialog(
         context: context,
         builder: (context) {
           return AddQuizBox(
-              controller: _controller,
-              controllerd: _controllerd,
+              controller: quizNameController,
+              controllerd: quizDescriptionController,
               onColorSelected: (Color color) {
                 selectedColor = color;
               },
               OnSalva: () async {
-                await LocalDataBase().updateData(_controller.text,
-                    _controllerd.text, selectedColor, QuizzesDataList[index]);
-                _controller.clear();
-                _controllerd.clear();
+                await LocalDataBase().updateData(
+                    quizNameController.text,
+                    quizDescriptionController.text,
+                    selectedColor,
+                    QuizzesDataList[index]);
+                quizNameController.clear();
+                quizDescriptionController.clear();
                 await LocalDataBase().getAllQuizzes();
                 setState(() {
                   Navigator.of(context).pop();
@@ -90,7 +94,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
         centerTitle: true,
-        title: Text('QUIZ',
+        title: const Text('QUIZ',
             textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
@@ -110,8 +114,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         onPressed: () {
           createQuiz();
         },
-        child: const Icon(Icons.add),
         backgroundColor: Color.fromARGB(255, 8, 73, 108),
+        child: const Icon(Icons.add),
       ),
     );
   }
