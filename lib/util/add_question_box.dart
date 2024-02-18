@@ -28,7 +28,7 @@ class AddQuestionBox extends StatelessWidget {
                   controller: controller,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: "Nome quiz",
+                      hintText: "Testo domanda",
                       hintStyle: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

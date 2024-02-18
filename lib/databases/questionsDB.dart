@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 Database? _database;
 List QuestionsDataList = [];
 
-class LocalDataBase {
+class QuestionsDatabase {
   Future get database async {
     if (_database == null) _database = await _initializeDB('QuestionsDB.db');
     return _database;
@@ -20,9 +20,9 @@ class LocalDataBase {
   Future _createDB(Database db, int version) async {
     await db.execute('''
     CREATE TABLE questions(
-      id INTEGER PRIMARY KEY,
+      idQuiz INTEGER PRIMARY KEY,
       text TEXT,
-      FOREIGN KEY (IDQuiz) REFERENCES quizzes(ID)
+      FOREIGN KEY (IDQuiz) REFERENCES quizzes(id)
     )
     ''');
   }

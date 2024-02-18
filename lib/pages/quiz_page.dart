@@ -1,6 +1,8 @@
 import 'package:app/objects/question.dart';
+import 'package:app/tiles/question_tile.dart';
 import 'package:app/util/add_question_box.dart';
 import 'package:app/tiles/quiz_tile.dart';
+import 'package:app/databases/questionsDB.dart';
 import 'package:flutter/material.dart';
 
 class QuizPage extends StatefulWidget {
@@ -13,15 +15,16 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final _controller = TextEditingController();
-
-  List<Question> domande = [];
+  final questionTextController = TextEditingController();
 
   void saveQuestion() async {
-    setState(() {
-      domande.add(Question(text: _controller.text));
-      _controller.clear();
-    });
+    await QuestionsDatabase().insertQuestion(Question(
+      text: questionTextController.text,
+    ));
+    await QuestionsDatabase().getAllQuestions();
+    questionTextController.clear();
+    setState(() {});
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 
@@ -30,7 +33,7 @@ class _QuizPageState extends State<QuizPage> {
         context: context,
         builder: (context) {
           return AddQuestionBox(
-            controller: _controller,
+            controller: questionTextController,
             OnSalva: saveQuestion,
             OnAnnulla: () => Navigator.of(context).pop(),
           );
@@ -53,12 +56,10 @@ class _QuizPageState extends State<QuizPage> {
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(8), //contorno intera lista
-        itemCount: domande.length,
+        itemCount: QuestionsDataList.length,
         itemBuilder: (context, index) {
-          return Tile(
-            quizName: domande[index].text,
-            quizDescription: 'campo da eliminare nelle domande',
-            color: Colors.red,
+          return QuestionTile(
+            questionName: QuestionsDataList[index].text,
             OnOpenTile: () => openQuestion(index),
             OnOpenElimina: () => deleteQuestion(index),
             OnOpenModifica: () => modifyQuestion(index),
