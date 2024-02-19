@@ -1,3 +1,4 @@
+import 'package:app/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
 
 class studySession extends StatefulWidget {
@@ -5,13 +6,14 @@ class studySession extends StatefulWidget {
   final int pausa;
   final int volte;
   final bool canModifyValues;
-
+  final Function(bool) onTimerClose;
   const studySession(
       {super.key,
       required this.studio,
       required this.pausa,
       required this.volte,
-      required this.canModifyValues});
+      required this.canModifyValues,
+      required this.onTimerClose});
 
   @override
   State<studySession> createState() => _studySessionState();
@@ -434,7 +436,12 @@ class _studySessionState extends State<studySession> {
                 shadowColor: Colors.black,
                 margin: EdgeInsets.all(5),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      widget.onTimerClose(true);
+                    });
+                  },
                   child: Text('Avvia',
                       style: TextStyle(
                           color: Colors.black,

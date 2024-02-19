@@ -31,7 +31,7 @@ class _timerPageState extends State<timerPage> {
     titleList.add('PAUSA RIMANENTE');
     timers.add(widget.pause_time);
     timers.add(widget.study_time);
-
+    if (widget.timer_attivo == Null) {}
     super.initState();
   }
 

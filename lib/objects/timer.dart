@@ -24,11 +24,11 @@ class _TomatoTimerState extends State<TomatoTimer> {
   @override
   void initState() {
     calculateTimeLeft(widget.deadline);
-
     timer = Timer.periodic(
         const Duration(seconds: 1),
         (_) => calculateTimeLeft(
             widget.deadline)); // calcolo ogni secondo del tempo rimanente
+
     super.initState();
   }
 
