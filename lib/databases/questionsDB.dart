@@ -1,9 +1,10 @@
 import 'package:app/objects/question.dart';
+import 'package:app/objects/quiz.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 Database? _database;
-List QuestionsDataList = [];
+Map<int?, List<Question>> quiz2Questions = {};
 
 class QuestionsDatabase {
   Future get database async {
@@ -20,36 +21,50 @@ class QuestionsDatabase {
   Future _createDB(Database db, int version) async {
     await db.execute('''
     CREATE TABLE questions(
-      idQuiz INTEGER PRIMARY KEY,
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idQuiz INTEGER,
       text TEXT,
-      FOREIGN KEY (IDQuiz) REFERENCES quizzes(id)
+      answer TEXT,
+      FOREIGN KEY (idQuiz) REFERENCES quizzes(id)
     )
     ''');
   }
 
-  Future<int> insertQuestion(Question question) async {
+  Future insertQuestion(Question question) async {
     final db = await database;
-    return await db.insert("questions", question.toMap());
+    await db.insert("questions", question.toMap());
   }
 
-  Future getAllQuestions() async {
+  Future getAllQuestions(Quiz quiz) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('questions');
-    QuestionsDataList = List.generate(maps.length, (i) {
-      return Question(id: maps[i]['id'], text: maps[i]['text']);
-    });
+    final List<Map<String, dynamic>> maps = await db.query(
+      'questions',
+      where: 'idQuiz = ?',
+      whereArgs: [quiz.id],
+    );
+    List<Question> questions = [];
+    for (Map<String, dynamic> map in maps) {
+      questions
+          .add(Question(idQuiz: quiz.id, id: map['id'], text: map['text']));
+    }
+    quiz2Questions[quiz.id] ??= [];
+    quiz2Questions[quiz.id]!.addAll(questions);
   }
 
   Future<int> updateQuestion(String text, Question question) async {
     final db = await database;
     int dbupdateid = await db.rawUpdate(
-        'UPDATE quizzes SET text = ? WHERE id = ?', [text, question.id]);
+        'UPDATE quizzes SET text = ? WHERE id = ?', [text, question.idQuiz]);
     return dbupdateid;
   }
 
   Future deleteQuestion(Question question) async {
     final db = await database;
-    await db!.delete("quizzes", where: 'id=?', whereArgs: [question.id]);
-    return 'succesfully deleted';
+    await db!.delete("quizzes", where: 'id=?', whereArgs: [question.idQuiz]);
+  }
+
+  Future deleteAllQuestionsFromQuiz(Quiz quiz) async {
+    final db = await database;
+    await db.delete('questions', where: 'idQuiz = ?', whereArgs: [quiz.id]);
   }
 }

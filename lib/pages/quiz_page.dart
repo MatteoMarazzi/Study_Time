@@ -1,4 +1,5 @@
 import 'package:app/objects/question.dart';
+import 'package:app/objects/quiz.dart';
 import 'package:app/tiles/question_tile.dart';
 import 'package:app/util/add_question_box.dart';
 import 'package:app/tiles/quiz_tile.dart';
@@ -6,9 +7,10 @@ import 'package:app/databases/questionsDB.dart';
 import 'package:flutter/material.dart';
 
 class QuizPage extends StatefulWidget {
-  QuizPage({super.key, required this.title});
+  QuizPage({super.key, required this.title, required this.quiz});
 
   final String title;
+  Quiz quiz;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -19,9 +21,10 @@ class _QuizPageState extends State<QuizPage> {
 
   void saveQuestion() async {
     await QuestionsDatabase().insertQuestion(Question(
+      idQuiz: widget.quiz.id,
       text: questionTextController.text,
     ));
-    await QuestionsDatabase().getAllQuestions();
+    await QuestionsDatabase().getAllQuestions(widget.quiz);
     questionTextController.clear();
     setState(() {});
     if (!mounted) return;
@@ -48,6 +51,7 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<Question>? questions = quiz2Questions[widget.quiz.id];
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
@@ -56,10 +60,10 @@ class _QuizPageState extends State<QuizPage> {
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(8), //contorno intera lista
-        itemCount: QuestionsDataList.length,
+        itemCount: quiz2Questions[widget.quiz.id]!.length,
         itemBuilder: (context, index) {
           return QuestionTile(
-            questionName: QuestionsDataList[index].text,
+            questionName: questions![index].text,
             OnOpenTile: () => openQuestion(index),
             OnOpenElimina: () => deleteQuestion(index),
             OnOpenModifica: () => modifyQuestion(index),

@@ -49,10 +49,15 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         });
   }
 
-  void openQuiz(int index) async {
-    await QuestionsDatabase().getAllQuestions();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => QuizPage(title: "DOMANDE")));
+  void openQuiz(Quiz quiz) async {
+    await QuestionsDatabase().getAllQuestions(quiz);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => QuizPage(
+                  title: "DOMANDE",
+                  quiz: quiz,
+                )));
   }
 
   void modifyQuiz(int index) async {
@@ -106,7 +111,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             quizName: QuizzesDataList[index].name,
             quizDescription: QuizzesDataList[index].description,
             color: QuizzesDataList[index].color,
-            OnOpenTile: () => openQuiz(index),
+            OnOpenTile: () => openQuiz(QuizzesDataList[index]),
             OnOpenModifica: () => modifyQuiz(index),
             OnOpenElimina: () => deleteQuiz(index),
           );

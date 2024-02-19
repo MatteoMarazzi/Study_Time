@@ -1,3 +1,4 @@
+import 'package:app/databases/questionsDB.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -59,6 +60,7 @@ class LocalDataBase {
   Future deleteQuiz(Quiz quiz) async {
     final db = await database;
     await db!.delete("quizzes", where: 'id=?', whereArgs: [quiz.id]);
+    QuestionsDatabase().deleteAllQuestionsFromQuiz(quiz);
     return 'succesfully deleted';
   }
 }
