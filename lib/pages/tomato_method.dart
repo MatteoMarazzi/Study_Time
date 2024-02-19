@@ -1,6 +1,7 @@
 import 'package:app/objects/bottom_bar.dart';
 import 'package:app/objects/timer.dart';
 import 'package:app/pages/study_session.dart';
+import 'package:app/pages/timer_page.dart';
 import 'package:app/util/session_tile.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -13,9 +14,30 @@ class TomatoMethod extends StatefulWidget {
 }
 
 class _TomatoMethodState extends State<TomatoMethod> {
-  late Timer selectedTimer;
-  String _null = 'AVVIA LA TUA SESSIONE';
-  String _active = 'SESSIONE IN CORSO';
+  DateTime deadline = DateTime.now();
+  int counter = 0; //dovrà diventare il numero di volte * 2 (sessione)
+  int mex_adv = 0;
+  final int study_time = 10;
+  final int pause_time = 5;
+  late bool isTimerActive = false;
+  String mex = 'ATTIVA UNA SESSIONE';
+  String mex1 = '';
+  @override
+  void metodo_pomodoro() {
+    if (isTimerActive) {
+      deadline = DateTime.now();
+      if (counter % 2 == 1) {
+        mex = 'SESSIONE ATTIVA ';
+        mex1 = '(STUDIO)';
+        deadline = deadline.add(Duration(seconds: study_time));
+      } else {
+        mex = 'SESSIONE ATTIVA';
+        mex1 = '(PAUSA)';
+        deadline = deadline.add(Duration(seconds: pause_time));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -26,42 +48,95 @@ class _TomatoMethodState extends State<TomatoMethod> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.black,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: GestureDetector(
+                  onTap: () {
+                    if (isTimerActive) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => timerPage(
+                                  //vanno cambiate le variabili passate
+                                  timer_attivo: deadline,
+                                  pause_time:
+                                      pause_time, //tutti valori da aggiungere con dataBase
+                                  study_time:
+                                      study_time, //tutti valori da aggiungere con dataBase
+                                  nSession:
+                                      4, //tutti valori da aggiungere con dataBase
+                                )), // Utilizziamo il widget destinazione per la navigazione
+                      );
+                    } else {
+                      setState(() {
+                        mex = 'AVVIA UNA SESSIONE PRIMA';
+                        mex_adv = 6;
+                      });
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromARGB(34, 228, 15, 0),
                     ),
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color.fromARGB(34, 228, 15, 0),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'AVVIA LA TUA SESSIONE',
-                          style: TextStyle(
-                            fontFamily: 'Garamond',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8, top: 7, bottom: 10),
+                          child: Text(
+                            mex,
+                            style: TextStyle(
+                              fontFamily: 'Garamond',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: TomatoTimer(
-                            deadline:
-                                DateTime.now().add(const Duration(seconds: 5)),
-                          )),
-                    ],
+                        Container(
+                            child: TomatoTimer(
+                          deadline: deadline,
+                          onDeadlineUpdated: (newDeadline) {
+                            setState(() {
+                              if (counter < 2 && isTimerActive) {
+                                counter++;
+                                metodo_pomodoro(); //inizializza qui la lista dei timer e li fa partire
+                              } else {
+                                counter = 0;
+                                isTimerActive = false;
+                                mex1 = '';
+                                if (mex_adv > 3) {
+                                  mex_adv--;
+                                } else {
+                                  mex = 'ATTIVA UNA SESSIONE';
+                                }
+                              }
+                            });
+                          },
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8),
+                          child: Text(
+                            mex1,
+                            style: TextStyle(
+                              fontFamily: 'Garamond',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: screenSize.height * 0.02,
               ),
               Text(
                 'SESSIONI DI STUDIO',
@@ -71,29 +146,80 @@ class _TomatoMethodState extends State<TomatoMethod> {
                     decoration: TextDecoration.underline,
                     decorationThickness: 1),
               ),
-              sessionTile(
-                title: 'SESSIONE STANDARD',
-                studio: 25,
-                pausa: 7,
-                volte: 4,
-                color: Colors.redAccent,
-                canModifyValues: false,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => studySession(
+                              studio: study_time,
+                              pausa: pause_time,
+                              volte: 4,
+                              canModifyValues: false,
+                              onTimerClose: (value) {
+                                isTimerActive = true;
+                                metodo_pomodoro();
+                              },
+                            )), // Utilizziamo il widget destinazione per la navigazione
+                  );
+                },
+                child: sessionTile(
+                  title: 'SESSIONE STANDARD',
+                  studio: 25,
+                  pausa: 7,
+                  volte: 4,
+                  color: Colors.redAccent,
+                ),
               ),
-              sessionTile(
-                title: 'PERSONALIZZATA 1',
-                studio: 0,
-                pausa: 0,
-                volte: 0,
-                color: Colors.blue,
-                canModifyValues: true,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => studySession(
+                              studio: 0,
+                              pausa: 0,
+                              volte: 0,
+                              canModifyValues: true,
+                              onTimerClose: (value) {
+                                isTimerActive = true;
+                                metodo_pomodoro();
+                              },
+                            )), // Utilizziamo il widget destinazione per la navigazione
+                  );
+                },
+                child: sessionTile(
+                  title: 'PERSONALIZZATA 1',
+                  studio: 0,
+                  pausa: 0,
+                  volte: 0,
+                  color: Colors.blue,
+                ),
               ),
-              sessionTile(
-                title: 'PERSONALIZZATA 2',
-                studio: 0,
-                pausa: 0,
-                volte: 0,
-                color: Colors.green,
-                canModifyValues: true,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => studySession(
+                              studio: 0,
+                              pausa: 0,
+                              volte: 0,
+                              canModifyValues: true,
+                              onTimerClose: (value) {
+                                isTimerActive = true;
+                                metodo_pomodoro();
+                              },
+                            )), // Utilizziamo il widget destinazione per la navigazione
+                  );
+                },
+                child: sessionTile(
+                  title: 'PERSONALIZZATA 2',
+                  studio: 0,
+                  pausa: 0,
+                  volte: 0,
+                  color: Colors.green,
+                ),
               ),
             ],
           ),
