@@ -15,7 +15,7 @@ class TomatoMethod extends StatefulWidget {
 
 class _TomatoMethodState extends State<TomatoMethod> {
   late Timer selectedTimer;
-  late DateTime timer_attivo = DateTime.now().add(const Duration(seconds: 0));
+  late DateTime timer_attivo = DateTime.now().add(const Duration(seconds: 15));
   DateTime deadline = DateTime.now().add(const Duration(seconds: 0));
   int counter = 0; //dovrà diventare il numero di volte * 2 (sessione)
 
@@ -52,8 +52,9 @@ class _TomatoMethodState extends State<TomatoMethod> {
                           builder: (context) => timerPage(
                                 //vanno cambiate le variabili passate
                                 timer_attivo: timer_attivo,
-                                pause_time: 7,
-                                study_time: 25,
+                                pause_time: 1, //tutti valori da aggiungere
+                                study_time: 1, //tutti valori da aggiungere
+                                nSession: 4, //tutti valori da aggiungere
                               )), // Utilizziamo il widget destinazione per la navigazione
                     );
                   },
@@ -83,7 +84,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                         Container(
                             padding: EdgeInsets.only(bottom: 20),
                             child: TomatoTimer(
-                              deadline: deadline,
+                              deadline: timer_attivo,
                               onDeadlineUpdated: (newDeadline) {
                                 setState(() {
                                   if (counter < 8) {

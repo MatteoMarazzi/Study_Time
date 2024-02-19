@@ -10,14 +10,19 @@ class timer_Tile extends StatefulWidget {
 }
 
 class _timer_TileState extends State<timer_Tile> {
+  Color tile_color = Color.fromARGB(104, 132, 213, 251); //colore di base
   late List<String> titleList = [];
   int counter = 0;
   late String timerS = widget.timer.toString();
 
   @override
   void initState() {
-    titleList.add('STUDIO');
     titleList.add('PAUSA');
+    titleList.add('STUDIO');
+
+    if (widget.p_or_s == 0) {
+      tile_color = Color.fromARGB(103, 76, 175, 79);
+    }
     super.initState();
   }
 
@@ -26,9 +31,6 @@ class _timer_TileState extends State<timer_Tile> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          height: 20,
-        ),
         Icon(
           Icons.arrow_circle_down,
           size: 60,
@@ -44,7 +46,7 @@ class _timer_TileState extends State<timer_Tile> {
               color: Colors.black,
             ),
             borderRadius: BorderRadius.circular(20),
-            color: Color.fromARGB(104, 132, 213, 251),
+            color: tile_color,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -93,6 +95,9 @@ class _timer_TileState extends State<timer_Tile> {
               ),
             ],
           ),
+        ),
+        SizedBox(
+          height: 20,
         ),
       ],
     );
