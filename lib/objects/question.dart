@@ -1,14 +1,6 @@
-import 'package:app/objects/answer.dart';
-
 class Question {
-  int? idQuiz;
-  int? id;
   String text;
-  late String answer;
+  late List<String> answers;
 
-  Question({required this.idQuiz, this.id, required this.text});
-
-  Map<String, dynamic> toMap() {
-    return {'text': text, 'idQuiz': idQuiz};
-  }
+  Question(this.text);
 }
