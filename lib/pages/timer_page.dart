@@ -1,4 +1,6 @@
 import 'package:app/objects/timer.dart';
+import 'package:app/pages/tomato_method.dart';
+import 'package:app/util/sessionInterrupt.dart';
 import 'package:app/util/timer_list.dart';
 import 'package:flutter/material.dart';
 
@@ -18,20 +20,23 @@ class timerPage extends StatefulWidget {
 }
 
 class _timerPageState extends State<timerPage> {
-  late DateTime timer = widget.timer_attivo;
+  late DateTime timer; //widget.timer_attivo;
+
   late List<String> titleList = [];
   int counter = 0;
   late int sessions = (widget.nSession * 2) - 1;
   bool study_true = false;
   List<int> timers = [];
 
+  List<Widget> displayedWidgets = []; //lista widget
+
   @override
   void initState() {
+    timer = widget.timer_attivo;
     titleList.add('STUDIO RIMANENTE');
     titleList.add('PAUSA RIMANENTE');
     timers.add(widget.pause_time);
     timers.add(widget.study_time);
-    if (widget.timer_attivo == Null) {}
     super.initState();
   }
 
@@ -45,8 +50,9 @@ class _timerPageState extends State<timerPage> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
-            },
+              _showSessionInterruptDialog();
+            } // Utilizziamo il widget destinazione per la navigazione
+            ,
             icon: Icon(
               Icons.arrow_back,
               color: Colors.black,
@@ -72,7 +78,7 @@ class _timerPageState extends State<timerPage> {
                   color: Colors.black,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                color: Color.fromARGB(104, 132, 213, 251),
+                color: Color.fromARGB(104, 251, 251, 132),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -112,6 +118,9 @@ class _timerPageState extends State<timerPage> {
                               counter++;
                             }
                             sessions--;
+                            if (displayedWidgets.isNotEmpty) {
+                              displayedWidgets.removeLast();
+                            }
                           }
                         });
                       },
@@ -123,15 +132,36 @@ class _timerPageState extends State<timerPage> {
           ),
         ),
         SliverList(
-            delegate: SliverChildBuilderDelegate(
-                childCount: (widget.nSession * 2 - 1), (context, index) {
+            delegate: SliverChildBuilderDelegate(childCount: sessions,
+                (context, index) {
           //variabile 8 da cambiare, in base alle volte
-          final timerIndex = index % 2; // Alterna tra 0 e 1
-          final p_or_s = index % 2; // Alterna tra 0 e 1
-          return timer_Tile(timer: timers[timerIndex], p_or_s: p_or_s);
+          int p_or_s = index % 2; // Alterna tra 0 e 1
+          int invers = sessions %
+              2; //mi serve perchè se viene cancellato un widget, è l'ultimo e non il primo
+          if (invers == 0) {
+            if (p_or_s == 1) {
+              p_or_s = 0;
+            } else {
+              p_or_s = 1;
+            }
+          }
+
+          return timer_Tile(
+            timer_p: widget.pause_time,
+            timer_s: widget.study_time,
+            p_or_s: p_or_s,
+          );
         })),
       ]),
     );
+  }
+
+  void _showSessionInterruptDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return sessionInterupt();
+        });
   }
 
   void reload_timer() {
@@ -142,53 +172,3 @@ class _timerPageState extends State<timerPage> {
     }
   }
 }
-/*
-    ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 8,
-                itemBuilder: (context, index) {
-                  final timerIndex = index % 2; // Alterna tra 0 e 1
-                  final p_or_s = index % 2; // Alterna tra 0 e 1
-                  return timer_Tile(
-                      timer: timers[timerIndex], p_or_s: p_or_s);
-                },
-              ),
-
-
-class ContainerList extends StatefulWidget {
-  @override
-  _ContainerListState createState() => _ContainerListState();
-}
-
-class _ContainerListState extends State<ContainerList> {
-  List<Widget> containers = []; // Lista di widget Container
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              // Aggiungi un nuovo container alla lista quando il pulsante viene premuto
-              containers.add(
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.blue,
-                  margin: EdgeInsets.all(10),
-                ),
-              );
-            });
-          },
-          child: Text('Aggiungi Container'),
-        ),
-        Expanded(
-          child: ListView(
-            children: containers, // Mostra tutti i container nella lista
-          ),
-        ),
-      ],
-    );
-  }
-}*/

@@ -2,27 +2,33 @@ import 'package:app/objects/timer.dart';
 import 'package:flutter/material.dart';
 
 class timer_Tile extends StatefulWidget {
-  const timer_Tile({super.key, required this.timer, required this.p_or_s});
-  final int timer;
+  const timer_Tile({
+    super.key,
+    required this.timer_s,
+    required this.timer_p,
+    required this.p_or_s,
+  });
+  final int timer_p;
+  final int timer_s;
   final int p_or_s;
   @override
   State<timer_Tile> createState() => _timer_TileState();
 }
 
 class _timer_TileState extends State<timer_Tile> {
-  Color tile_color = Color.fromARGB(104, 132, 213, 251); //colore di base
+  late List<Color> colorList = [];
   late List<String> titleList = [];
   int counter = 0;
-  late String timerS = widget.timer.toString();
-
+  late List<String> timerList = [];
   @override
   void initState() {
     titleList.add('PAUSA');
     titleList.add('STUDIO');
+    timerList.add(widget.timer_p.toString());
+    timerList.add(widget.timer_s.toString());
+    colorList.add(Color.fromARGB(103, 76, 175, 79));
+    colorList.add(Color.fromARGB(104, 132, 213, 251));
 
-    if (widget.p_or_s == 0) {
-      tile_color = Color.fromARGB(103, 76, 175, 79);
-    }
     super.initState();
   }
 
@@ -46,7 +52,7 @@ class _timer_TileState extends State<timer_Tile> {
               color: Colors.black,
             ),
             borderRadius: BorderRadius.circular(20),
-            color: tile_color,
+            color: colorList[widget.p_or_s],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -77,7 +83,7 @@ class _timer_TileState extends State<timer_Tile> {
                       width: 15,
                     ),
                     Text(
-                      timerS,
+                      timerList[widget.p_or_s],
                       style: TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
