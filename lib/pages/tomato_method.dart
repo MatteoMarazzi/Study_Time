@@ -29,11 +29,11 @@ class _TomatoMethodState extends State<TomatoMethod> {
       if (counter % 2 == 1) {
         mex = 'SESSIONE ATTIVA ';
         mex1 = '(STUDIO)';
-        deadline = deadline.add(Duration(seconds: study_time));
+        deadline = deadline.add(Duration(minutes: study_time));
       } else {
         mex = 'SESSIONE ATTIVA';
         mex1 = '(PAUSA)';
-        deadline = deadline.add(Duration(seconds: pause_time));
+        deadline = deadline.add(Duration(minutes: pause_time));
       }
     }
   }
@@ -120,7 +120,8 @@ class _TomatoMethodState extends State<TomatoMethod> {
                           },
                         )),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8),
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8, top: 10),
                           child: Text(
                             mex1,
                             style: TextStyle(

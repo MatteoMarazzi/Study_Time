@@ -43,7 +43,7 @@ class _studySessionState extends State<studySession> {
       color_p2 = Colors.grey;
       color_p1 = Colors.grey;
     } else if (widget.studio == 0 && widget.pausa == 0 && widget.volte == 0) {
-      _counter = 15;
+      _counter = 40;
       _counter_pause = 15;
       _nSession = 2;
     }
@@ -404,20 +404,15 @@ class _studySessionState extends State<studySession> {
                 color: Colors.white,
                 shadowColor: Colors.black,
                 margin: EdgeInsets.all(0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(65, 158, 158, 158),
-                    borderRadius: BorderRadius.circular(
-                        4), // o qualsiasi altra forma desiderata
+                child: TextButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    animationDuration: Duration(seconds: 5),
+                    overlayColor: MaterialStateProperty.all(Colors.grey),
+                    // Altre personalizzazioni come colori, bordi, ecc.
                   ),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      splashFactory: NoSplash.splashFactory,
-                      overlayColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      // Altre personalizzazioni come colori, bordi, ecc.
-                    ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Salva',
                       style: TextStyle(
@@ -432,9 +427,10 @@ class _studySessionState extends State<studySession> {
             SizedBox(
               width: 130,
               child: Card(
+                elevation: 5,
                 color: Colors.white,
                 shadowColor: Colors.black,
-                margin: EdgeInsets.all(5),
+                margin: EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -442,11 +438,18 @@ class _studySessionState extends State<studySession> {
                       widget.onTimerClose(true);
                     });
                   },
-                  child: Text('Avvia',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold)),
+                  style: ButtonStyle(
+                    animationDuration: Duration(seconds: 5),
+                    overlayColor: MaterialStateProperty.all(Colors.grey),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Avvia',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold)),
+                  ),
                 ),
               ),
             ),
