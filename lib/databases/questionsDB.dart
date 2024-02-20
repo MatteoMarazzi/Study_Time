@@ -21,7 +21,7 @@ class QuestionsDatabase {
   Future _createDB(Database db, int version) async {
     await db.execute('''
     CREATE TABLE questions(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY,
       idQuiz INTEGER,
       text TEXT,
       answer TEXT,
@@ -42,13 +42,11 @@ class QuestionsDatabase {
       where: 'idQuiz = ?',
       whereArgs: [quiz.id],
     );
-    List<Question> questions = [];
-    for (Map<String, dynamic> map in maps) {
-      questions
-          .add(Question(idQuiz: quiz.id, id: map['id'], text: map['text']));
-    }
-    quiz2Questions[quiz.id] ??= [];
-    quiz2Questions[quiz.id]!.addAll(questions);
+    //quiz2Questions[quiz.id] ??= [];
+    quiz2Questions[quiz.id] = List.generate(maps.length, (i) {
+      return Question(
+          id: maps[i]['id'], idQuiz: maps[i]['idQuiz'], text: maps[i]['text']);
+    });
   }
 
   Future<int> updateQuestion(String text, Question question) async {
