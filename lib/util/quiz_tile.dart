@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class Tile extends StatelessWidget {
+class QuizTile extends StatelessWidget {
   final String quizName;
   final String quizDescription;
   Color color;
   VoidCallback OnOpenTile;
   VoidCallback OnOpenModifica;
   VoidCallback OnOpenElimina;
-  Tile(
+  QuizTile(
       {super.key,
       required this.quizName,
       required this.quizDescription,

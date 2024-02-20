@@ -1,6 +1,12 @@
 class Question {
+  int? idQuiz;
+  int? id;
   String text;
-  late List<String> answers;
+  late String answer;
 
-  Question(this.text);
+  Question({required this.idQuiz, this.id, required this.text});
+
+  Map<String, dynamic> toMap() {
+    return {'text': text, 'idQuiz': idQuiz};
+  }
 }
