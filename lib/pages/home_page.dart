@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:app/util/bottom_bar.dart';
+import 'package:app/objects/bottom_bar.dart';
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/music_page.dart';
