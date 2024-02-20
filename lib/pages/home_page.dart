@@ -5,7 +5,7 @@ import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/music_page.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:app/util/home_tile.dart';
-import 'package:app/util/quizzesDB.dart';
+import 'package:app/util/QuizDB.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
