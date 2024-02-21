@@ -3,8 +3,13 @@ import 'dart:async';
 
 class TomatoTimer extends StatefulWidget {
   const TomatoTimer(
-      {super.key, required this.deadline, this.textStyle, this.labelTextStyle});
+      {super.key,
+      required this.deadline,
+      this.textStyle,
+      required this.onDeadlineUpdated,
+      this.labelTextStyle});
   final DateTime deadline;
+  final Function(DateTime) onDeadlineUpdated;
   final TextStyle? textStyle;
   final TextStyle? labelTextStyle;
   @override
@@ -19,11 +24,11 @@ class _TomatoTimerState extends State<TomatoTimer> {
   @override
   void initState() {
     calculateTimeLeft(widget.deadline);
-
     timer = Timer.periodic(
         const Duration(seconds: 1),
         (_) => calculateTimeLeft(
             widget.deadline)); // calcolo ogni secondo del tempo rimanente
+
     super.initState();
   }
 
@@ -86,7 +91,7 @@ class _TomatoTimerState extends State<TomatoTimer> {
               blendMode: BlendMode.srcIn,
               shaderCallback: (bounds) => const LinearGradient(colors: [
                 Colors.black,
-                Colors.redAccent,
+                Color.fromARGB(255, 0, 0, 0),
               ]).createShader(
                 Rect.fromLTWH(0, 0, bounds.width, bounds.height),
               ),
@@ -109,7 +114,7 @@ class _TomatoTimerState extends State<TomatoTimer> {
               blendMode: BlendMode.srcIn,
               shaderCallback: (bounds) => const LinearGradient(colors: [
                 Colors.black,
-                Colors.redAccent,
+                Color.fromARGB(255, 0, 0, 0),
               ]).createShader(
                 Rect.fromLTWH(0, 0, bounds.width, bounds.height),
               ),
@@ -127,13 +132,15 @@ class _TomatoTimerState extends State<TomatoTimer> {
   }
 
   void calculateTimeLeft(DateTime deadline) {
-    final seconds = deadline
-        .difference(DateTime.now())
-        .inSeconds; //calcola la differenza in secondi tra deadline e DateTime.now()
+    final now = DateTime.now();
+    final seconds = deadline.difference(now).inSeconds;
     if (seconds >= 0) {
-      //ORA IL TIMER NON PUO' ANDARE IN NEGATIVO
-      setState(() =>
-          duration = Duration(seconds: seconds)); //aggiorna il tempo calcolato
+      setState(() {
+        duration = Duration(seconds: seconds);
+      });
+    } else {
+      // Il tempo è scaduto, chiamiamo la funzione di callback per aggiornare la scadenza
+      widget.onDeadlineUpdated(now.add(const Duration(seconds: 60)));
     }
   }
 }
