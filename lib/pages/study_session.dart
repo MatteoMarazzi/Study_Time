@@ -1,4 +1,3 @@
-import 'package:app/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
 
 class studySession extends StatefulWidget {
@@ -6,14 +5,13 @@ class studySession extends StatefulWidget {
   final int pausa;
   final int volte;
   final bool canModifyValues;
-  final Function(bool) onTimerClose;
+
   const studySession(
       {super.key,
       required this.studio,
       required this.pausa,
       required this.volte,
-      required this.canModifyValues,
-      required this.onTimerClose});
+      required this.canModifyValues});
 
   @override
   State<studySession> createState() => _studySessionState();
@@ -140,319 +138,260 @@ class _studySessionState extends State<studySession> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
-        //va sistemato il leading
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'Imposta sessione di studio',
-          style: TextStyle(
-              color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.only(
-              left: screenSize.width * 0.04,
-              right: screenSize.width * 0.04,
-              top: screenSize.height * 0.02),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(160, 232, 224, 224),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      width: 0.5,
-                      color: Colors.black,
-                    )),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
-                  child: Text(
-                    'Durata mini-sessione studio',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: screenSize.width * 1,
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        '$_counter',
-                        style: TextStyle(
-                            fontSize: 100.0, fontWeight: FontWeight.bold),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () {
-                              _incrementCounter();
-                            },
-                            icon: Icon(
-                              Icons.add,
-                              size: 40,
-                              color: color_p1,
-                            ),
-                            padding: EdgeInsets.all(0),
-                          ),
-                          IconButton(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () {
-                              _decrementCounter();
-                            },
-                            icon: Icon(
-                              Icons.remove,
-                              size: 40,
-                              color: color_m1,
-                            ),
-                            padding: EdgeInsets.all(0),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Text(
-                'minuti',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(160, 232, 224, 224),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      width: 0.5,
-                      color: Colors.black,
-                    )),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
-                  child: Text(
-                    'Quanti min di pausa a round',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: screenSize.width * 1,
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        '$_counter_pause',
-                        style: TextStyle(
-                            fontSize: 100.0, fontWeight: FontWeight.bold),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () {
-                              _increment_pauseCounter();
-                            },
-                            icon: Icon(
-                              Icons.add,
-                              size: 40,
-                              color: color_p2,
-                            ),
-                            padding: EdgeInsets.all(0),
-                          ),
-                          IconButton(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () {
-                              _decrement_pauseCounter();
-                            },
-                            icon: Icon(
-                              Icons.remove,
-                              size: 40,
-                              color: color_m2,
-                            ),
-                            padding: EdgeInsets.all(0),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Text(
-                'minuti',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(160, 232, 224, 224),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      width: 0.5,
-                      color: Colors.black,
-                    )),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                  child: Text(
-                    'Quanti round nella sessione',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Sessione da :',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '$_nSession',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
-                  ),
-                  Column(
-                    children: [
-                      IconButton(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () {
-                          _increment_sessionCounter();
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          size: 30,
-                          color: color_p3,
-                        ),
-                        padding: EdgeInsets.all(0),
-                      ),
-                      IconButton(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onPressed: () {
-                          _decrement_sessionCounter();
-                        },
-                        icon: Icon(
-                          Icons.remove,
-                          size: 30,
-                          color: color_m3,
-                        ),
-                        padding: EdgeInsets.all(0),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ],
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              )),
+          //va sistemato il leading
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text(
+            'Imposta sessione di studio',
+            style: TextStyle(
+                color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
           ),
         ),
-      ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(left: screenSize.width * 0.09),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SizedBox(
-              width: 130,
-              child: Card(
-                elevation: 5,
-                color: Colors.white,
-                shadowColor: Colors.black,
-                margin: EdgeInsets.all(0),
-                child: Ink(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+                left: screenSize.width * 0.04,
+                right: screenSize.width * 0.04,
+                top: screenSize.height * 0.02),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(65, 158, 158, 158),
-                    borderRadius: BorderRadius.circular(
-                        4), // o qualsiasi altra forma desiderata
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      splashFactory: NoSplash.splashFactory,
-                      overlayColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      // Altre personalizzazioni come colori, bordi, ecc.
-                    ),
+                      color: Color.fromARGB(160, 232, 224, 224),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 0.5,
+                        color: Colors.black,
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 2.0, horizontal: 4),
                     child: Text(
-                      'Salva',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
+                      'Durata mini-sessione studio',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: 130,
-              child: Card(
-                color: Colors.white,
-                shadowColor: Colors.black,
-                margin: EdgeInsets.all(5),
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    setState(() {
-                      widget.onTimerClose(true);
-                    });
-                  },
-                  child: Text('Avvia',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 20,
                 ),
-              ),
+                Container(
+                  width: screenSize.width * 1,
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 50,
+                        ),
+                        Text(
+                          '$_counter',
+                          style: TextStyle(
+                              fontSize: 100.0, fontWeight: FontWeight.bold),
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () {
+                                _incrementCounter();
+                              },
+                              icon: Icon(
+                                Icons.add,
+                                size: 40,
+                                color: color_p1,
+                              ),
+                              padding: EdgeInsets.all(0),
+                            ),
+                            IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () {
+                                _decrementCounter();
+                              },
+                              icon: Icon(
+                                Icons.remove,
+                                size: 40,
+                                color: color_m1,
+                              ),
+                              padding: EdgeInsets.all(0),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Text(
+                  'minuti',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(160, 232, 224, 224),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 0.5,
+                        color: Colors.black,
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 2.0, horizontal: 4),
+                    child: Text(
+                      'Quanti min di pausa a round',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Container(
+                  width: screenSize.width * 1,
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 50,
+                        ),
+                        Text(
+                          '$_counter_pause',
+                          style: TextStyle(
+                              fontSize: 100.0, fontWeight: FontWeight.bold),
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () {
+                                _increment_pauseCounter();
+                              },
+                              icon: Icon(
+                                Icons.add,
+                                size: 40,
+                                color: color_p2,
+                              ),
+                              padding: EdgeInsets.all(0),
+                            ),
+                            IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () {
+                                _decrement_pauseCounter();
+                              },
+                              icon: Icon(
+                                Icons.remove,
+                                size: 40,
+                                color: color_m2,
+                              ),
+                              padding: EdgeInsets.all(0),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Text(
+                  'minuti',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(160, 232, 224, 224),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 0.5,
+                        color: Colors.black,
+                      )),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                    child: Text(
+                      'Quanti round nella sessione',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Sessione da :',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      '$_nSession',
+                      style:
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
+                    ),
+                    Column(
+                      children: [
+                        IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () {
+                            _increment_sessionCounter();
+                          },
+                          icon: Icon(
+                            Icons.add,
+                            size: 30,
+                            color: color_p3,
+                          ),
+                          padding: EdgeInsets.all(0),
+                        ),
+                        IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () {
+                            _decrement_sessionCounter();
+                          },
+                          icon: Icon(
+                            Icons.remove,
+                            size: 30,
+                            color: color_m3,
+                          ),
+                          padding: EdgeInsets.all(0),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
