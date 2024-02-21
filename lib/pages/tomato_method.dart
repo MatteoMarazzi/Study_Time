@@ -1,8 +1,8 @@
-import 'package:app/objects/bottom_bar.dart';
+import 'package:app/util/bottom_bar.dart';
 import 'package:app/objects/timer.dart';
 import 'package:app/pages/study_session.dart';
 import 'package:app/pages/timer_page.dart';
-import 'package:app/util/session_tile.dart';
+import 'package:app/tiles/session_tile.dart';
 import 'package:flutter/material.dart';
 
 class TomatoMethod extends StatefulWidget {

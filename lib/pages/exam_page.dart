@@ -1,6 +1,6 @@
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/util/calendar.dart';
-import 'package:app/util/home_tile.dart';
+import 'package:app/tiles/home_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
