@@ -1,4 +1,4 @@
-import 'package:app/util/bar_button.dart';
+import 'package:app/objects/bar_button.dart';
 import 'package:app/pages/data_page.dart';
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_page.dart';

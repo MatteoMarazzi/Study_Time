@@ -1,7 +1,6 @@
-import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/quiz_page.dart';
 import 'package:app/util/calendar.dart';
-import 'package:app/tiles/home_tile.dart';
+import 'package:app/util/home_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -40,7 +39,7 @@ class _Exam_pageState extends State<Exam_page> {
               color: Colors.black,
               shadow_color: Colors.transparent,
               backgroundColor: Colors.purple,
-              destinationPage: HomeQuizPage(),
+              destinationPage: QuizPage(title: 'QUIZ'),
               boxTitle: 'ESAME 1',
               pathImage: 'assets/allarm_clock.png',
               heightImage: 130,

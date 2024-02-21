@@ -1,13 +1,10 @@
 import 'dart:ui';
 
-import 'package:app/objects/question.dart';
-
 class Quiz {
   int? id;
   String name;
   String description;
   Color color;
-  late List<Question> questions;
 
   Quiz(
       {this.id,

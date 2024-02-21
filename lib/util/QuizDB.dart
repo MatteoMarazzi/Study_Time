@@ -1,4 +1,3 @@
-import 'package:app/databases/questionsDB.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -48,7 +47,7 @@ class LocalDataBase {
     });
   }
 
-  Future<int> updateQuiz(
+  Future<int> updateData(
       String name, String description, Color selectedColor, Quiz quiz) async {
     final db = await database;
     int dbupdateid = await db.rawUpdate(
@@ -57,10 +56,9 @@ class LocalDataBase {
     return dbupdateid;
   }
 
-  Future deleteQuiz(Quiz quiz) async {
+  Future deleteData(Quiz quiz) async {
     final db = await database;
     await db!.delete("quizzes", where: 'id=?', whereArgs: [quiz.id]);
-    QuestionsDatabase().deleteAllQuestionsFromQuiz(quiz);
     return 'succesfully deleted';
   }
 }
