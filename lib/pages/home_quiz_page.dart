@@ -2,7 +2,7 @@ import 'package:app/objects/quiz.dart';
 import 'package:app/pages/quiz_page.dart';
 import 'package:app/util/add_quiz_box.dart';
 import 'package:app/util/questionsDB.dart';
-import 'package:app/util/QuizDB.dart';
+import 'package:app/util/quizzesDB.dart';
 import 'package:app/util/quiz_tile.dart';
 import 'package:flutter/material.dart';
 
