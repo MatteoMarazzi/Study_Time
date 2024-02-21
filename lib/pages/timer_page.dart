@@ -1,5 +1,4 @@
 import 'package:app/objects/timer.dart';
-import 'package:app/pages/tomato_method.dart';
 import 'package:app/util/sessionInterrupt.dart';
 import 'package:app/util/timer_list.dart';
 import 'package:flutter/material.dart';

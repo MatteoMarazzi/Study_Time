@@ -5,6 +5,7 @@ import 'package:app/util/add_question_box.dart';
 import 'package:app/util/questionsDB.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class QuizPage extends StatefulWidget {
   QuizPage({super.key, required this.title, required this.quiz});
 

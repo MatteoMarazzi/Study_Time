@@ -4,7 +4,6 @@ import 'package:app/pages/study_session.dart';
 import 'package:app/pages/timer_page.dart';
 import 'package:app/util/session_tile.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 class TomatoMethod extends StatefulWidget {
   const TomatoMethod({super.key});
@@ -22,8 +21,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
   late bool isTimerActive = false;
   String mex = 'ATTIVA UNA SESSIONE';
   String mex1 = '';
-  @override
-  void metodo_pomodoro() {
+  void metodoPomodoro() {
     if (isTimerActive) {
       deadline = DateTime.now();
       if (counter % 2 == 1) {
@@ -40,7 +38,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    //Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 25),
@@ -105,7 +103,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                             setState(() {
                               if (counter < 2 && isTimerActive) {
                                 counter++;
-                                metodo_pomodoro(); //inizializza qui la lista dei timer e li fa partire
+                                metodoPomodoro(); //inizializza qui la lista dei timer e li fa partire
                               } else {
                                 counter = 0;
                                 isTimerActive = false;
@@ -159,7 +157,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                               canModifyValues: false,
                               onTimerClose: (value) {
                                 isTimerActive = true;
-                                metodo_pomodoro();
+                                metodoPomodoro();
                               },
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
@@ -184,7 +182,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                               canModifyValues: true,
                               onTimerClose: (value) {
                                 isTimerActive = true;
-                                metodo_pomodoro();
+                                metodoPomodoro();
                               },
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
@@ -209,7 +207,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                               canModifyValues: true,
                               onTimerClose: (value) {
                                 isTimerActive = true;
-                                metodo_pomodoro();
+                                metodoPomodoro();
                               },
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
