@@ -1,4 +1,3 @@
-import 'package:app/objects/timer.dart';
 import 'package:flutter/material.dart';
 
 class timer_Tile extends StatefulWidget {

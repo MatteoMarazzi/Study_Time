@@ -1,4 +1,3 @@
-import 'package:app/pages/study_session.dart';
 import 'package:flutter/material.dart';
 
 class sessionTile extends StatelessWidget {
