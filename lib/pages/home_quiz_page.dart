@@ -55,7 +55,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         context,
         MaterialPageRoute(
             builder: (context) => QuizPage(
-                  title: "DOMANDE",
+                  title: quiz.name,
                   quiz: quiz,
                 )));
   }

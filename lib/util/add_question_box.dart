@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class AddQuestionBox extends StatelessWidget {
-  final controller;
+  final questionController;
+  final answerController;
   VoidCallback OnSalva;
   VoidCallback OnAnnulla;
 
   AddQuestionBox(
       {super.key,
-      required this.controller,
+      required this.questionController,
+      required this.answerController,
       required this.OnSalva,
       required this.OnAnnulla});
 
@@ -25,10 +27,24 @@ class AddQuestionBox extends StatelessWidget {
             Expanded(
               child: Center(
                 child: TextField(
-                  controller: controller,
+                  controller: questionController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: "Nome quiz",
+                      hintText: "testo domanda",
+                      hintStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      )),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Center(
+                child: TextField(
+                  controller: answerController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "risposta",
                       hintStyle: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

@@ -18,14 +18,24 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   final questionTextController = TextEditingController();
+  final answerTextController = TextEditingController();
+  //List<Question>? questionsList;
+
+  @override
+  void initState() {
+    super.initState();
+    quiz2Questions;
+  }
 
   void saveQuestion() async {
     await QuestionsDatabase().insertQuestion(Question(
       idQuiz: widget.quiz.id,
       text: questionTextController.text,
+      answer: answerTextController.text,
     ));
     await QuestionsDatabase().getAllQuestions(widget.quiz);
     questionTextController.clear();
+    answerTextController.clear();
     setState(() {});
     if (!mounted) return;
     Navigator.of(context).pop();
@@ -36,22 +46,49 @@ class _QuizPageState extends State<QuizPage> {
         context: context,
         builder: (context) {
           return AddQuestionBox(
-            controller: questionTextController,
+            questionController: questionTextController,
+            answerController: answerTextController,
             OnSalva: saveQuestion,
             OnAnnulla: () => Navigator.of(context).pop(),
           );
         });
   }
 
-  deleteQuestion(int index) {}
+  deleteQuestion(Question questionToDelete) async {
+    await QuestionsDatabase().deleteQuestion(questionToDelete);
+    await QuestionsDatabase().getAllQuestions(widget.quiz);
+    setState(() {});
+  }
 
-  modifyQuestion(int index) {}
+  modifyQuestion(Question questionToModify) async {
+    questionTextController.text = questionToModify.text;
+    answerTextController.text = questionToModify.answer;
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AddQuestionBox(
+              questionController: questionTextController,
+              answerController: answerTextController,
+              OnSalva: () async {
+                await QuestionsDatabase().updateQuestion(
+                    questionTextController.text,
+                    answerTextController.text,
+                    questionToModify);
+                questionTextController.clear();
+                answerTextController.clear();
+                await QuestionsDatabase().getAllQuestions(widget.quiz);
+                setState(() {
+                  Navigator.of(context).pop();
+                });
+              },
+              OnAnnulla: (() => Navigator.of(context).pop()));
+        });
+  }
 
   openQuestion(int index) {}
 
   @override
   Widget build(BuildContext context) {
-    List<Question>? questions = quiz2Questions[widget.quiz.id];
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
@@ -63,10 +100,13 @@ class _QuizPageState extends State<QuizPage> {
         itemCount: quiz2Questions[widget.quiz.id]!.length,
         itemBuilder: (context, index) {
           return QuestionTile(
-            questionName: questions![index].text,
+            question: quiz2Questions[widget.quiz]![index].text,
+            answer: quiz2Questions[widget.quiz]![index].text,
             OnOpenTile: () => openQuestion(index),
-            OnOpenElimina: () => deleteQuestion(index),
-            OnOpenModifica: () => modifyQuestion(index),
+            OnOpenElimina: () =>
+                deleteQuestion(quiz2Questions[widget.quiz]![index]),
+            OnOpenModifica: () =>
+                modifyQuestion(quiz2Questions[widget.quiz]![index]),
           );
         },
       ),
