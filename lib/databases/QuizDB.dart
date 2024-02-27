@@ -8,9 +8,9 @@ import '../objects/quiz.dart';
 Database? _database;
 List QuizzesDataList = [];
 
-class LocalDataBase {
+class QuizzesDatabase {
   Future get database async {
-    if (_database == null) _database = await _initializeDB('QuizDB.db');
+    _database ??= await _initializeDB('QuizDB.db');
     return _database;
   }
 

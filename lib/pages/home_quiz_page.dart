@@ -2,7 +2,7 @@ import 'package:app/objects/quiz.dart';
 import 'package:app/pages/quiz_page.dart';
 import 'package:app/util/add_quiz_box.dart';
 import 'package:app/databases/questionsDB.dart';
-import 'package:app/databases/QuizDB.dart';
+import 'package:app/databases/quizDB.dart';
 import 'package:app/tiles/quiz_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -21,11 +21,11 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    await LocalDataBase().insertQuiz(Quiz(
+    await QuizzesDatabase().insertQuiz(Quiz(
         name: quizNameController.text,
         description: quizDescriptionController.text,
         color: selectedColor));
-    await LocalDataBase().getAllQuizzes();
+    await QuizzesDatabase().getAllQuizzes();
     quizNameController.clear();
     quizDescriptionController.clear();
     setState(() {});
@@ -73,14 +73,14 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 selectedColor = color;
               },
               OnSalva: () async {
-                await LocalDataBase().updateQuiz(
+                await QuizzesDatabase().updateQuiz(
                     quizNameController.text,
                     quizDescriptionController.text,
                     selectedColor,
                     QuizzesDataList[index]);
                 quizNameController.clear();
                 quizDescriptionController.clear();
-                await LocalDataBase().getAllQuizzes();
+                await QuizzesDatabase().getAllQuizzes();
                 setState(() {
                   Navigator.of(context).pop();
                 });
@@ -90,8 +90,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(int index) async {
-    await LocalDataBase().deleteQuiz(QuizzesDataList[index]);
-    await LocalDataBase().getAllQuizzes();
+    await QuizzesDatabase().deleteQuiz(QuizzesDataList[index]);
+    await QuizzesDatabase().getAllQuizzes();
     setState(() {});
   }
 
