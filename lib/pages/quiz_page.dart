@@ -81,6 +81,8 @@ class _QuizPageState extends State<QuizPage> {
 
   openQuestion(int index) {}
 
+  startQuiz() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
