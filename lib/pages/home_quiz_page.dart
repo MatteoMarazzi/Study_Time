@@ -61,8 +61,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void modifyQuiz(int index) async {
-    quizNameController.text = QuizzesDataList[index].name;
-    quizDescriptionController.text = QuizzesDataList[index].description;
+    quizNameController.text = quizzesDataList[index].name;
+    quizDescriptionController.text = quizzesDataList[index].description;
     await showDialog(
         context: context,
         builder: (context) {
@@ -77,7 +77,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                     quizNameController.text,
                     quizDescriptionController.text,
                     selectedColor,
-                    QuizzesDataList[index]);
+                    quizzesDataList[index]);
                 quizNameController.clear();
                 quizDescriptionController.clear();
                 await QuizzesDatabase().getAllQuizzes();
@@ -90,7 +90,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(int index) async {
-    await QuizzesDatabase().deleteQuiz(QuizzesDataList[index]);
+    await QuizzesDatabase().deleteQuiz(quizzesDataList[index]);
     await QuizzesDatabase().getAllQuizzes();
     setState(() {});
   }
@@ -105,13 +105,13 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-        itemCount: QuizzesDataList.length,
+        itemCount: quizzesDataList.length,
         itemBuilder: (context, index) {
           return QuizTile(
-            quizName: QuizzesDataList[index].name,
-            quizDescription: QuizzesDataList[index].description,
-            color: QuizzesDataList[index].color,
-            OnOpenTile: () => openQuiz(QuizzesDataList[index]),
+            quizName: quizzesDataList[index].name,
+            quizDescription: quizzesDataList[index].description,
+            color: quizzesDataList[index].color,
+            OnOpenTile: () => openQuiz(quizzesDataList[index]),
             OnOpenModifica: () => modifyQuiz(index),
             OnOpenElimina: () => deleteQuiz(index),
           );

@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 Database? _database;
-Map<int?, List<Question>> quiz2Questions = {};
+//Map<Quiz, List<Question>> quiz2Questions = {};
 
 class QuestionsDatabase {
   Future get database async {
@@ -43,14 +43,14 @@ class QuestionsDatabase {
       whereArgs: [quiz.id],
     );
     //quiz2Questions[quiz.id] ??= [];
-    quiz2Questions[quiz.id] = List.generate(maps.length, (i) {
+    quiz.questions = List.generate(maps.length, (i) {
       return Question(
           id: maps[i]['id'],
           idQuiz: maps[i]['idQuiz'],
           text: maps[i]['text'],
           answer: maps[i]['answer']);
     });
-    return quiz2Questions[quiz.id];
+    return quiz.questions;
   }
 
   Future<int> updateQuestion(
@@ -64,7 +64,7 @@ class QuestionsDatabase {
 
   Future deleteQuestion(Question question) async {
     final db = await database;
-    await db!.delete("questions", where: 'id=?', whereArgs: [question.idQuiz]);
+    await db!.delete("questions", where: 'id=?', whereArgs: [question.id]);
   }
 
   Future deleteAllQuestionsFromQuiz(Quiz quiz) async {

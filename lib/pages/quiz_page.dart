@@ -21,12 +21,6 @@ class _QuizPageState extends State<QuizPage> {
   final answerTextController = TextEditingController();
   //List<Question>? questionsList;
 
-  @override
-  void initState() {
-    super.initState();
-    quiz2Questions;
-  }
-
   void saveQuestion() async {
     await QuestionsDatabase().insertQuestion(Question(
       idQuiz: widget.quiz.id,
@@ -97,16 +91,14 @@ class _QuizPageState extends State<QuizPage> {
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(8), //contorno intera lista
-        itemCount: quiz2Questions[widget.quiz.id]!.length,
+        itemCount: widget.quiz.questions.length,
         itemBuilder: (context, index) {
           return QuestionTile(
-            question: quiz2Questions[widget.quiz]![index].text,
-            answer: quiz2Questions[widget.quiz]![index].text,
+            question: widget.quiz.questions[index].text,
+            answer: widget.quiz.questions[index].answer,
             OnOpenTile: () => openQuestion(index),
-            OnOpenElimina: () =>
-                deleteQuestion(quiz2Questions[widget.quiz]![index]),
-            OnOpenModifica: () =>
-                modifyQuestion(quiz2Questions[widget.quiz]![index]),
+            OnOpenElimina: () => deleteQuestion(widget.quiz.questions[index]),
+            OnOpenModifica: () => modifyQuestion(widget.quiz.questions[index]),
           );
         },
       ),

@@ -2,11 +2,10 @@ import 'package:app/databases/questionsDB.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 import '../objects/quiz.dart';
 
 Database? _database;
-List QuizzesDataList = [];
+List quizzesDataList = [];
 
 class QuizzesDatabase {
   Future get database async {
@@ -39,7 +38,7 @@ class QuizzesDatabase {
   Future getAllQuizzes() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('quizzes');
-    QuizzesDataList = List.generate(maps.length, (i) {
+    quizzesDataList = List.generate(maps.length, (i) {
       return Quiz(
           id: maps[i]['id'],
           name: maps[i]['name'],
