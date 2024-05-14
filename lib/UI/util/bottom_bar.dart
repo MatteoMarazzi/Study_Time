@@ -1,9 +1,9 @@
-import 'package:app/util/bar_button.dart';
-import 'package:app/pages/data_page.dart';
-import 'package:app/pages/exam_page.dart';
-import 'package:app/pages/home_page.dart';
-import 'package:app/pages/home_quiz_page.dart';
-import 'package:app/pages/tomato_method.dart';
+import 'package:app/UI/util/bar_button.dart';
+import 'package:app/UI/pages/data_page.dart';
+import 'package:app/UI/pages/exam_page.dart';
+import 'package:app/UI/pages/home_page.dart';
+import 'package:app/UI/pages/home_quiz_page.dart';
+import 'package:app/UI/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {

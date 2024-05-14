@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flex_color_picker/flex_color_picker.dart'; //aggiunta palette cromatica
-import 'package:app/util/buttons.dart';
+import 'package:app/UI/util/buttons.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable

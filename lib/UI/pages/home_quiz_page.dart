@@ -1,9 +1,9 @@
-import 'package:app/objects/quiz.dart';
-import 'package:app/pages/quiz_page.dart';
-import 'package:app/util/add_quiz_box.dart';
+import 'package:app/domain/quiz.dart';
+import 'package:app/UI/pages/quiz_page.dart';
+import 'package:app/UI/util/add_quiz_box.dart';
 import 'package:app/databases/questionsDB.dart';
 import 'package:app/databases/quizDB.dart';
-import 'package:app/tiles/quiz_tile.dart';
+import 'package:app/UI/tiles/quiz_tile.dart';
 import 'package:flutter/material.dart';
 
 class HomeQuizPage extends StatefulWidget {

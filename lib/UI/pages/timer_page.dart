@@ -1,6 +1,6 @@
-import 'package:app/objects/timer.dart';
-import 'package:app/util/sessionInterrupt.dart';
-import 'package:app/util/timer_list.dart';
+import 'package:app/UI/pages/timer.dart';
+import 'package:app/UI/util/sessionInterrupt.dart';
+import 'package:app/UI/util/timer_list.dart';
 import 'package:flutter/material.dart';
 
 class timerPage extends StatefulWidget {

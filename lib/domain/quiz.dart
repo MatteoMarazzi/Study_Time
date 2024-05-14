@@ -1,13 +1,13 @@
 import 'dart:ui';
 
-import 'package:app/objects/question.dart';
+import 'package:app/domain/question.dart';
 
 class Quiz {
-  int? id;
+  int? id; //vorrei non metterlo nullable
   String name;
   String description;
   Color color;
-  late List<Question> questions;
+  Map<int, Question> questions = {};
 
   Quiz(
       {this.id,
@@ -16,7 +16,15 @@ class Quiz {
       required this.color});
 
   Map<String, dynamic> toMap() {
-    return {'name': name, 'description': description, 'color': color.toHex()};
+    return {'name': name, 'description': description};
+  }
+
+  Question? getQuestion(int questionID) {
+    return questions[questionID];
+  }
+
+  void addQuestions(Map<int, Question> questions) {
+    this.questions.addAll(questions);
   }
 }
 

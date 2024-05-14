@@ -1,7 +1,7 @@
-import 'package:app/objects/question.dart';
-import 'package:app/objects/quiz.dart';
-import 'package:app/tiles/question_tile.dart';
-import 'package:app/util/add_question_box.dart';
+import 'package:app/domain/question.dart';
+import 'package:app/domain/quiz.dart';
+import 'package:app/UI/tiles/question_tile.dart';
+import 'package:app/UI/util/add_question_box.dart';
 import 'package:app/databases/questionsDB.dart';
 import 'package:flutter/material.dart';
 

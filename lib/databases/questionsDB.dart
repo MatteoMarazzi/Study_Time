@@ -1,5 +1,5 @@
-import 'package:app/objects/question.dart';
-import 'package:app/objects/quiz.dart';
+import 'package:app/domain/question.dart';
+import 'package:app/domain/quiz.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

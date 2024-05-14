@@ -1,4 +1,4 @@
-import 'package:app/pages/tomato_method.dart';
+import 'package:app/UI/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
 
 class sessionInterupt extends StatelessWidget {
