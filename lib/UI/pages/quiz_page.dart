@@ -23,11 +23,11 @@ class _QuizPageState extends State<QuizPage> {
 
   void saveQuestion() async {
     await QuestionsDatabase().insertQuestion(Question(
-      idQuiz: widget.quiz.id,
+      id: 1,
       text: questionTextController.text,
       answer: answerTextController.text,
     ));
-    await QuestionsDatabase().getAllQuestions(widget.quiz);
+    QuestionsDatabase().getAllQuestions(widget.quiz);
     questionTextController.clear();
     answerTextController.clear();
     setState(() {});
@@ -48,9 +48,9 @@ class _QuizPageState extends State<QuizPage> {
         });
   }
 
-  deleteQuestion(Question questionToDelete) async {
+  deleteQuestion(Question? questionToDelete) async {
     await QuestionsDatabase().deleteQuestion(questionToDelete);
-    await QuestionsDatabase().getAllQuestions(widget.quiz);
+    QuestionsDatabase().getAllQuestions(widget.quiz);
     setState(() {});
   }
 
@@ -70,7 +70,7 @@ class _QuizPageState extends State<QuizPage> {
                     questionToModify);
                 questionTextController.clear();
                 answerTextController.clear();
-                await QuestionsDatabase().getAllQuestions(widget.quiz);
+                QuestionsDatabase().getAllQuestions(widget.quiz);
                 setState(() {
                   Navigator.of(context).pop();
                 });
@@ -95,12 +95,13 @@ class _QuizPageState extends State<QuizPage> {
         padding: EdgeInsets.all(8), //contorno intera lista
         itemCount: widget.quiz.questions.length,
         itemBuilder: (context, index) {
+          Question? currentQuestion = widget.quiz.getQuestion(index);
           return QuestionTile(
-            question: widget.quiz.questions[index].text,
-            answer: widget.quiz.questions[index].answer,
+            questionText: currentQuestion!.getText(),
+            answer: currentQuestion.getAnswer(),
             OnOpenTile: () => openQuestion(index),
-            OnOpenElimina: () => deleteQuestion(widget.quiz.questions[index]),
-            OnOpenModifica: () => modifyQuestion(widget.quiz.questions[index]),
+            OnOpenElimina: () => deleteQuestion(currentQuestion),
+            OnOpenModifica: () => modifyQuestion(currentQuestion),
           );
         },
       ),

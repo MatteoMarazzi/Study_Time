@@ -35,22 +35,23 @@ class QuestionsDatabase {
     await db.insert("questions", question.toMap());
   }
 
-  Future<List<Question>?> getAllQuestions(Quiz quiz) async {
+  void getAllQuestions(Quiz quiz) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       'questions',
       where: 'idQuiz = ?',
       whereArgs: [quiz.id],
     );
-    //quiz2Questions[quiz.id] ??= [];
-    quiz.questions = List.generate(maps.length, (i) {
-      return Question(
-          id: maps[i]['id'],
-          idQuiz: maps[i]['idQuiz'],
-          text: maps[i]['text'],
-          answer: maps[i]['answer']);
-    });
-    return quiz.questions;
+    List<Question> questions = maps
+        .map((map) => Question(
+              id: map['id'],
+              text: map['text'],
+              answer: map['answer'],
+            ))
+        .toList();
+    for (Question question in questions) {
+      quiz.addQuestion(question);
+    }
   }
 
   Future<int> updateQuestion(
@@ -58,13 +59,13 @@ class QuestionsDatabase {
     final db = await database;
     int dbupdateid = await db.rawUpdate(
         'UPDATE questions SET text = ?, answer = ? WHERE id = ?',
-        [text, answer, question.idQuiz]);
+        [text, answer, question.id]);
     return dbupdateid;
   }
 
-  Future deleteQuestion(Question question) async {
+  Future deleteQuestion(Question? question) async {
     final db = await database;
-    await db!.delete("questions", where: 'id=?', whereArgs: [question.id]);
+    await db!.delete("questions", where: 'id=?', whereArgs: [question!.id]);
   }
 
   Future deleteAllQuestionsFromQuiz(Quiz quiz) async {

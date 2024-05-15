@@ -16,15 +16,15 @@ class Quiz {
       required this.color});
 
   Map<String, dynamic> toMap() {
-    return {'name': name, 'description': description};
+    return {'name': name, 'description': description, 'color': color.toHex()};
   }
 
   Question? getQuestion(int questionID) {
     return questions[questionID];
   }
 
-  void addQuestions(Map<int, Question> questions) {
-    this.questions.addAll(questions);
+  void addQuestion(Question question) {
+    questions[question.id] = question;
   }
 }
 

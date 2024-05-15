@@ -50,7 +50,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void openQuiz(Quiz quiz) async {
-    await QuestionsDatabase().getAllQuestions(quiz);
+    QuestionsDatabase().getAllQuestions(quiz);
     Navigator.push(
         context,
         MaterialPageRoute(
