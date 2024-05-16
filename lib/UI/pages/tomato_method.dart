@@ -38,14 +38,17 @@ class _TomatoMethodState extends State<TomatoMethod> {
 
   @override
   Widget build(BuildContext context) {
-    //Size screenSize = MediaQuery.of(context).size;
+    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(top: 25),
+        padding: EdgeInsets.only(
+            left: screenSize.width * 0.02,
+            right: screenSize.width * 0.02,
+            top: screenSize.height * 0.06),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
+              /*Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: GestureDetector(
@@ -136,13 +139,16 @@ class _TomatoMethodState extends State<TomatoMethod> {
                     ),
                   ),
                 ),
+              ),*/
+              SizedBox(
+                height: 20,
               ),
               Text(
                 'SESSIONI DI STUDIO',
                 style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
+                    //decoration: TextDecoration.underline,
                     decorationThickness: 1),
               ),
               GestureDetector(
@@ -220,6 +226,22 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   color: Colors.green,
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Perchè crearsi una sessione di studio personalizzata ?',
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        //decoration: TextDecoration.underline,
+                        decorationThickness: 1),
+                  ),
+                ),
+              )
             ],
           ),
         ),
