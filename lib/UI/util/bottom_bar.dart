@@ -7,7 +7,7 @@ import 'package:app/UI/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
-  static const Color colorBar = Color.fromRGBO(235, 228, 228, 0.508);
+  static const Color colorBar = Color.fromRGBO(255, 255, 255, 0.353);
   const BottomBar({super.key});
 
   @override
@@ -17,7 +17,7 @@ class BottomBar extends StatelessWidget {
           border: Border(top: BorderSide(color: Colors.black, width: 0.5))),
       child: const BottomAppBar(
         elevation: 20,
-        shadowColor: Colors.black,
+        shadowColor: Color.fromARGB(255, 255, 255, 255), //scegli colore ombra
         color: colorBar,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
