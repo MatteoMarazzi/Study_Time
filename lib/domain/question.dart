@@ -1,9 +1,13 @@
+import 'package:uuid/uuid.dart';
+
 class Question {
-  int id;
+  late String id;
   String text;
   String answer;
 
-  Question({required this.id, required this.text, required this.answer});
+  Question({required this.text, required this.answer}) {
+    id = const Uuid().v4();
+  }
 
   Map<String, dynamic> toMap() {
     return {'text': text, 'answer': answer};

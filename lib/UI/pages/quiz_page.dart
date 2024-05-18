@@ -23,7 +23,6 @@ class _QuizPageState extends State<QuizPage> {
 
   void saveQuestion() async {
     await QuestionsDatabase().insertQuestion(Question(
-      id: 1,
       text: questionTextController.text,
       answer: answerTextController.text,
     ));

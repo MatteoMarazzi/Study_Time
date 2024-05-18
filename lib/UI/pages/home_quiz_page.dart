@@ -1,3 +1,4 @@
+import 'package:app/domain/exam.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
 import 'package:app/UI/util/add_quiz_box.dart';
@@ -7,10 +8,8 @@ import 'package:app/UI/tiles/quiz_tile.dart';
 import 'package:flutter/material.dart';
 
 class HomeQuizPage extends StatefulWidget {
-  const HomeQuizPage({
-    super.key,
-  });
-
+  const HomeQuizPage({super.key, required this.exam});
+  final Exam exam;
   @override
   State<HomeQuizPage> createState() => _HomeQuizPageState();
 }
@@ -60,9 +59,9 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 )));
   }
 
-  void modifyQuiz(int index) async {
-    quizNameController.text = quizzesDataList[index].name;
-    quizDescriptionController.text = quizzesDataList[index].description;
+  void modifyQuiz(Quiz quiz) async {
+    quizNameController.text = quiz.getName();
+    quizDescriptionController.text = quiz.getDescription();
     await showDialog(
         context: context,
         builder: (context) {
@@ -73,11 +72,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 selectedColor = color;
               },
               OnSalva: () async {
-                await QuizzesDatabase().updateQuiz(
-                    quizNameController.text,
-                    quizDescriptionController.text,
-                    selectedColor,
-                    quizzesDataList[index]);
+                await QuizzesDatabase().updateQuiz(quizNameController.text,
+                    quizDescriptionController.text, selectedColor, quiz);
                 quizNameController.clear();
                 quizDescriptionController.clear();
                 await QuizzesDatabase().getAllQuizzes();
@@ -89,8 +85,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         });
   }
 
-  void deleteQuiz(int index) async {
-    await QuizzesDatabase().deleteQuiz(quizzesDataList[index]);
+  void deleteQuiz(Quiz quiz) async {
+    await QuizzesDatabase().deleteQuiz(quiz);
     await QuizzesDatabase().getAllQuizzes();
     setState(() {});
   }
@@ -105,15 +101,16 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-        itemCount: quizzesDataList.length,
+        itemCount: widget.exam.countQuizzes(),
         itemBuilder: (context, index) {
+          Quiz? quiz = widget.exam.getQuiz(index);
           return QuizTile(
-            quizName: quizzesDataList[index].name,
-            quizDescription: quizzesDataList[index].description,
-            color: quizzesDataList[index].color,
-            OnOpenTile: () => openQuiz(quizzesDataList[index]),
-            OnOpenModifica: () => modifyQuiz(index),
-            OnOpenElimina: () => deleteQuiz(index),
+            quizName: quiz!.getName(),
+            quizDescription: quiz!.getDescription(),
+            color: quiz!.getColor(),
+            OnOpenTile: () => openQuiz(quiz),
+            OnOpenModifica: () => modifyQuiz(quiz),
+            OnOpenElimina: () => deleteQuiz(quiz),
           );
         },
       ),

@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 import '../domain/quiz.dart';
 
 Database? _database;
-List quizzesDataList = [];
+//List quizzesDataList = [];
 
 class QuizzesDatabase {
   Future get database async {
@@ -38,9 +38,8 @@ class QuizzesDatabase {
   Future getAllQuizzes() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('quizzes');
-    quizzesDataList = List.generate(maps.length, (i) {
+    List<Quiz> quizzesList = List.generate(maps.length, (i) {
       return Quiz(
-          id: maps[i]['id'],
           name: maps[i]['name'],
           description: maps[i]['description'],
           color: Color(int.parse('${maps[i]['color']}', radix: 16)));

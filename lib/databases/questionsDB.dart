@@ -44,7 +44,6 @@ class QuestionsDatabase {
     );
     List<Question> questions = maps
         .map((map) => Question(
-              id: map['id'],
               text: map['text'],
               answer: map['answer'],
             ))

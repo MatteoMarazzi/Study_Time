@@ -39,11 +39,6 @@ class BottomBar extends StatelessWidget {
             ),
             bar_Button(
               color: Color.fromARGB(255, 0, 0, 0),
-              icon: Icons.quiz_outlined,
-              destination: HomeQuizPage(),
-            ),
-            bar_Button(
-              color: Color.fromARGB(255, 0, 0, 0),
               icon: Icons.folder,
               destination: Exam_page(),
             ),
