@@ -14,16 +14,6 @@ class _data_pageState extends State<data_page> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color.fromARGB(217, 255, 255, 255),
-      appBar: AppBar(
-        title: Text(
-          'STATISTICHE ACCOUNT',
-          style: TextStyle(color: Colors.black),
-        ),
-        shadowColor: Colors.black,
-        elevation: 10,
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         padding: EdgeInsets.only(
@@ -35,6 +25,17 @@ class _data_pageState extends State<data_page> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'STATISTICHE',
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    //decoration: TextDecoration.underline,
+                    decorationThickness: 1),
+              ),
               Container(
                 width: screenSize.width * 0.8,
                 height: screenSize.height * 0.1,
