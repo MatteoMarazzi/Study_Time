@@ -5,6 +5,7 @@ import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
 import 'package:app/UI/tiles/home_tile.dart';
+import 'package:app/domain/exam.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -117,7 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
             shadow_color: Colors.white,
             backgroundColor: Color.fromARGB(98, 255, 235, 59),
             boxTitle: "QUIZ",
-            destinationPage: HomeQuizPage(),
+            destinationPage: HomeQuizPage(
+              exam: Exam(),
+            ),
             pathImage: 'assets/quiz_1.png',
             heightImage: 130,
             weightImage: 250,

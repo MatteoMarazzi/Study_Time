@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:app/databases/QuizDB.dart';
 import 'package:app/domain/question.dart';
 import 'package:uuid/uuid.dart';
 
@@ -33,8 +34,21 @@ class Quiz {
     return questions[questionID];
   }
 
-  void addQuestion(Question question) {
+  void addQuestion(Question question) async {
+    await QuizzesDatabase().insertQuestion(question);
     questions[question.id] = question;
+  }
+
+  void updateQuestion(String text, String answer, Question question) {
+    QuizzesDatabase().updateQuestion(text, answer, question);
+    question.text = text;
+    question.answer = answer;
+    questions[question.id] = question;
+  }
+
+  void deleteQuestion(Question question) async {
+    await QuizzesDatabase().deleteQuestion(question);
+    questions.remove(question.id);
   }
 }
 

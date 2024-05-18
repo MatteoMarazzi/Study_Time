@@ -1,8 +1,8 @@
+import 'package:app/databases/QuizDB.dart';
 import 'package:app/domain/question.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/tiles/question_tile.dart';
 import 'package:app/UI/util/add_question_box.dart';
-import 'package:app/databases/questionsDB.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -22,11 +22,11 @@ class _QuizPageState extends State<QuizPage> {
   //List<Question>? questionsList;
 
   void saveQuestion() async {
-    await QuestionsDatabase().insertQuestion(Question(
+    widget.quiz.addQuestion(Question(
       text: questionTextController.text,
       answer: answerTextController.text,
     ));
-    QuestionsDatabase().getAllQuestions(widget.quiz);
+    QuizzesDatabase().getAllQuestions(widget.quiz);
     questionTextController.clear();
     answerTextController.clear();
     setState(() {});
@@ -47,9 +47,9 @@ class _QuizPageState extends State<QuizPage> {
         });
   }
 
-  deleteQuestion(Question? questionToDelete) async {
-    await QuestionsDatabase().deleteQuestion(questionToDelete);
-    QuestionsDatabase().getAllQuestions(widget.quiz);
+  deleteQuestion(Question questionToDelete) {
+    widget.quiz.deleteQuestion(questionToDelete);
+    QuizzesDatabase().getAllQuestions(widget.quiz);
     setState(() {});
   }
 
@@ -63,13 +63,13 @@ class _QuizPageState extends State<QuizPage> {
               questionController: questionTextController,
               answerController: answerTextController,
               OnSalva: () async {
-                await QuestionsDatabase().updateQuestion(
+                /*await*/ widget.quiz.updateQuestion(
                     questionTextController.text,
                     answerTextController.text,
                     questionToModify);
                 questionTextController.clear();
                 answerTextController.clear();
-                QuestionsDatabase().getAllQuestions(widget.quiz);
+                QuizzesDatabase().getAllQuestions(widget.quiz);
                 setState(() {
                   Navigator.of(context).pop();
                 });

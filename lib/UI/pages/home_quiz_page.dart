@@ -2,7 +2,6 @@ import 'package:app/domain/exam.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
 import 'package:app/UI/util/add_quiz_box.dart';
-import 'package:app/databases/questionsDB.dart';
 import 'package:app/databases/quizDB.dart';
 import 'package:app/UI/tiles/quiz_tile.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void openQuiz(Quiz quiz) async {
-    QuestionsDatabase().getAllQuestions(quiz);
+    //QuestionsDatabase().getAllQuestions(quiz);
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -103,14 +102,14 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
       body: ListView.builder(
         itemCount: widget.exam.countQuizzes(),
         itemBuilder: (context, index) {
-          Quiz? quiz = widget.exam.getQuiz(index);
+          Quiz? currentQuiz = widget.exam.getQuiz(index);
           return QuizTile(
-            quizName: quiz!.getName(),
-            quizDescription: quiz!.getDescription(),
-            color: quiz!.getColor(),
-            OnOpenTile: () => openQuiz(quiz),
-            OnOpenModifica: () => modifyQuiz(quiz),
-            OnOpenElimina: () => deleteQuiz(quiz),
+            quizName: currentQuiz!.getName(),
+            quizDescription: currentQuiz.getDescription(),
+            color: currentQuiz.getColor(),
+            OnOpenTile: () => openQuiz(currentQuiz),
+            OnOpenModifica: () => modifyQuiz(currentQuiz),
+            OnOpenElimina: () => deleteQuiz(currentQuiz),
           );
         },
       ),
