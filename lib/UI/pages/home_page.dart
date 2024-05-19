@@ -1,34 +1,30 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:app/databases/quizDB.dart';
 import 'package:app/UI/util/bottom_bar.dart';
 import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
 import 'package:app/UI/tiles/home_tile.dart';
-import 'package:app/domain/exam.dart';
+import 'package:app/databases/QuizDB.dart';
+import 'package:app/domain/controller.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-  });
-
+  const MyHomePage({super.key});
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final Controller controller = Controller();
   @override
   void initState() {
     super.initState();
-    QuizzesDatabase quizzesDatabase = QuizzesDatabase();
-    quizzesDatabase.getAllQuizzes();
+    QuizzesDatabase().mountDatabase(controller.utente);
   }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
 /*        appBar: AppBar(
@@ -119,7 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Color.fromARGB(98, 255, 235, 59),
             boxTitle: "QUIZ",
             destinationPage: HomeQuizPage(
-              exam: Exam(),
+              exam: controller.utente.addExam(
+                  name: 'name',
+                  description: 'description'), //prova per capire se funziona
             ),
             pathImage: 'assets/quiz_1.png',
             heightImage: 130,
@@ -134,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
             shadow_color: Color.fromARGB(255, 255, 255, 255),
             backgroundColor: Color.fromARGB(99, 39, 199, 74),
             boxTitle: "ESAMI",
-            destinationPage: Exam_page(),
+            destinationPage: ExamPage(),
             pathImage: 'assets/exam_1.png',
             heightImage: 130,
             weightImage: 250,

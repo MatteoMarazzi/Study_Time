@@ -40,7 +40,7 @@ class BottomBar extends StatelessWidget {
             bar_Button(
               color: Color.fromARGB(255, 0, 0, 0),
               icon: Icons.folder,
-              destination: Exam_page(),
+              destination: ExamPage(),
             ),
           ],
         ),

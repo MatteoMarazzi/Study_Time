@@ -1,4 +1,3 @@
-import 'package:app/databases/QuizDB.dart';
 import 'package:app/domain/question.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/tiles/question_tile.dart';
@@ -26,7 +25,7 @@ class _QuizPageState extends State<QuizPage> {
       text: questionTextController.text,
       answer: answerTextController.text,
     ));
-    QuizzesDatabase().getAllQuestions(widget.quiz);
+    //QuizzesDatabase().getAllQuestions(widget.quiz);
     questionTextController.clear();
     answerTextController.clear();
     setState(() {});
@@ -49,7 +48,7 @@ class _QuizPageState extends State<QuizPage> {
 
   deleteQuestion(Question questionToDelete) {
     widget.quiz.deleteQuestion(questionToDelete);
-    QuizzesDatabase().getAllQuestions(widget.quiz);
+    //QuizzesDatabase().getAllQuestions(widget.quiz);
     setState(() {});
   }
 
@@ -69,7 +68,7 @@ class _QuizPageState extends State<QuizPage> {
                     questionToModify);
                 questionTextController.clear();
                 answerTextController.clear();
-                QuizzesDatabase().getAllQuestions(widget.quiz);
+                //QuizzesDatabase().getAllQuestions(widget.quiz);
                 setState(() {
                   Navigator.of(context).pop();
                 });

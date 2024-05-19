@@ -1,4 +1,6 @@
+import 'package:app/domain/exam.dart';
 import 'package:app/domain/question.dart';
+import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -21,12 +23,23 @@ class QuizzesDatabase {
 
   Future _createDB(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE quizzes(
+    CREATE TABLE exams(
       id TEXT PRIMARY KEY,
       name TEXT,
-      description TEXT,
-      color TEXT
+      description TEXT
     )
+    ''');
+    await db.execute('''
+    CREATE TABLE quizzes(
+      id TEXT PRIMARY KEY,
+      exam TEXT,
+      name TEXT,
+      description TEXT,
+      color TEXT,
+      FOREIGN KEY (exam) REFERENCES exams(id)
+    )
+    ''');
+    await db.execute('''
     CREATE TABLE questions(
       id INTEGER PRIMARY KEY,
       quiz TEXT,
@@ -37,20 +50,27 @@ class QuizzesDatabase {
     ''');
   }
 
+  Future mountDatabase(Utente utente) async {
+    final db = await database;
+    final List<Map<String, dynamic>> examMaps = await db.query('quizzes');
+    for (Map<String, dynamic> map in examMaps) {
+      Exam exam = utente.addExam(
+        name: map['name'],
+        description: map['description'],
+      );
+      final List<Map<String, dynamic>> maps = await db.query('quizzes');
+      for (Map<String, dynamic> map in maps) {
+        exam.addQuiz(
+            name: map['name'],
+            description: map['description'],
+            color: Color(int.parse('${map['color']}', radix: 16)));
+      }
+    }
+  }
+
   Future<int> insertQuiz(Quiz quiz) async {
     final db = await database;
     return await db.insert("quizzes", quiz.toMap());
-  }
-
-  Future getAllQuizzes() async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('quizzes');
-    List<Quiz> quizzesList = List.generate(maps.length, (i) {
-      return Quiz(
-          name: maps[i]['name'],
-          description: maps[i]['description'],
-          color: Color(int.parse('${maps[i]['color']}', radix: 16)));
-    });
   }
 
   Future<int> updateQuiz(
@@ -83,11 +103,11 @@ class QuizzesDatabase {
     await db.insert("questions", question.toMap());
   }
 
-  void getAllQuestions(Quiz quiz) async {
+  /*void getAllQuestions(Quiz quiz) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       'questions',
-      where: 'idQuiz = ?',
+      where: 'quiz = ?',
       whereArgs: [quiz.id],
     );
     List<Question> questions = maps
@@ -99,7 +119,7 @@ class QuizzesDatabase {
     for (Question question in questions) {
       quiz.addQuestion(question);
     }
-  }
+  }*/
 
   Future deleteQuestion(Question? question) async {
     final db = await database;
@@ -108,6 +128,6 @@ class QuizzesDatabase {
 
   Future deleteAllQuestionsFromQuiz(Quiz quiz) async {
     final db = await database;
-    await db.delete('questions', where: 'idQuiz = ?', whereArgs: [quiz.id]);
+    await db.delete('questions', where: 'quiz = ?', whereArgs: [quiz.id]);
   }
 }

@@ -19,11 +19,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    await QuizzesDatabase().insertQuiz(Quiz(
+    widget.exam.addQuiz(
         name: quizNameController.text,
         description: quizDescriptionController.text,
-        color: selectedColor));
-    await QuizzesDatabase().getAllQuizzes();
+        color: selectedColor);
     quizNameController.clear();
     quizDescriptionController.clear();
     setState(() {});
@@ -48,7 +47,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void openQuiz(Quiz quiz) async {
-    //QuestionsDatabase().getAllQuestions(quiz);
+    //QuizzesDatabase().getAllQuestions(quiz);
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -71,11 +70,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 selectedColor = color;
               },
               OnSalva: () async {
-                await QuizzesDatabase().updateQuiz(quizNameController.text,
+                await widget.exam.updateQuiz(quizNameController.text,
                     quizDescriptionController.text, selectedColor, quiz);
                 quizNameController.clear();
                 quizDescriptionController.clear();
-                await QuizzesDatabase().getAllQuizzes();
                 setState(() {
                   Navigator.of(context).pop();
                 });
@@ -86,7 +84,6 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
 
   void deleteQuiz(Quiz quiz) async {
     await QuizzesDatabase().deleteQuiz(quiz);
-    await QuizzesDatabase().getAllQuizzes();
     setState(() {});
   }
 
