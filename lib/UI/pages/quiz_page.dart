@@ -85,12 +85,12 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        title: Text(widget.title, style: const TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(8), //contorno intera lista
+        padding: const EdgeInsets.all(8), //contorno intera lista
         itemCount: widget.quiz.questions.length,
         itemBuilder: (context, index) {
           Question? currentQuestion = widget.quiz.getQuestion(index);
@@ -105,7 +105,7 @@ class _QuizPageState extends State<QuizPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createQuestion,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

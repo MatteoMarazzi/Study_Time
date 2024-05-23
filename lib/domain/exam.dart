@@ -39,6 +39,12 @@ class Exam {
     quizzesMap[quiz.id]!.color = color;
   }
 
+  Future deleteQuiz(Quiz quiz) async {
+    await QuizzesDatabase().deleteQuiz(quiz);
+    quizzesMap.remove(quiz.id);
+    quizzesList.remove(quiz);
+  }
+
   Quiz? getQuiz(int index) {
     if (index < 0 || index >= quizzesList.length) {
       return null;
@@ -47,8 +53,6 @@ class Exam {
   }
 
   int countQuizzes() {
-    print(quizzesMap.length);
-    print(quizzesList.length);
     return quizzesMap.length;
   }
 }

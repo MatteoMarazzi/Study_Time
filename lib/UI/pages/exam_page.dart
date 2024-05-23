@@ -17,7 +17,7 @@ class _ExamPageState extends State<ExamPage> {
       backgroundColor: const Color.fromRGBO(175, 238, 238, 1.0),
       appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          title: Text(
+          title: const Text(
             'I MIEI ESAMI',
             style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           ),
@@ -27,7 +27,7 @@ class _ExamPageState extends State<ExamPage> {
               onCalendarChanged: (_selectedCalendarValues) {},
             )
           ]),
-      body: Column(children: [
+      body: const Column(children: [
         /*Container(
             child: Lottie.asset('assets/study.json'),
           ),*/

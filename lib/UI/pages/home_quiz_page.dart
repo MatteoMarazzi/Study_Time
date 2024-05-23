@@ -2,7 +2,6 @@ import 'package:app/domain/exam.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
 import 'package:app/UI/util/add_quiz_box.dart';
-import 'package:app/databases/quizDB.dart';
 import 'package:app/UI/tiles/quiz_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -58,8 +57,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void modifyQuiz(Quiz quiz) async {
-    quizNameController.text = quiz.getName();
-    quizDescriptionController.text = quiz.getDescription();
+    quizNameController.text = quiz.name;
+    quizDescriptionController.text = quiz.description;
     await showDialog(
         context: context,
         builder: (context) {
@@ -83,7 +82,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(Quiz quiz) async {
-    await QuizzesDatabase().deleteQuiz(quiz);
+    widget.exam.deleteQuiz(quiz);
     setState(() {});
   }
 
@@ -101,9 +100,9 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         itemBuilder: (context, index) {
           Quiz? currentQuiz = widget.exam.getQuiz(index);
           return QuizTile(
-            quizName: currentQuiz!.getName(),
-            quizDescription: currentQuiz.getDescription(),
-            color: currentQuiz.getColor(),
+            quizName: currentQuiz!.name,
+            quizDescription: currentQuiz.description,
+            color: currentQuiz.color,
             OnOpenTile: () => openQuiz(currentQuiz),
             OnOpenModifica: () => modifyQuiz(currentQuiz),
             OnOpenElimina: () => deleteQuiz(currentQuiz),

@@ -18,18 +18,6 @@ class Quiz {
     return {'name': name, 'description': description, 'color': color.toHex()};
   }
 
-  String getName() {
-    return name;
-  }
-
-  String getDescription() {
-    return description;
-  }
-
-  Color getColor() {
-    return color;
-  }
-
   Question? getQuestion(int questionID) {
     return questions[questionID];
   }
