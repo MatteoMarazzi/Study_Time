@@ -8,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         Locale('ko', ''),
         Locale('hi', ''),
       ],
-      home: const MyHomePage(),
+      home: MainPage(),
       builder: (context, child) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
@@ -39,4 +39,39 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+class MainPage extends StatefulWidget {
+  @ovveride
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+int _selectIndex = 0;
+
+ final List <Widget> _pages = [ //lista pagine della bottom bar
+  MyHomePage(),
+  TomatoMethod(),
+  data_page(),
+  HomeQuizPage(),
+  Exam_page()
+ ]
+
+ void _onItemTapped(int index){
+  setState(() {
+    _selectIndex = index;
+  });
+ }
+
+@ovveride
+Widget build (BuildContext context){
+  return Scaffold(
+    body:IndexStack(
+      index: _selectIndex,
+      children: _pages,
+    ),
+    bottomNavigationBar : BottomBar(); //da modificare, manca l'aggiornamento dello stato
+  );
+}
+
+
 }

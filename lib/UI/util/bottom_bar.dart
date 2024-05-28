@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 class BottomBar extends StatelessWidget {
   static const Color colorBar = Color.fromRGBO(255, 255, 255, 0.353);
   const BottomBar({super.key});
-
+  List <widget> destinations = [MyHomePage(),TomatoMethod(),data_page(),HomeQuizPage(),Exam_page()];
   @override
   Widget build(BuildContext context) {
+
     return Container(
       decoration: BoxDecoration(
           border: Border(top: BorderSide(color: Colors.black, width: 0.5))),
