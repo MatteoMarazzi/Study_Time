@@ -1,19 +1,18 @@
 import 'dart:ui';
-
+import 'package:app/databases/QuizDB.dart';
 import 'package:app/domain/question.dart';
+import 'package:uuid/uuid.dart';
 
 class Quiz {
-  int? id; //vorrei non metterlo nullable
+  late String id;
   String name;
   String description;
   Color color;
-  Map<int, Question> questions = {};
+  Map<String, Question> questions = {};
 
-  Quiz(
-      {this.id,
-      required this.name,
-      required this.description,
-      required this.color});
+  Quiz({required this.name, required this.description, required this.color}) {
+    id = const Uuid().v4();
+  }
 
   Map<String, dynamic> toMap() {
     return {'name': name, 'description': description, 'color': color.toHex()};
@@ -23,8 +22,21 @@ class Quiz {
     return questions[questionID];
   }
 
-  void addQuestion(Question question) {
+  void addQuestion(Question question) async {
+    await QuizzesDatabase().insertQuestion(question);
     questions[question.id] = question;
+  }
+
+  void updateQuestion(String text, String answer, Question question) {
+    QuizzesDatabase().updateQuestion(text, answer, question);
+    question.text = text;
+    question.answer = answer;
+    questions[question.id] = question;
+  }
+
+  void deleteQuestion(Question question) async {
+    await QuizzesDatabase().deleteQuestion(question);
+    questions.remove(question.id);
   }
 }
 

@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.2.2
   lottie: ^2.6.0                    #per pulsanti animati
   calendar_date_picker2: ^0.5.3     #per calendari sofisticati
+  uuid: ^3.0.4
   flutter_localizations:
     sdk: flutter
 
