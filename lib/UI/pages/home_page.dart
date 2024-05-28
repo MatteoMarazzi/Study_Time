@@ -5,7 +5,7 @@ import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
 import 'package:app/UI/tiles/home_tile.dart';
 import 'package:app/databases/QuizDB.dart';
-import 'package:app/domain/controller.dart';
+import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -15,11 +15,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Controller controller = Controller();
+  final Utente utente = Utente();
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    QuizzesDatabase().mountDatabase(controller.utente);
+    await QuizzesDatabase().getAllQuizzes(utente);
   }
 
   @override
@@ -114,11 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             shadow_color: Colors.white,
             backgroundColor: Color.fromARGB(98, 255, 235, 59),
             boxTitle: "QUIZ",
-            destinationPage: HomeQuizPage(
-              exam: controller.utente.addExam(
-                  name: 'name',
-                  description: 'description'), //prova per capire se funziona
-            ),
+            destinationPage: HomeQuizPage(utente: utente),
             pathImage: 'assets/quiz_1.png',
             heightImage: 130,
             weightImage: 250,

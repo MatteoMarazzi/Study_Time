@@ -1,4 +1,3 @@
-import 'package:app/domain/exam.dart';
 import 'package:app/domain/question.dart';
 import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
@@ -23,20 +22,11 @@ class QuizzesDatabase {
 
   Future _createDB(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE exams(
-      id TEXT PRIMARY KEY,
-      name TEXT,
-      description TEXT
-    )
-    ''');
-    await db.execute('''
     CREATE TABLE quizzes(
       id TEXT PRIMARY KEY,
-      exam TEXT,
       name TEXT,
       description TEXT,
       color TEXT,
-      FOREIGN KEY (exam) REFERENCES exams(id)
     )
     ''');
     await db.execute('''
@@ -50,21 +40,14 @@ class QuizzesDatabase {
     ''');
   }
 
-  Future mountDatabase(Utente utente) async {
+  Future getAllQuizzes(Utente utente) async {
     final db = await database;
-    final List<Map<String, dynamic>> examMaps = await db.query('quizzes');
-    for (Map<String, dynamic> map in examMaps) {
-      Exam exam = utente.addExam(
-        name: map['name'],
-        description: map['description'],
-      );
-      final List<Map<String, dynamic>> maps = await db.query('quizzes');
-      for (Map<String, dynamic> map in maps) {
-        exam.addQuiz(
-            name: map['name'],
-            description: map['description'],
-            color: Color(int.parse('${map['color']}', radix: 16)));
-      }
+    final List<Map<String, dynamic>> quizMaps = await db.query('quizzes');
+    for (Map<String, dynamic> map in quizMaps) {
+      utente.addQuiz(
+          name: map['name'],
+          description: map['description'],
+          color: map['color']);
     }
   }
 

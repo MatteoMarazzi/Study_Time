@@ -1,13 +1,13 @@
-import 'package:app/domain/exam.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
 import 'package:app/UI/util/add_quiz_box.dart';
 import 'package:app/UI/tiles/quiz_tile.dart';
+import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class HomeQuizPage extends StatefulWidget {
-  const HomeQuizPage({super.key, required this.exam});
-  final Exam exam;
+  const HomeQuizPage({super.key, required this.utente});
+  final Utente utente;
   @override
   State<HomeQuizPage> createState() => _HomeQuizPageState();
 }
@@ -18,7 +18,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    widget.exam.addQuiz(
+    widget.utente.addQuiz(
         name: quizNameController.text,
         description: quizDescriptionController.text,
         color: selectedColor);
@@ -69,7 +69,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 selectedColor = color;
               },
               OnSalva: () async {
-                await widget.exam.updateQuiz(quizNameController.text,
+                await widget.utente.updateQuiz(quizNameController.text,
                     quizDescriptionController.text, selectedColor, quiz);
                 quizNameController.clear();
                 quizDescriptionController.clear();
@@ -82,7 +82,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(Quiz quiz) async {
-    widget.exam.deleteQuiz(quiz);
+    widget.utente.deleteQuiz(quiz);
     setState(() {});
   }
 
@@ -96,9 +96,9 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-        itemCount: widget.exam.countQuizzes(),
+        itemCount: widget.utente.countQuizzes(),
         itemBuilder: (context, index) {
-          Quiz? currentQuiz = widget.exam.getQuiz(index);
+          Quiz? currentQuiz = widget.utente.getQuiz(index);
           return QuizTile(
             quizName: currentQuiz!.name,
             quizDescription: currentQuiz.description,
