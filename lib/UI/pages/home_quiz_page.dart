@@ -6,8 +6,8 @@ import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class HomeQuizPage extends StatefulWidget {
-  const HomeQuizPage({super.key, required this.utente});
-  final Utente utente;
+  HomeQuizPage({super.key});
+  final Utente utente = Utente();
   @override
   State<HomeQuizPage> createState() => _HomeQuizPageState();
 }

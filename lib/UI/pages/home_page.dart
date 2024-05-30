@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
             shadow_color: Colors.white,
             backgroundColor: Color.fromARGB(98, 255, 235, 59),
             boxTitle: "QUIZ",
-            destinationPage: HomeQuizPage(utente: Utente()),
+            destinationPage: HomeQuizPage(),
             pathImage: 'assets/quiz_1.png',
             heightImage: 130,
             weightImage: 250,

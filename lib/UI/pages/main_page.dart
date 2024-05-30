@@ -18,7 +18,7 @@ class _MainPageState extends State<MainPage> {
     MyHomePage(),
     TomatoMethod(),
     data_page(),
-    HomeQuizPage(utente: Utente()),
+    HomeQuizPage(),
     Exam_page(),
   ];
 
