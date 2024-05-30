@@ -1,13 +1,21 @@
 import 'dart:ui';
-
 import 'package:app/databases/QuizDB.dart';
 import 'package:app/domain/quiz.dart';
 
 class Utente {
+  static final Utente _instance = Utente._internal();
   final Map<String, Quiz> quizzesMap = {};
   final List<Quiz> quizzesList = [];
 
-  Utente();
+  factory Utente() {
+    return _instance;
+  }
+
+  Utente._internal();
+
+  Future mountDatabase() async {
+    await QuizzesDatabase().getAllQuizzes(this);
+  }
 
   Future addQuiz({required name, required description, required color}) async {
     Quiz newQuiz = Quiz(name: name, description: description, color: color);

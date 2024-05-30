@@ -3,6 +3,7 @@ import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
+import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _MainPageState extends State<MainPage> {
     MyHomePage(),
     TomatoMethod(),
     data_page(),
-    HomeQuizPage(),
+    HomeQuizPage(utente: Utente()),
     Exam_page(),
   ];
 
