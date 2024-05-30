@@ -1,4 +1,3 @@
-import 'package:app/UI/util/bottom_bar.dart';
 import 'package:app/UI/pages/timer.dart';
 import 'package:app/UI/pages/study_session.dart';
 import 'package:app/UI/pages/timer_page.dart';
@@ -246,7 +245,6 @@ class _TomatoMethodState extends State<TomatoMethod> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomBar(),
     );
   }
 }

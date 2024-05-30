@@ -1,4 +1,3 @@
-import 'package:app/UI/util/bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class data_page extends StatefulWidget {
@@ -36,9 +35,12 @@ class _data_pageState extends State<data_page> {
                     //decoration: TextDecoration.underline,
                     decorationThickness: 1),
               ),
+              SizedBox(
+                height: 25,
+              ),
               Container(
                 width: screenSize.width * 0.8,
-                height: screenSize.height * 0.1,
+                height: screenSize.height * 0.11,
                 decoration: BoxDecoration(
                   boxShadow: const [
                     BoxShadow(
@@ -71,6 +73,9 @@ class _data_pageState extends State<data_page> {
                         'Corrette/Sbagliate : 1,2',
                         style: TextStyle(fontSize: 15),
                       ),
+                      SizedBox(
+                        height: 15,
+                      )
                     ],
                   ),
                 ),
@@ -194,7 +199,6 @@ class _data_pageState extends State<data_page> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomBar(),
     );
   }
 }

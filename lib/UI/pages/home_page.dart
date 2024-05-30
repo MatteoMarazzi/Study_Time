@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:app/databases/quizDB.dart';
-import 'package:app/UI/util/bottom_bar.dart';
 import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
@@ -141,7 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // ),
         ],
       ))),
-      bottomNavigationBar: BottomBar(),
     );
   }
 }

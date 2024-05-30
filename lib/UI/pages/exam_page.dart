@@ -1,6 +1,5 @@
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/tiles/quiz_tile.dart';
-import 'package:app/UI/util/bottom_bar.dart';
 import 'package:app/UI/util/calendar.dart';
 import 'package:app/UI/tiles/home_tile.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,6 @@ class _Exam_pageState extends State<Exam_page> {
             child: Lottie.asset('assets/study.json'),
           ),*/
       ]),
-      bottomNavigationBar: BottomBar(),
     );
   }
 }
