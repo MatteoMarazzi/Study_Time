@@ -44,16 +44,18 @@ class QuizzesDatabase {
     final db = await database;
     final List<Map<String, dynamic>> quizMaps = await db.query('quizzes');
     for (Map<String, dynamic> map in quizMaps) {
-      utente.addQuiz(
+      Quiz quiz = Quiz(
+          id: map['id'],
           name: map['name'],
           description: map['description'],
           color: map['color']);
+      utente.mountQuiz(quiz);
     }
   }
 
-  Future<int> insertQuiz(Map<String, dynamic> quiz) async {
+  Future<int> insertQuiz(Quiz quiz) async {
     final db = await database;
-    return await db.insert("quizzes", quiz);
+    return await db.insert("quizzes", quiz.toMap());
   }
 
   Future<int> updateQuiz(

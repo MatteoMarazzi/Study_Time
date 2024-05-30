@@ -4,13 +4,14 @@ import 'package:app/domain/question.dart';
 import 'package:uuid/uuid.dart';
 
 class Quiz {
-  late int id;
+  int id;
   String name;
   String description;
   Color color;
   Map<String, Question> questions = {};
 
   Quiz({
+    required this.id,
     required this.name,
     required this.description,
     required this.color,

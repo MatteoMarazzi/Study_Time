@@ -17,15 +17,12 @@ class Utente {
     await QuizzesDatabase().getAllQuizzes(this);
   }
 
-  //aggiunta di un nuovo quiz non presente nel database
-  Future addQuiz({required name, required description, required color}) async {
-    Quiz newQuiz = Quiz(name: name, description: description, color: color);
-    if (quizzesMap.containsKey(newQuiz.id)) {
-      throw Exception('Quiz with ID ${newQuiz.id} already exists');
-    }
-    quizzesMap[newQuiz.id] = newQuiz;
-    quizzesList.add(newQuiz);
-    await QuizzesDatabase().insertQuiz(newQuiz.toMap());
+  //aggiunta di un nuovo quiz non presente nel database DA FARE
+  Future addQuiz({required name, required description, required color}) async {}
+
+  mountQuiz(quiz) {
+    quizzesMap[quiz.id] = quiz;
+    quizzesList.add(quiz);
   }
 
   void removeQuiz(String id) {
