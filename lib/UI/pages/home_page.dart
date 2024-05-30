@@ -1,30 +1,32 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:app/UI/util/bottom_bar.dart';
+import 'package:app/databases/quizDB.dart';
 import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
 import 'package:app/UI/tiles/home_tile.dart';
-import 'package:app/databases/QuizDB.dart';
-import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({
+    super.key,
+  });
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Utente utente = Utente();
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    await QuizzesDatabase().getAllQuizzes(utente);
+    QuizzesDatabase quizzesDatabase = QuizzesDatabase();
+    quizzesDatabase.getAllQuizzes();
   }
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
 /*        appBar: AppBar(
@@ -114,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
             shadow_color: Colors.white,
             backgroundColor: Color.fromARGB(98, 255, 235, 59),
             boxTitle: "QUIZ",
-            destinationPage: HomeQuizPage(utente: utente),
+            destinationPage: HomeQuizPage(),
             pathImage: 'assets/quiz_1.png',
             heightImage: 130,
             weightImage: 250,
@@ -128,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
             shadow_color: Color.fromARGB(255, 255, 255, 255),
             backgroundColor: Color.fromARGB(99, 39, 199, 74),
             boxTitle: "ESAMI",
-            destinationPage: ExamPage(),
+            destinationPage: Exam_page(),
             pathImage: 'assets/exam_1.png',
             heightImage: 130,
             weightImage: 250,
@@ -138,7 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // ),
         ],
       ))),
-      bottomNavigationBar: BottomBar(),
     );
   }
 }
