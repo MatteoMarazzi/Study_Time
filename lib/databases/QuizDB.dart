@@ -23,7 +23,7 @@ class QuizzesDatabase {
   Future _createDB(Database db, int version) async {
     await db.execute('''
     CREATE TABLE quizzes(
-      id TEXT PRIMARY KEY,
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
       description TEXT,
       color TEXT,
@@ -31,7 +31,7 @@ class QuizzesDatabase {
     ''');
     await db.execute('''
     CREATE TABLE questions(
-      id INTEGER PRIMARY KEY,
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       quiz TEXT,
       text TEXT,
       answer TEXT,
@@ -51,9 +51,9 @@ class QuizzesDatabase {
     }
   }
 
-  Future<int> insertQuiz(Quiz quiz) async {
+  Future<int> insertQuiz(Map<String, dynamic> quiz) async {
     final db = await database;
-    return await db.insert("quizzes", quiz.toMap());
+    return await db.insert("quizzes", quiz);
   }
 
   Future<int> updateQuiz(

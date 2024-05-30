@@ -4,7 +4,7 @@ import 'package:app/domain/quiz.dart';
 
 class Utente {
   static final Utente _instance = Utente._internal();
-  final Map<String, Quiz> quizzesMap = {};
+  final Map<int, Quiz> quizzesMap = {};
   final List<Quiz> quizzesList = [];
 
   factory Utente() {
@@ -17,6 +17,7 @@ class Utente {
     await QuizzesDatabase().getAllQuizzes(this);
   }
 
+  //aggiunta di un nuovo quiz non presente nel database
   Future addQuiz({required name, required description, required color}) async {
     Quiz newQuiz = Quiz(name: name, description: description, color: color);
     if (quizzesMap.containsKey(newQuiz.id)) {
@@ -24,7 +25,7 @@ class Utente {
     }
     quizzesMap[newQuiz.id] = newQuiz;
     quizzesList.add(newQuiz);
-    await QuizzesDatabase().insertQuiz(newQuiz);
+    await QuizzesDatabase().insertQuiz(newQuiz.toMap());
   }
 
   void removeQuiz(String id) {
