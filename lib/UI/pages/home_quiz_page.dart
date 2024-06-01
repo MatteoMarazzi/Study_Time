@@ -18,13 +18,14 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    widget.utente.addQuiz(
-        name: quizNameController.text,
-        description: quizDescriptionController.text,
-        color: selectedColor);
+    setState(() {
+      widget.utente.addQuiz(
+          name: quizNameController.text,
+          description: quizDescriptionController.text,
+          color: selectedColor);
+    });
     quizNameController.clear();
     quizDescriptionController.clear();
-    setState(() {});
     if (!mounted) return;
     Navigator.of(context).pop();
   }

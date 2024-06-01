@@ -40,22 +40,26 @@ class QuizzesDatabase {
     ''');
   }
 
-  Future getAllQuizzes(Utente utente) async {
+  Future<Iterable<Quiz>> getAllQuizzes(Utente utente) async {
     final db = await database;
+    List<Quiz> quizList = [];
     final List<Map<String, dynamic>> quizMaps = await db.query('quizzes');
     for (Map<String, dynamic> map in quizMaps) {
-      Quiz quiz = Quiz(
-          id: map['id'],
-          name: map['name'],
-          description: map['description'],
-          color: map['color']);
-      utente.mountQuiz(quiz);
+      quizList = List<Quiz>.generate(
+          quizMaps.length,
+          (index) => Quiz(
+              id: map['id'],
+              name: map['name'],
+              description: map['description'],
+              color: map['color']));
     }
+    return quizList;
   }
 
   Future<int> insertQuiz(Quiz quiz) async {
     final db = await database;
-    return await db.insert("quizzes", quiz.toMap());
+    final id = await db.insert("quizzes", quiz.toMap());
+    return await id;
   }
 
   Future<int> updateQuiz(

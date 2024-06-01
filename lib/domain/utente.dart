@@ -4,7 +4,7 @@ import 'package:app/domain/quiz.dart';
 
 class Utente {
   static final Utente _instance = Utente._internal();
-  final Map<int, Quiz> quizzesMap = {};
+  Map<int, Quiz> quizzesMap = {};
   final List<Quiz> quizzesList = [];
 
   factory Utente() {
@@ -14,30 +14,35 @@ class Utente {
   Utente._internal();
 
   Future mountDatabase() async {
-    await QuizzesDatabase().getAllQuizzes(this);
+    quizzesList.addAll(QuizzesDatabase().getAllQuizzes(this) as Iterable<Quiz>);
+    quizzesMap = {for (var quiz in quizzesList) quiz.id: quiz};
   }
 
-  //aggiunta di un nuovo quiz non presente nel database DA FARE
-  Future addQuiz({required name, required description, required color}) async {}
-
-  mountQuiz(quiz) {
-    quizzesMap[quiz.id] = quiz;
-    quizzesList.add(quiz);
-  }
-
-  void removeQuiz(String id) {
-    final quiz = quizzesMap.remove(id);
-    if (quiz != null) {
-      quizzesList.remove(quiz);
-    }
+  //aggiunta di un nuovo quiz non presente nel database
+  Future addQuiz({required name, required description, required color}) async {
+    Quiz quiz = Quiz(id: 0, name: name, description: description, color: color);
+    int genereatedId = await QuizzesDatabase().insertQuiz(quiz);
+    Quiz newQuiz = Quiz(
+        id: genereatedId, name: name, description: description, color: color);
+    quizzesList.add(newQuiz);
+    quizzesMap[newQuiz.id] = newQuiz;
   }
 
   Future updateQuiz(
-      String name, String description, Color color, Quiz quiz) async {
-    await QuizzesDatabase().updateQuiz(name, description, color, quiz);
-    quizzesMap[quiz.id]!.name = name;
-    quizzesMap[quiz.id]!.description = description;
-    quizzesMap[quiz.id]!.color = color;
+      String newName, String newDescription, Color newColor, Quiz quiz) async {
+    await QuizzesDatabase().updateQuiz(newName, newDescription, newColor, quiz);
+    Quiz updatedQuiz = Quiz(
+        id: quiz.id,
+        name: newName,
+        description: newDescription,
+        color: newColor);
+    quizzesMap[quiz.id] = updatedQuiz;
+    for (int i = 0; i < quizzesList.length; i++) {
+      if (quizzesList[i].id == quiz.id) {
+        quizzesList[i] = updatedQuiz;
+        break;
+      }
+    }
   }
 
   Future deleteQuiz(Quiz quiz) async {
@@ -54,6 +59,6 @@ class Utente {
   }
 
   int countQuizzes() {
-    return quizzesMap.length;
+    return quizzesList.length;
   }
 }
