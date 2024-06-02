@@ -20,8 +20,8 @@ class Utente {
 
   //aggiunta di un nuovo quiz non presente nel database
   Future addQuiz({required name, required description, required color}) async {
-    Quiz quiz = Quiz(id: 0, name: name, description: description, color: color);
-    int genereatedId = await QuizzesDatabase().insertQuiz(quiz);
+    Quiz temp = Quiz(id: 0, name: name, description: description, color: color);
+    int genereatedId = await QuizzesDatabase().insertQuiz(temp);
     Quiz newQuiz = Quiz(
         id: genereatedId, name: name, description: description, color: color);
     quizzesList.add(newQuiz);

@@ -21,10 +21,10 @@ class _QuizPageState extends State<QuizPage> {
   //List<Question>? questionsList;
 
   void saveQuestion() async {
-    widget.quiz.addQuestion(Question(
+    widget.quiz.addQuestion(
       text: questionTextController.text,
       answer: answerTextController.text,
-    ));
+    );
     //QuizzesDatabase().getAllQuestions(widget.quiz);
     questionTextController.clear();
     answerTextController.clear();
@@ -91,7 +91,7 @@ class _QuizPageState extends State<QuizPage> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8), //contorno intera lista
-        itemCount: widget.quiz.questions.length,
+        itemCount: widget.quiz.questionsMap.length,
         itemBuilder: (context, index) {
           Question? currentQuestion = widget.quiz.getQuestion(index);
           return QuestionTile(

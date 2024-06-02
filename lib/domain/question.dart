@@ -1,16 +1,19 @@
-import 'package:uuid/uuid.dart';
+import 'package:app/domain/quiz.dart';
 
 class Question {
-  late String id;
-  String text;
-  String answer;
+  final Quiz quiz;
+  final int id;
+  final String text;
+  final String answer;
 
-  Question({required this.text, required this.answer}) {
-    id = const Uuid().v4();
-  }
+  Question(
+      {required this.text,
+      required this.answer,
+      required this.id,
+      required this.quiz});
 
   Map<String, dynamic> toMap() {
-    return {'text': text, 'answer': answer};
+    return {'text': text, 'answer': answer, 'quiz': quiz.id};
   }
 
   String getText() {

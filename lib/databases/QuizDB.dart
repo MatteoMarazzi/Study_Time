@@ -87,7 +87,8 @@ class QuizzesDatabase {
 
   Future insertQuestion(Question question) async {
     final db = await database;
-    await db.insert("questions", question.toMap());
+    final id = db.insert("questions", question.toMap());
+    return await id;
   }
 
   /*void getAllQuestions(Quiz quiz) async {

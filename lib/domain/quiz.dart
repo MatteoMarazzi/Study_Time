@@ -4,11 +4,12 @@ import 'package:app/domain/question.dart';
 import 'package:uuid/uuid.dart';
 
 class Quiz {
-  int id;
-  String name;
-  String description;
-  Color color;
-  Map<String, Question> questions = {};
+  final int id;
+  final String name;
+  final String description;
+  final Color color;
+  final Map<int, Question> questionsMap = {};
+  final List<Question> questionsList = [];
 
   Quiz({
     required this.id,
@@ -22,24 +23,35 @@ class Quiz {
   }
 
   Question? getQuestion(int questionID) {
-    return questions[questionID];
+    return questionsMap[questionID];
   }
 
-  void addQuestion(Question question) async {
-    await QuizzesDatabase().insertQuestion(question);
-    questions[question.id] = question;
+  void addQuestion({required text, required answer}) async {
+    Question temp = Question(id: 0, text: name, answer: answer, quiz: this);
+    int genereatedId = await QuizzesDatabase().insertQuestion(temp);
+    Question newQuestion =
+        Question(id: genereatedId, text: name, answer: answer, quiz: this);
+    questionsList.add(newQuestion);
+    questionsMap[newQuestion.id] = newQuestion;
   }
 
-  void updateQuestion(String text, String answer, Question question) {
-    QuizzesDatabase().updateQuestion(text, answer, question);
-    question.text = text;
-    question.answer = answer;
-    questions[question.id] = question;
+  void updateQuestion(String newText, String newAnswer, Question question) {
+    QuizzesDatabase().updateQuestion(newText, newAnswer, question);
+    Question updatedQuestion =
+        Question(text: newText, answer: newAnswer, id: question.id, quiz: this);
+    questionsMap[question.id] = updatedQuestion;
+    for (int i = 0; i < questionsList.length; i++) {
+      if (questionsList[i].id == question.id) {
+        questionsList[i] = updatedQuestion;
+        break;
+      }
+    }
   }
 
   void deleteQuestion(Question question) async {
     await QuizzesDatabase().deleteQuestion(question);
-    questions.remove(question.id);
+    questionsMap.remove(question.id);
+    questionsList.remove(question);
   }
 }
 
