@@ -18,12 +18,11 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    setState(() {
-      widget.utente.addQuiz(
-          name: quizNameController.text,
-          description: quizDescriptionController.text,
-          color: selectedColor);
-    });
+    await widget.utente.addQuiz(
+        name: quizNameController.text,
+        description: quizDescriptionController.text,
+        color: selectedColor);
+    setState(() {});
     quizNameController.clear();
     quizDescriptionController.clear();
     if (!mounted) return;
@@ -100,6 +99,9 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         itemCount: widget.utente.countQuizzes(),
         itemBuilder: (context, index) {
           Quiz? currentQuiz = widget.utente.getQuiz(index);
+          print("indice: $index");
+          print("numero elementi:  ${widget.utente.countQuizzes()}");
+          //print("elemento lista: ${}");
           return QuizTile(
             quizName: currentQuiz!.name,
             quizDescription: currentQuiz.description,

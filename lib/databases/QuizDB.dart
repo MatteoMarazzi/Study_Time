@@ -24,35 +24,33 @@ class QuizzesDatabase {
     await db.execute('''
     CREATE TABLE quizzes(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,
+      name TEXT NOT NULL,
       description TEXT,
-      color TEXT,
+      color TEXT
     )
-    ''');
+  ''');
     await db.execute('''
     CREATE TABLE questions(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      quiz TEXT,
-      text TEXT,
+      quiz INTEGER NOT NULL,
+      text TEXT NOT NULL,
       answer TEXT,
       FOREIGN KEY (quiz) REFERENCES quizzes(id)
     )
-    ''');
+  ''');
   }
 
   Future<Iterable<Quiz>> getAllQuizzes(Utente utente) async {
     final db = await database;
-    List<Quiz> quizList = [];
     final List<Map<String, dynamic>> quizMaps = await db.query('quizzes');
-    for (Map<String, dynamic> map in quizMaps) {
-      quizList = List<Quiz>.generate(
-          quizMaps.length,
-          (index) => Quiz(
-              id: map['id'],
-              name: map['name'],
-              description: map['description'],
-              color: map['color']));
-    }
+    final Iterable<Quiz> quizList = quizMaps.map((quizMap) {
+      return Quiz(
+        id: quizMap['id'],
+        name: quizMap['name'],
+        description: quizMap['description'],
+        color: Color(int.parse(quizMap['color'], radix: 16)),
+      );
+    });
     return quizList;
   }
 

@@ -14,7 +14,7 @@ class Utente {
   Utente._internal();
 
   Future mountDatabase() async {
-    quizzesList.addAll(QuizzesDatabase().getAllQuizzes(this) as Iterable<Quiz>);
+    quizzesList.addAll(await QuizzesDatabase().getAllQuizzes(this));
     quizzesMap = {for (var quiz in quizzesList) quiz.id: quiz};
   }
 
