@@ -46,7 +46,6 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void openQuiz(Quiz quiz) async {
-    //QuizzesDatabase().getAllQuestions(quiz);
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -99,9 +98,6 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         itemCount: widget.utente.countQuizzes(),
         itemBuilder: (context, index) {
           Quiz? currentQuiz = widget.utente.getQuiz(index);
-          print("indice: $index");
-          print("numero elementi:  ${widget.utente.countQuizzes()}");
-          //print("elemento lista: ${}");
           return QuizTile(
             quizName: currentQuiz!.name,
             quizDescription: currentQuiz.description,

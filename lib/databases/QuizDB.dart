@@ -54,6 +54,23 @@ class QuizzesDatabase {
     return quizList;
   }
 
+  Future<Iterable<Question>> getAllQuestions(Quiz quiz) async {
+    final db = await database;
+    final List<Map<String, dynamic>> questionsMaps = await db.query(
+      'questions',
+      where: 'quiz = ?',
+      whereArgs: [quiz.id],
+    );
+    final Iterable<Question> questionsList = questionsMaps.map((questionMap) {
+      return Question(
+          id: questionMap['id'],
+          text: questionMap['text'],
+          answer: questionMap['answer'],
+          quiz: quiz);
+    });
+    return questionsList;
+  }
+
   Future<int> insertQuiz(Quiz quiz) async {
     final db = await database;
     final id = await db.insert("quizzes", quiz.toMap());
@@ -90,24 +107,6 @@ class QuizzesDatabase {
     final id = db.insert("questions", question.toMap());
     return await id;
   }
-
-  /*void getAllQuestions(Quiz quiz) async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'questions',
-      where: 'quiz = ?',
-      whereArgs: [quiz.id],
-    );
-    List<Question> questions = maps
-        .map((map) => Question(
-              text: map['text'],
-              answer: map['answer'],
-            ))
-        .toList();
-    for (Question question in questions) {
-      quiz.addQuestion(question);
-    }
-  }*/
 
   Future deleteQuestion(Question? question) async {
     final db = await database;

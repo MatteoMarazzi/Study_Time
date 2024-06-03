@@ -8,7 +8,7 @@ class Quiz {
   final String name;
   final String description;
   final Color color;
-  final Map<int, Question> questionsMap = {};
+  Map<int, Question> questionsMap = {};
   final List<Question> questionsList = [];
 
   Quiz({
@@ -22,15 +22,23 @@ class Quiz {
     return {'name': name, 'description': description, 'color': color.toHex()};
   }
 
-  Question? getQuestion(int questionID) {
-    return questionsMap[questionID];
+  Future mountDatabase() async {
+    questionsList.addAll(await QuizzesDatabase().getAllQuestions(this));
+    questionsMap = {for (var question in questionsList) question.id: question};
+  }
+
+  Question? getQuestion(int index) {
+    if (index < 0 || index >= questionsList.length) {
+      return null;
+    }
+    return questionsList[index];
   }
 
   void addQuestion({required text, required answer}) async {
-    Question temp = Question(id: 0, text: name, answer: answer, quiz: this);
+    Question temp = Question(id: 0, text: text, answer: answer, quiz: this);
     int genereatedId = await QuizzesDatabase().insertQuestion(temp);
     Question newQuestion =
-        Question(id: genereatedId, text: name, answer: answer, quiz: this);
+        Question(id: genereatedId, text: text, answer: answer, quiz: this);
     questionsList.add(newQuestion);
     questionsMap[newQuestion.id] = newQuestion;
   }

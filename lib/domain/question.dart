@@ -15,12 +15,4 @@ class Question {
   Map<String, dynamic> toMap() {
     return {'text': text, 'answer': answer, 'quiz': quiz.id};
   }
-
-  String getText() {
-    return text;
-  }
-
-  String getAnswer() {
-    return answer;
-  }
 }

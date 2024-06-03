@@ -10,6 +10,7 @@ class QuizPage extends StatefulWidget {
 
   final String title;
   Quiz quiz;
+  //QuizzesDatabase().getAllQuestions(widget.quiz);
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -18,14 +19,12 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   final questionTextController = TextEditingController();
   final answerTextController = TextEditingController();
-  //List<Question>? questionsList;
 
   void saveQuestion() async {
     widget.quiz.addQuestion(
       text: questionTextController.text,
       answer: answerTextController.text,
     );
-    //QuizzesDatabase().getAllQuestions(widget.quiz);
     questionTextController.clear();
     answerTextController.clear();
     setState(() {});
@@ -48,7 +47,6 @@ class _QuizPageState extends State<QuizPage> {
 
   deleteQuestion(Question questionToDelete) {
     widget.quiz.deleteQuestion(questionToDelete);
-    //QuizzesDatabase().getAllQuestions(widget.quiz);
     setState(() {});
   }
 
@@ -68,7 +66,6 @@ class _QuizPageState extends State<QuizPage> {
                     questionToModify);
                 questionTextController.clear();
                 answerTextController.clear();
-                //QuizzesDatabase().getAllQuestions(widget.quiz);
                 setState(() {
                   Navigator.of(context).pop();
                 });
@@ -91,12 +88,12 @@ class _QuizPageState extends State<QuizPage> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8), //contorno intera lista
-        itemCount: widget.quiz.questionsMap.length,
+        itemCount: widget.quiz.questionsList.length,
         itemBuilder: (context, index) {
-          Question? currentQuestion = widget.quiz.getQuestion(index);
+          Question? currentQuestion = widget.quiz.questionsList[index];
           return QuestionTile(
-            questionText: currentQuestion!.getText(),
-            answer: currentQuestion.getAnswer(),
+            questionText: currentQuestion!.text,
+            answer: currentQuestion.answer,
             OnOpenTile: () => openQuestion(index),
             OnOpenElimina: () => deleteQuestion(currentQuestion),
             OnOpenModifica: () => modifyQuestion(currentQuestion),

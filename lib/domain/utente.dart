@@ -16,6 +16,9 @@ class Utente {
   Future mountDatabase() async {
     quizzesList.addAll(await QuizzesDatabase().getAllQuizzes(this));
     quizzesMap = {for (var quiz in quizzesList) quiz.id: quiz};
+    for (Quiz q in quizzesList) {
+      q.mountDatabase();
+    }
   }
 
   //aggiunta di un nuovo quiz non presente nel database
