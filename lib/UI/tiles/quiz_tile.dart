@@ -5,17 +5,17 @@ class QuizTile extends StatelessWidget {
   final String quizName;
   final String quizDescription;
   Color color;
-  VoidCallback OnOpenTile;
-  VoidCallback OnOpenModifica;
-  VoidCallback OnOpenElimina;
+  VoidCallback onOpenTile;
+  VoidCallback onOpenModifica;
+  VoidCallback onOpenElimina;
   QuizTile(
       {super.key,
       required this.quizName,
       required this.quizDescription,
       required this.color,
-      required this.OnOpenTile,
-      required this.OnOpenModifica,
-      required this.OnOpenElimina});
+      required this.onOpenTile,
+      required this.onOpenModifica,
+      required this.onOpenElimina});
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +32,13 @@ class QuizTile extends StatelessWidget {
           ),
           child: Center(
             child: ListTile(
-              onTap: OnOpenTile,
+              onTap: onOpenTile,
               title: Row(
                 //attualmente inutilizzata, ma si vorrebbe aggiungere il numero di domande per quiz
                 children: [
                   Text(
                     quizName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -48,23 +48,25 @@ class QuizTile extends StatelessWidget {
               ),
               subtitle: Text(
                 quizDescription,
-                strutStyle: StrutStyle(
+                strutStyle: const StrutStyle(
                   height: 1.5,
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
                   fontWeight: FontWeight.w300,
                 ),
               ),
               trailing: PopupMenuButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.more_vert_rounded,
                   color: Colors.black,
                 ),
                 itemBuilder: (BuildContext context) => [
-                  PopupMenuItem(onTap: OnOpenModifica, child: Text('modifica')),
-                  PopupMenuItem(onTap: OnOpenElimina, child: Text('elimina'))
+                  PopupMenuItem(
+                      onTap: onOpenModifica, child: const Text('modifica')),
+                  PopupMenuItem(
+                      onTap: onOpenElimina, child: const Text('elimina'))
                 ],
               ),
             ),

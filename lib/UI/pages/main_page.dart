@@ -3,10 +3,11 @@ import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
-import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -15,11 +16,11 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    MyHomePage(),
-    TomatoMethod(),
-    data_page(),
+    const MyHomePage(),
+    const TomatoMethod(),
+    const DataPage(),
     HomeQuizPage(),
-    Exam_page(),
+    const ExamPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -36,7 +37,7 @@ class _MainPageState extends State<MainPage> {
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromRGBO(255, 255, 255, 0.353),
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 0.353),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(

@@ -1,36 +1,32 @@
-import 'package:app/UI/pages/home_quiz_page.dart';
-import 'package:app/UI/tiles/quiz_tile.dart';
 import 'package:app/UI/util/calendar.dart';
-import 'package:app/UI/tiles/home_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
-class Exam_page extends StatefulWidget {
-  const Exam_page({super.key});
+class ExamPage extends StatefulWidget {
+  const ExamPage({super.key});
 
   @override
-  State<Exam_page> createState() => _Exam_pageState();
+  State<ExamPage> createState() => _ExamPageState();
 }
 
-class _Exam_pageState extends State<Exam_page> {
-  List<DateTime?> _selectedCalendarValues = [];
+class _ExamPageState extends State<ExamPage> {
+  //List<DateTime?> _selectedCalendarValues = [];
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(175, 238, 238, 1.0),
       appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          title: Text(
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          title: const Text(
             'I MIEI ESAMI',
             style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
           ),
           centerTitle: true,
           actions: [
             CalendarWidget(
-              onCalendarChanged: (_selectedCalendarValues) {},
+              onCalendarChanged: (selectedCalendarValues) {},
             )
           ]),
-      body: Column(children: [
+      body: const Column(children: [
         /*Container(
             child: Lottie.asset('assets/study.json'),
           ),*/

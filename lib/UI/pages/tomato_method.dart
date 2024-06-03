@@ -1,6 +1,4 @@
-import 'package:app/UI/pages/timer.dart';
 import 'package:app/UI/pages/study_session.dart';
-import 'package:app/UI/pages/timer_page.dart';
 import 'package:app/UI/tiles/session_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +12,9 @@ class TomatoMethod extends StatefulWidget {
 class _TomatoMethodState extends State<TomatoMethod> {
   DateTime deadline = DateTime.now();
   int counter = 0; //dovrà diventare il numero di volte * 2 (sessione)
-  int mex_adv = 0;
-  final int study_time = 10;
-  final int pause_time = 5;
+  int mexAdv = 0;
+  final int studyTime = 10;
+  final int pauseTime = 5;
   late bool isTimerActive = false;
   String mex = 'ATTIVA UNA SESSIONE';
   String mex1 = '';
@@ -26,11 +24,11 @@ class _TomatoMethodState extends State<TomatoMethod> {
       if (counter % 2 == 1) {
         mex = 'SESSIONE ATTIVA ';
         mex1 = '(STUDIO)';
-        deadline = deadline.add(Duration(minutes: study_time));
+        deadline = deadline.add(Duration(minutes: studyTime));
       } else {
         mex = 'SESSIONE ATTIVA';
         mex1 = '(PAUSA)';
-        deadline = deadline.add(Duration(minutes: pause_time));
+        deadline = deadline.add(Duration(minutes: pauseTime));
       }
     }
   }
@@ -139,10 +137,10 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   ),
                 ),
               ),*/
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'SESSIONI DI STUDIO',
                 style: TextStyle(
                     fontSize: 25,
@@ -155,9 +153,9 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => studySession(
-                              studio: study_time,
-                              pausa: pause_time,
+                        builder: (context) => StudySession(
+                              studio: studyTime,
+                              pausa: pauseTime,
                               volte: 4,
                               canModifyValues: false,
                               onTimerClose: (value) {
@@ -167,7 +165,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
                 },
-                child: sessionTile(
+                child: const SessionTile(
                   title: 'SESSIONE STANDARD',
                   studio: 25,
                   pausa: 7,
@@ -180,7 +178,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => studySession(
+                        builder: (context) => StudySession(
                               studio: 0,
                               pausa: 0,
                               volte: 0,
@@ -192,7 +190,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
                 },
-                child: sessionTile(
+                child: const SessionTile(
                   title: 'PERSONALIZZATA 1',
                   studio: 0,
                   pausa: 0,
@@ -205,7 +203,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => studySession(
+                        builder: (context) => StudySession(
                               studio: 0,
                               pausa: 0,
                               volte: 0,
@@ -217,7 +215,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
                 },
-                child: sessionTile(
+                child: const SessionTile(
                   title: 'PERSONALIZZATA 2',
                   studio: 0,
                   pausa: 0,
@@ -225,20 +223,18 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   color: Colors.green,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Perchè crearsi una sessione di studio personalizzata ?',
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        //decoration: TextDecoration.underline,
-                        decorationThickness: 1),
-                  ),
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  'Perchè crearsi una sessione di studio personalizzata ?',
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      //decoration: TextDecoration.underline,
+                      decorationThickness: 1),
                 ),
               )
             ],

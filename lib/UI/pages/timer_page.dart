@@ -3,39 +3,39 @@ import 'package:app/UI/util/sessionInterrupt.dart';
 import 'package:app/UI/util/timer_list.dart';
 import 'package:flutter/material.dart';
 
-class timerPage extends StatefulWidget {
-  const timerPage(
+class TimerPage extends StatefulWidget {
+  const TimerPage(
       {super.key,
-      required this.timer_attivo,
-      required this.pause_time,
-      required this.study_time,
+      required this.timerAttivo,
+      required this.pauseTime,
+      required this.studyTime,
       required this.nSession});
   final int nSession;
-  final int pause_time;
-  final int study_time;
-  final DateTime timer_attivo;
+  final int pauseTime;
+  final int studyTime;
+  final DateTime timerAttivo;
   @override
-  State<timerPage> createState() => _timerPageState();
+  State<TimerPage> createState() => _TimerPageState();
 }
 
-class _timerPageState extends State<timerPage> {
+class _TimerPageState extends State<TimerPage> {
   late DateTime timer; //widget.timer_attivo;
 
   late List<String> titleList = [];
   int counter = 0;
   late int sessions = (widget.nSession * 2) - 1;
-  bool study_true = false;
+  bool studyTrue = false;
   List<int> timers = [];
 
   List<Widget> displayedWidgets = []; //lista widget
 
   @override
   void initState() {
-    timer = widget.timer_attivo;
+    timer = widget.timerAttivo;
     titleList.add('STUDIO RIMANENTE');
     titleList.add('PAUSA RIMANENTE');
-    timers.add(widget.pause_time);
-    timers.add(widget.study_time);
+    timers.add(widget.pauseTime);
+    timers.add(widget.studyTime);
     super.initState();
   }
 
@@ -52,11 +52,11 @@ class _timerPageState extends State<timerPage> {
               _showSessionInterruptDialog();
             } // Utilizziamo il widget destinazione per la navigazione
             ,
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             )),
-        title: Text(
+        title: const Text(
           'SESSIONE DI STUDIO',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
@@ -77,7 +77,7 @@ class _timerPageState extends State<timerPage> {
                   color: Colors.black,
                 ),
                 borderRadius: BorderRadius.circular(20),
-                color: Color.fromARGB(104, 251, 251, 132),
+                color: const Color.fromARGB(104, 251, 251, 132),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -90,7 +90,7 @@ class _timerPageState extends State<timerPage> {
                     ),
                     child: Text(
                       titleList[counter],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Garamond',
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -99,17 +99,16 @@ class _timerPageState extends State<timerPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15.0),
-                    child: Container(
-                        child: TomatoTimer(
+                    child: TomatoTimer(
                       deadline: timer,
                       onDeadlineUpdated: (newDeadline) {
-                        reload_timer();
+                        reloadTimer();
                         setState(() {
                           if (sessions > 0) {
                             if (sessions % 2 == 1) {
-                              study_true = false;
+                              studyTrue = false;
                             } else {
-                              study_true = true;
+                              studyTrue = true;
                             }
                             if (counter == 1) {
                               counter = 0;
@@ -123,7 +122,7 @@ class _timerPageState extends State<timerPage> {
                           }
                         });
                       },
-                    )),
+                    ),
                   ),
                 ],
               ),
@@ -134,21 +133,21 @@ class _timerPageState extends State<timerPage> {
             delegate: SliverChildBuilderDelegate(childCount: sessions,
                 (context, index) {
           //variabile 8 da cambiare, in base alle volte
-          int p_or_s = index % 2; // Alterna tra 0 e 1
+          int pOrS = index % 2; // Alterna tra 0 e 1
           int invers = sessions %
               2; //mi serve perchè se viene cancellato un widget, è l'ultimo e non il primo
           if (invers == 0) {
-            if (p_or_s == 1) {
-              p_or_s = 0;
+            if (pOrS == 1) {
+              pOrS = 0;
             } else {
-              p_or_s = 1;
+              pOrS = 1;
             }
           }
 
-          return timer_Tile(
-            timer_p: widget.pause_time,
-            timer_s: widget.study_time,
-            p_or_s: p_or_s,
+          return TimerTile(
+            timerP: widget.pauseTime,
+            timerS: widget.studyTime,
+            pOrS: pOrS,
           );
         })),
       ]),
@@ -159,15 +158,15 @@ class _timerPageState extends State<timerPage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return sessionInterupt();
+          return const SessionInterupt();
         });
   }
 
-  void reload_timer() {
-    if (study_true) {
-      timer = timer.add(Duration(minutes: widget.study_time));
+  void reloadTimer() {
+    if (studyTrue) {
+      timer = timer.add(Duration(minutes: widget.studyTime));
     } else {
-      timer = timer.add(Duration(minutes: widget.pause_time));
+      timer = timer.add(Duration(minutes: widget.pauseTime));
     }
   }
 }

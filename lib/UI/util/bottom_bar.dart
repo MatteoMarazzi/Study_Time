@@ -2,18 +2,17 @@ import 'package:app/UI/util/bar_button.dart';
 import 'package:app/UI/pages/data_page.dart';
 import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_page.dart';
-import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
-  static Color colorBar = Color.fromRGBO(255, 255, 255, 0.353);
-  BottomBar({super.key});
+  static Color colorBar = const Color.fromRGBO(255, 255, 255, 0.353);
+  const BottomBar({super.key});
   //List <Widget> destinations = [MyHomePage(),TomatoMethod(),data_page(),HomeQuizPage(),Exam_page()];
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: Colors.black, width: 0.5))),
       child: const BottomAppBar(
         elevation: 20,
@@ -22,25 +21,25 @@ class BottomBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            bar_Button(
+            BarButton(
               color: Color.fromARGB(255, 0, 0, 0),
               icon: Icons.home_rounded,
               destination: MyHomePage(),
             ),
-            bar_Button(
+            BarButton(
               color: Color.fromARGB(255, 0, 0, 0),
               icon: Icons.search_outlined,
               destination: TomatoMethod(),
             ), //NON DEFINITO, da cambiare anche icona
-            bar_Button(
+            BarButton(
               color: Color.fromARGB(255, 0, 0, 0),
               icon: Icons.bar_chart_sharp,
-              destination: data_page(),
+              destination: DataPage(),
             ),
-            bar_Button(
+            BarButton(
               color: Color.fromARGB(255, 0, 0, 0),
               icon: Icons.folder,
-              destination: Exam_page(),
+              destination: ExamPage(),
             ),
           ],
         ),

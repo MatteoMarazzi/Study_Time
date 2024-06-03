@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:app/databases/QuizDB.dart';
 import 'package:app/domain/question.dart';
-import 'package:uuid/uuid.dart';
 
 class Quiz {
   final int id;

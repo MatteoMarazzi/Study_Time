@@ -11,7 +11,7 @@ class MyButtons extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       child: Text(name,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w400,
           )),

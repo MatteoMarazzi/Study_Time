@@ -39,8 +39,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             onColorSelected: (Color color) {
               selectedColor = color;
             },
-            OnSalva: saveQuiz,
-            OnAnnulla: () => Navigator.of(context).pop(),
+            onSalva: saveQuiz,
+            onAnnulla: () => Navigator.of(context).pop(),
           );
         });
   }
@@ -67,7 +67,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
               onColorSelected: (Color color) {
                 selectedColor = color;
               },
-              OnSalva: () async {
+              onSalva: () async {
                 await widget.utente.updateQuiz(quizNameController.text,
                     quizDescriptionController.text, selectedColor, quiz);
                 quizNameController.clear();
@@ -76,7 +76,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                   Navigator.of(context).pop();
                 });
               },
-              OnAnnulla: (() => Navigator.of(context).pop()));
+              onAnnulla: (() => Navigator.of(context).pop()));
         });
   }
 
@@ -102,9 +102,9 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             quizName: currentQuiz!.name,
             quizDescription: currentQuiz.description,
             color: currentQuiz.color,
-            OnOpenTile: () => openQuiz(currentQuiz),
-            OnOpenModifica: () => modifyQuiz(currentQuiz),
-            OnOpenElimina: () => deleteQuiz(currentQuiz),
+            onOpenTile: () => openQuiz(currentQuiz),
+            onOpenModifica: () => modifyQuiz(currentQuiz),
+            onOpenElimina: () => deleteQuiz(currentQuiz),
           );
         },
       ),

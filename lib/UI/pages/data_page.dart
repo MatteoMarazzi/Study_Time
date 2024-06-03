@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class data_page extends StatefulWidget {
-  const data_page({super.key});
+class DataPage extends StatefulWidget {
+  const DataPage({super.key});
 
   @override
-  State<data_page> createState() => _data_pageState();
+  State<DataPage> createState() => DataPageState();
 }
 
-class _data_pageState extends State<data_page> {
+class DataPageState extends State<DataPage> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromARGB(217, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(217, 255, 255, 255),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         padding: EdgeInsets.only(
@@ -24,10 +24,10 @@ class _data_pageState extends State<data_page> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'STATISTICHE',
                 style: TextStyle(
                     fontSize: 25,
@@ -35,7 +35,7 @@ class _data_pageState extends State<data_page> {
                     //decoration: TextDecoration.underline,
                     decorationThickness: 1),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Container(
@@ -50,16 +50,16 @@ class _data_pageState extends State<data_page> {
                         blurRadius: 1,
                         blurStyle: BlurStyle.normal),
                   ],
-                  color: Color.fromARGB(255, 230, 233, 235),
+                  color: const Color.fromARGB(255, 230, 233, 235),
                   border: Border.all(width: 2, color: Colors.black),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                          child: const Text(
+                          child: Text(
                         'RATEO',
                         style: TextStyle(
                             fontSize: 16,
@@ -80,7 +80,7 @@ class _data_pageState extends State<data_page> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -95,16 +95,16 @@ class _data_pageState extends State<data_page> {
                         blurRadius: 1,
                         blurStyle: BlurStyle.normal),
                   ],
-                  color: Color.fromARGB(255, 230, 233, 235),
+                  color: const Color.fromARGB(255, 230, 233, 235),
                   border: Border.all(width: 2, color: Colors.black),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                          child: const Text(
+                          child: Text(
                         'DOMANDE DELLA SETTIMANA',
                         style: TextStyle(
                             fontSize: 16,
@@ -136,7 +136,7 @@ class _data_pageState extends State<data_page> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -151,16 +151,16 @@ class _data_pageState extends State<data_page> {
                         blurRadius: 1,
                         blurStyle: BlurStyle.normal),
                   ],
-                  color: Color.fromARGB(255, 230, 233, 235),
+                  color: const Color.fromARGB(255, 230, 233, 235),
                   border: Border.all(width: 2, color: Colors.black),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                          child: const Text(
+                          child: Text(
                         'STATISTICHE GENERALI',
                         style: TextStyle(
                             fontSize: 16,
@@ -192,7 +192,7 @@ class _data_pageState extends State<data_page> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
             ],

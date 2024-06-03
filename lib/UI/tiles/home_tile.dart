@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math'; //serve per poter fare standard^2
 
-class Home_tile extends StatelessWidget {
+class HomeTile extends StatelessWidget {
   final Color color;
-  final Color shadow_color;
+  final Color shadowColor;
   final Color backgroundColor; // Aggiungiamo il colore di sfondo
   final Widget destinationPage; // Correggo il tipo del parametro
   final String boxTitle;
@@ -13,10 +12,10 @@ class Home_tile extends StatelessWidget {
   final double weightImage;
   final double standard;
 
-  const Home_tile({
+  const HomeTile({
     Key? key,
     required this.color,
-    required this.shadow_color,
+    required this.shadowColor,
     required this.backgroundColor, // Aggiorniamo il costruttore
     required this.destinationPage, // Aggiorniamo il costruttore con il widget destinazione
     required this.boxTitle,
@@ -57,17 +56,17 @@ class Home_tile extends StatelessWidget {
                       decoration: BoxDecoration(
                         color:
                             backgroundColor, // Utilizziamo il colore di sfondo
-                        border: Border.all(color: shadow_color, width: 2.0),
+                        border: Border.all(color: shadowColor, width: 2.0),
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     Center(
-                        child: Container(
+                        child: SizedBox(
                       height: 31.0 * pow(standard, 2.2),
                       child: Text(
                         boxTitle, //titolo assegnato da noi come parametro
                         style: TextStyle(
-                          shadows: [
+                          shadows: const [
                             Shadow(
                               blurRadius: 1.0, //effetto ombra
                               color: Color.fromRGBO(

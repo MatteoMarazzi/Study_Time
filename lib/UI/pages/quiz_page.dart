@@ -10,7 +10,6 @@ class QuizPage extends StatefulWidget {
 
   final String title;
   Quiz quiz;
-  //QuizzesDatabase().getAllQuestions(widget.quiz);
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -39,8 +38,8 @@ class _QuizPageState extends State<QuizPage> {
           return AddQuestionBox(
             questionController: questionTextController,
             answerController: answerTextController,
-            OnSalva: saveQuestion,
-            OnAnnulla: () => Navigator.of(context).pop(),
+            onSalva: saveQuestion,
+            onAnnulla: () => Navigator.of(context).pop(),
           );
         });
   }
@@ -59,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
           return AddQuestionBox(
               questionController: questionTextController,
               answerController: answerTextController,
-              OnSalva: () async {
+              onSalva: () async {
                 /*await*/ widget.quiz.updateQuestion(
                     questionTextController.text,
                     answerTextController.text,
@@ -70,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
                   Navigator.of(context).pop();
                 });
               },
-              OnAnnulla: (() => Navigator.of(context).pop()));
+              onAnnulla: (() => Navigator.of(context).pop()));
         });
   }
 
@@ -92,11 +91,11 @@ class _QuizPageState extends State<QuizPage> {
         itemBuilder: (context, index) {
           Question? currentQuestion = widget.quiz.questionsList[index];
           return QuestionTile(
-            questionText: currentQuestion!.text,
+            questionText: currentQuestion.text,
             answer: currentQuestion.answer,
-            OnOpenTile: () => openQuestion(index),
-            OnOpenElimina: () => deleteQuestion(currentQuestion),
-            OnOpenModifica: () => modifyQuestion(currentQuestion),
+            onOpenTile: () => openQuestion(index),
+            onOpenElimina: () => deleteQuestion(currentQuestion),
+            onOpenModifica: () => modifyQuestion(currentQuestion),
           );
         },
       ),

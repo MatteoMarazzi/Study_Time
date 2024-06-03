@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class sessionTile extends StatelessWidget {
+class SessionTile extends StatelessWidget {
   final String title;
   final int studio;
   final int pausa;
@@ -8,7 +8,7 @@ class sessionTile extends StatelessWidget {
   final String? consiglio;
   final Color color;
 
-  const sessionTile(
+  const SessionTile(
       {super.key,
       required this.title,
       required this.studio,
@@ -38,16 +38,17 @@ class sessionTile extends StatelessWidget {
           ],
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1.3, color: color),
-          color: Color.fromARGB(239, 255, 255, 255),
+          color: const Color.fromARGB(239, 255, 255, 255),
         ),
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
               child: Center(
                 child: Text(
-                  '$title',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
             ),
@@ -55,13 +56,13 @@ class sessionTile extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5, top: 4),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Minuti di studio :',
                     style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                   Text(
                     '  $studio min',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -70,13 +71,13 @@ class sessionTile extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5, top: 4),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Minuti di pausa :',
                     style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                   Text(
                     '  $pausa min',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -85,19 +86,19 @@ class sessionTile extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5, top: 4),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Ripetuto per :',
                     style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                   Text(
                     '  $volte volte',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5, top: 7),
+            const Padding(
+              padding: EdgeInsets.only(left: 5, top: 7),
               child: Row(
                 children: [
                   Text(

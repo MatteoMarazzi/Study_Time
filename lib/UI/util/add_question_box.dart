@@ -7,20 +7,20 @@ import 'package:flutter/material.dart';
 class AddQuestionBox extends StatelessWidget {
   final questionController;
   final answerController;
-  VoidCallback OnSalva;
-  VoidCallback OnAnnulla;
+  VoidCallback onSalva;
+  VoidCallback onAnnulla;
 
   AddQuestionBox(
       {super.key,
       required this.questionController,
       required this.answerController,
-      required this.OnSalva,
-      required this.OnAnnulla});
+      required this.onSalva,
+      required this.onAnnulla});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Container(
+      content: SizedBox(
         height: 200,
         child: Column(
           children: [
@@ -55,8 +55,8 @@ class AddQuestionBox extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MyButtons(name: 'Salva', onPressed: OnSalva),
-                MyButtons(name: 'Annulla', onPressed: OnAnnulla)
+                MyButtons(name: 'Salva', onPressed: onSalva),
+                MyButtons(name: 'Annulla', onPressed: onAnnulla)
               ],
             )
           ],

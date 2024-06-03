@@ -56,9 +56,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   Widget _buildCalendarDialogButton() {
     const dayTextStyle =
         TextStyle(color: Colors.black, fontWeight: FontWeight.w700);
-    final weekendTextStyle = TextStyle(
-        color: const Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600);
-    final anniversaryTextStyle = TextStyle(
+    const weekendTextStyle = TextStyle(
+        color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w600);
+    const anniversaryTextStyle = TextStyle(
       color: Color.fromARGB(255, 13, 22, 208),
       fontWeight: FontWeight.w700,
       decoration: TextDecoration.underline,
@@ -113,9 +113,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     MaterialLocalizations.of(context).formatDecimal(date.day),
                     style: textStyle,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 27.5),
-                    child: Container(
+                  const Padding(
+                    padding: EdgeInsets.only(top: 27.5),
+                    child: SizedBox(
                       height: 4,
                       width: 4,
                     ),
@@ -202,7 +202,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   borderRadius: BorderRadius.circular(15),
                   value: _dialogCalendarPickerValue,
                   //colore sfondo calendario
-                  dialogBackgroundColor: Color.fromARGB(255, 255, 231, 174),
+                  dialogBackgroundColor:
+                      const Color.fromARGB(255, 255, 231, 174),
                 );
                 if (values != null) {
                   // ignore: avoid_print

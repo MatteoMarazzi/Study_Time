@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class timer_Tile extends StatefulWidget {
-  const timer_Tile({
+class TimerTile extends StatefulWidget {
+  const TimerTile({
     super.key,
-    required this.timer_s,
-    required this.timer_p,
-    required this.p_or_s,
+    required this.timerS,
+    required this.timerP,
+    required this.pOrS,
   });
-  final int timer_p;
-  final int timer_s;
-  final int p_or_s;
+  final int timerP;
+  final int timerS;
+  final int pOrS;
   @override
-  State<timer_Tile> createState() => _timer_TileState();
+  State<TimerTile> createState() => _TimerTileState();
 }
 
-class _timer_TileState extends State<timer_Tile> {
+class _TimerTileState extends State<TimerTile> {
   late List<Color> colorList = [];
   late List<String> titleList = [];
   int counter = 0;
@@ -23,10 +23,10 @@ class _timer_TileState extends State<timer_Tile> {
   void initState() {
     titleList.add('PAUSA');
     titleList.add('STUDIO');
-    timerList.add(widget.timer_p.toString());
-    timerList.add(widget.timer_s.toString());
-    colorList.add(Color.fromARGB(103, 76, 175, 79));
-    colorList.add(Color.fromARGB(104, 132, 213, 251));
+    timerList.add(widget.timerP.toString());
+    timerList.add(widget.timerS.toString());
+    colorList.add(const Color.fromARGB(103, 76, 175, 79));
+    colorList.add(const Color.fromARGB(104, 132, 213, 251));
 
     super.initState();
   }
@@ -36,11 +36,11 @@ class _timer_TileState extends State<timer_Tile> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
+        const Icon(
           Icons.arrow_circle_down,
           size: 60,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Container(
@@ -51,7 +51,7 @@ class _timer_TileState extends State<timer_Tile> {
               color: Colors.black,
             ),
             borderRadius: BorderRadius.circular(20),
-            color: colorList[widget.p_or_s],
+            color: colorList[widget.pOrS],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -63,8 +63,8 @@ class _timer_TileState extends State<timer_Tile> {
                   right: 8,
                 ),
                 child: Text(
-                  titleList[widget.p_or_s],
-                  style: TextStyle(
+                  titleList[widget.pOrS],
+                  style: const TextStyle(
                     fontFamily: 'Garamond',
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -78,17 +78,17 @@ class _timer_TileState extends State<timer_Tile> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Text(
-                      timerList[widget.p_or_s],
-                      style: TextStyle(
+                      timerList[widget.pOrS],
+                      style: const TextStyle(
                         fontSize: 50,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
+                    const Text(
                       ' minuti',
                       style: TextStyle(
                         fontSize: 25,
@@ -101,7 +101,7 @@ class _timer_TileState extends State<timer_Tile> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
       ],

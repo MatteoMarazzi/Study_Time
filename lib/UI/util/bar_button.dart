@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class bar_Button extends StatelessWidget {
+class BarButton extends StatelessWidget {
   final Color color;
   final IconData icon;
   final Widget destination;
 
-  const bar_Button(
+  const BarButton(
       {super.key,
       required this.color,
       required this.icon,

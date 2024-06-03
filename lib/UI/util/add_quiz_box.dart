@@ -9,16 +9,16 @@ class AddQuizBox extends StatefulWidget {
   final controller;
   final controllerd;
   final ValueSetter<Color> onColorSelected;
-  VoidCallback OnSalva;
-  VoidCallback OnAnnulla;
+  VoidCallback onSalva;
+  VoidCallback onAnnulla;
 
   AddQuizBox(
       {super.key,
       required this.controller,
       required this.controllerd,
       required this.onColorSelected,
-      required this.OnSalva,
-      required this.OnAnnulla});
+      required this.onSalva,
+      required this.onAnnulla});
 
   @override
   State<AddQuizBox> createState() => _AddQuizBoxState();
@@ -54,58 +54,56 @@ class _AddQuizBoxState extends State<AddQuizBox> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
-    return Container(
-      child: AlertDialog(
-        content: Container(
-          width: screenSize.width * 0.8, //originale 300
-          height: screenSize.height * 0.6, //originale 450
-          child: Column(
-            children: [
-              TextField(
-                maxLength: 18, //si può mettere una max lenght
-                controller: widget.controller,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Nome quiz",
-                    hintStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    )),
+    return AlertDialog(
+      content: SizedBox(
+        width: screenSize.width * 0.8, //originale 300
+        height: screenSize.height * 0.6, //originale 450
+        child: Column(
+          children: [
+            TextField(
+              maxLength: 18, //si può mettere una max lenght
+              controller: widget.controller,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Nome quiz",
+                  hintStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  )),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              controller: widget.controllerd,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Descrizione",
+                  hintStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  )),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Scegli il colore :",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w300,
               ),
-              SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: widget.controllerd,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Descrizione",
-                    hintStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    )),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Scegli il colore :",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-              Container(child: buildColorPicker()),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MyButtons(name: 'Salva', onPressed: widget.OnSalva),
-                  MyButtons(name: 'Annulla', onPressed: widget.OnAnnulla)
-                ],
-              )
-            ],
-          ),
+            ),
+            Container(child: buildColorPicker()),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MyButtons(name: 'Salva', onPressed: widget.onSalva),
+                MyButtons(name: 'Annulla', onPressed: widget.onAnnulla)
+              ],
+            )
+          ],
         ),
       ),
     );

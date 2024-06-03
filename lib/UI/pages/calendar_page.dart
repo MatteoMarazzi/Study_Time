@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class calendar_page extends StatelessWidget {
-  const calendar_page({super.key});
+class CalendarPage extends StatelessWidget {
+  const CalendarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow,
-        title: Text(
+        title: const Text(
           'CALENDARIO',
           style: TextStyle(
             color: Colors.white,

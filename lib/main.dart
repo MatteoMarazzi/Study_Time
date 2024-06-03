@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,10 +27,10 @@ class MyApp extends StatelessWidget {
         Locale('hi', ''),
       ],
       home:
-          MainPage(), //pagina che gestisce gli oggetti universali dell'app come bottomBar
+          const MainPage(), //pagina che gestisce gli oggetti universali dell'app come bottomBar
       builder: (context, child) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle(
+          value: const SystemUiOverlayStyle(
             statusBarColor: Colors.black, // Colore della barra di stato
             statusBarIconBrightness:
                 Brightness.light, // Luminosità delle icone della barra di stato

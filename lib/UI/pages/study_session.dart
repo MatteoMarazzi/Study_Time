@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class studySession extends StatefulWidget {
+class StudySession extends StatefulWidget {
   final int studio;
   final int pausa;
   final int volte;
   final bool canModifyValues;
   final Function(bool) onTimerClose;
-  const studySession(
+  const StudySession(
       {super.key,
       required this.studio,
       required this.pausa,
@@ -15,92 +15,93 @@ class studySession extends StatefulWidget {
       required this.onTimerClose});
 
   @override
-  State<studySession> createState() => _studySessionState();
+  State<StudySession> createState() => _StudySessionState();
 }
 
-class _studySessionState extends State<studySession> {
+class _StudySessionState extends State<StudySession> {
   int _counter = 20;
-  int _counter_pause = 5;
+  int counterPause = 5;
   int _nSession = 1;
-  Color color_p1 = Colors.black;
-  Color color_p2 = Colors.black;
-  Color color_p3 = Colors.black;
-  Color color_m1 = Colors.black;
-  Color color_m2 = Colors.black;
-  Color color_m3 = Colors.black;
+  Color colorP1 = Colors.black;
+  Color colorP2 = Colors.black;
+  Color colorP3 = Colors.black;
+  Color colorM1 = Colors.black;
+  Color colorM2 = Colors.black;
+  Color colorM3 = Colors.black;
 
+  @override
   void initState() {
     super.initState();
     _counter = widget.studio;
-    _counter_pause = widget.pausa;
+    counterPause = widget.pausa;
     _nSession = widget.volte;
     if (widget.canModifyValues == false) {
-      color_m1 = Colors.grey;
-      color_m2 = Colors.grey;
-      color_m3 = Colors.grey;
-      color_p3 = Colors.grey;
-      color_p2 = Colors.grey;
-      color_p1 = Colors.grey;
+      colorM1 = Colors.grey;
+      colorM2 = Colors.grey;
+      colorM3 = Colors.grey;
+      colorP3 = Colors.grey;
+      colorP2 = Colors.grey;
+      colorP1 = Colors.grey;
     } else if (widget.studio == 0 && widget.pausa == 0 && widget.volte == 0) {
       _counter = 40;
-      _counter_pause = 15;
+      counterPause = 15;
       _nSession = 2;
     }
   }
 
-  void _increment_sessionCounter() {
+  void incrementSessionCounter() {
     //NUMERO SESSIONI
     if (widget.canModifyValues == true) {
       setState(() {
         if (_nSession < 8) {
           _nSession = _nSession + 1;
-          color_m3 = Colors.black;
+          colorM3 = Colors.black;
         }
         if (_nSession == 8) {
-          color_p3 = Colors.grey;
+          colorP3 = Colors.grey;
         }
       });
     }
   }
 
-  void _decrement_sessionCounter() {
+  void decrementSessionCounter() {
     if (widget.canModifyValues == true) {
       setState(() {
         if (_nSession > 1) {
           _nSession = _nSession - 1;
-          color_p3 = Colors.black;
+          colorP3 = Colors.black;
         }
         if (_nSession == 1) {
-          color_m3 = Colors.grey;
+          colorM3 = Colors.grey;
         }
       });
     }
   }
 
-  void _increment_pauseCounter() {
+  void incrementPauseCounter() {
     //MIN DI PAUSA
     if (widget.canModifyValues == true) {
       setState(() {
-        if (_counter_pause < 25) {
-          _counter_pause = _counter_pause + 2;
-          color_m2 = Colors.black;
+        if (counterPause < 25) {
+          counterPause = counterPause + 2;
+          colorM2 = Colors.black;
         }
-        if (_counter_pause == 25) {
-          color_p2 = Colors.grey;
+        if (counterPause == 25) {
+          colorP2 = Colors.grey;
         }
       });
     }
   }
 
-  void _decrement_pauseCounter() {
+  void decrementPauseCounter() {
     if (widget.canModifyValues == true) {
       setState(() {
-        if (_counter_pause > 5) {
-          _counter_pause = _counter_pause - 2;
-          color_p2 = Colors.black;
+        if (counterPause > 5) {
+          counterPause = counterPause - 2;
+          colorP2 = Colors.black;
         }
-        if (_counter_pause == 5) {
-          color_m2 = Colors.grey;
+        if (counterPause == 5) {
+          colorM2 = Colors.grey;
         }
       });
     }
@@ -112,10 +113,10 @@ class _studySessionState extends State<studySession> {
       setState(() {
         if (_counter < 60) {
           _counter = _counter + 5;
-          color_m1 = Colors.black;
+          colorM1 = Colors.black;
         }
         if (_counter == 60) {
-          color_p1 = Colors.grey;
+          colorP1 = Colors.grey;
         }
       });
     }
@@ -126,10 +127,10 @@ class _studySessionState extends State<studySession> {
       setState(() {
         if (_counter > 10) {
           _counter = _counter - 5;
-          color_p1 = Colors.black;
+          colorP1 = Colors.black;
         }
         if (_counter == 10) {
-          color_m1 = Colors.grey;
+          colorM1 = Colors.grey;
         }
       });
     }
@@ -145,21 +146,21 @@ class _studySessionState extends State<studySession> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             )),
         //va sistemato il leading
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Imposta sessione di studio',
           style: TextStyle(
               color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.only(
               left: screenSize.width * 0.04,
@@ -170,36 +171,35 @@ class _studySessionState extends State<studySession> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(160, 232, 224, 224),
+                    color: const Color.fromARGB(160, 232, 224, 224),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       width: 0.5,
                       color: Colors.black,
                     )),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
                   child: Text(
                     'Durata mini-sessione studio',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 width: screenSize.width * 1,
                 child: Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
                       Text(
                         '$_counter',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 100.0, fontWeight: FontWeight.bold),
                       ),
                       Column(
@@ -214,9 +214,9 @@ class _studySessionState extends State<studySession> {
                             icon: Icon(
                               Icons.add,
                               size: 40,
-                              color: color_p1,
+                              color: colorP1,
                             ),
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                           ),
                           IconButton(
                             splashColor: Colors.transparent,
@@ -227,9 +227,9 @@ class _studySessionState extends State<studySession> {
                             icon: Icon(
                               Icons.remove,
                               size: 40,
-                              color: color_m1,
+                              color: colorM1,
                             ),
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                           )
                         ],
                       )
@@ -237,45 +237,44 @@ class _studySessionState extends State<studySession> {
                   ),
                 ),
               ),
-              Text(
+              const Text(
                 'minuti',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(160, 232, 224, 224),
+                    color: const Color.fromARGB(160, 232, 224, 224),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       width: 0.5,
                       color: Colors.black,
                     )),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 4),
                   child: Text(
                     'Quanti min di pausa a round',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                 width: screenSize.width * 1,
                 child: Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 50,
                       ),
                       Text(
-                        '$_counter_pause',
-                        style: TextStyle(
+                        '$counterPause',
+                        style: const TextStyle(
                             fontSize: 100.0, fontWeight: FontWeight.bold),
                       ),
                       Column(
@@ -285,27 +284,27 @@ class _studySessionState extends State<studySession> {
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onPressed: () {
-                              _increment_pauseCounter();
+                              incrementPauseCounter();
                             },
                             icon: Icon(
                               Icons.add,
                               size: 40,
-                              color: color_p2,
+                              color: colorP2,
                             ),
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                           ),
                           IconButton(
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onPressed: () {
-                              _decrement_pauseCounter();
+                              decrementPauseCounter();
                             },
                             icon: Icon(
                               Icons.remove,
                               size: 40,
-                              color: color_m2,
+                              color: colorM2,
                             ),
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                           ),
                         ],
                       )
@@ -313,46 +312,46 @@ class _studySessionState extends State<studySession> {
                   ),
                 ),
               ),
-              Text(
+              const Text(
                 'minuti',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(160, 232, 224, 224),
+                    color: const Color.fromARGB(160, 232, 224, 224),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       width: 0.5,
                       color: Colors.black,
                     )),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
                   child: Text(
                     'Quanti round nella sessione',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     'Sessione da :',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
                     '$_nSession',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w400),
+                    style: const TextStyle(
+                        fontSize: 40, fontWeight: FontWeight.w400),
                   ),
                   Column(
                     children: [
@@ -360,27 +359,27 @@ class _studySessionState extends State<studySession> {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onPressed: () {
-                          _increment_sessionCounter();
+                          incrementSessionCounter();
                         },
                         icon: Icon(
                           Icons.add,
                           size: 30,
-                          color: color_p3,
+                          color: colorP3,
                         ),
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                       ),
                       IconButton(
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onPressed: () {
-                          _decrement_sessionCounter();
+                          decrementSessionCounter();
                         },
                         icon: Icon(
                           Icons.remove,
                           size: 30,
-                          color: color_m3,
+                          color: colorM3,
                         ),
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                       ),
                     ],
                   )
@@ -402,16 +401,16 @@ class _studySessionState extends State<studySession> {
                 elevation: 5,
                 color: Colors.white,
                 shadowColor: Colors.black,
-                margin: EdgeInsets.all(0),
+                margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {},
                   style: ButtonStyle(
-                    animationDuration: Duration(seconds: 5),
+                    animationDuration: const Duration(seconds: 5),
                     overlayColor: MaterialStateProperty.all(Colors.grey),
                     // Altre personalizzazioni come colori, bordi, ecc.
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Salva',
                       style: TextStyle(
@@ -429,7 +428,7 @@ class _studySessionState extends State<studySession> {
                 elevation: 5,
                 color: Colors.white,
                 shadowColor: Colors.black,
-                margin: EdgeInsets.all(0),
+                margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -438,11 +437,11 @@ class _studySessionState extends State<studySession> {
                     });
                   },
                   style: ButtonStyle(
-                    animationDuration: Duration(seconds: 5),
+                    animationDuration: const Duration(seconds: 5),
                     overlayColor: MaterialStateProperty.all(Colors.grey),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text('Avvia',
                         style: TextStyle(
                             color: Colors.black,

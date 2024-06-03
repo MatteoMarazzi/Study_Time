@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 class QuestionTile extends StatelessWidget {
   String questionText;
   String answer;
-  VoidCallback OnOpenTile;
-  VoidCallback OnOpenModifica;
-  VoidCallback OnOpenElimina;
+  VoidCallback onOpenTile;
+  VoidCallback onOpenModifica;
+  VoidCallback onOpenElimina;
   QuestionTile(
       {super.key,
       required this.questionText,
       required this.answer,
-      required this.OnOpenTile,
-      required this.OnOpenModifica,
-      required this.OnOpenElimina});
+      required this.onOpenTile,
+      required this.onOpenModifica,
+      required this.onOpenElimina});
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,13 @@ class QuestionTile extends StatelessWidget {
           ),
           child: Center(
             child: ListTile(
-              onTap: OnOpenTile,
+              onTap: onOpenTile,
               title: Row(
                 //attualmente inutilizzata, ma si vorrebbe aggiungere il numero di domande per quiz
                 children: [
                   Text(
                     questionText,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -45,20 +45,22 @@ class QuestionTile extends StatelessWidget {
               ),
               subtitle: Text(
                 answer,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               trailing: PopupMenuButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.more_vert_rounded,
                   color: Colors.black,
                 ),
                 itemBuilder: (BuildContext context) => [
-                  PopupMenuItem(onTap: OnOpenModifica, child: Text('modifica')),
-                  PopupMenuItem(onTap: OnOpenElimina, child: Text('elimina'))
+                  PopupMenuItem(
+                      onTap: onOpenModifica, child: const Text('modifica')),
+                  PopupMenuItem(
+                      onTap: onOpenElimina, child: const Text('elimina'))
                 ],
               ),
             ),

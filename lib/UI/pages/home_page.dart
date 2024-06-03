@@ -71,14 +71,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Color.fromARGB(255, 239, 231, 231),
               ),
               child: Column(
-                children: [
+                children: const [
                   SizedBox(height: 8),
                   Text(
                     "RIPASSANDO",
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Color.fromARGB(255, 0, 0, 0),
-                        shadows: const [
+                        shadows: [
                           /*Shadow(
                             offset: Offset(1, 2),
                             color: Color.fromARGB(255, 0, 0, 0),
@@ -93,10 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
 
           SizedBox(height: 20),
-          Home_tile(
+          HomeTile(
             standard: 1,
             color: Colors.black,
-            shadow_color: Colors.white,
+            shadowColor: Colors.white,
             backgroundColor: const Color.fromARGB(99, 244, 67, 54),
             boxTitle: "POMODORO",
             destinationPage: TomatoMethod(),
@@ -109,10 +109,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // scrollDirection: Axis.horizontal,
           //child: Row(
           // children: [
-          Home_tile(
+          HomeTile(
             standard: 1,
             color: Colors.black,
-            shadow_color: Colors.white,
+            shadowColor: Colors.white,
             backgroundColor: Color.fromARGB(98, 255, 235, 59),
             boxTitle: "QUIZ",
             destinationPage: HomeQuizPage(),
@@ -123,13 +123,13 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 20,
           ),
-          Home_tile(
+          HomeTile(
             standard: 1,
             color: const Color.fromARGB(255, 0, 0, 0),
-            shadow_color: Color.fromARGB(255, 255, 255, 255),
+            shadowColor: Color.fromARGB(255, 255, 255, 255),
             backgroundColor: Color.fromARGB(99, 39, 199, 74),
             boxTitle: "ESAMI",
-            destinationPage: Exam_page(),
+            destinationPage: ExamPage(),
             pathImage: 'assets/exam_1.png',
             heightImage: 130,
             weightImage: 250,
