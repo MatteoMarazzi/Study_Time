@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
     const MyHomePage(),
     const TomatoMethod(),
     const DataPage(),
-    HomeQuizPage(),
+    const HomeQuizPage(),
     const ExamPage(),
   ];
 

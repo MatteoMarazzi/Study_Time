@@ -6,8 +6,7 @@ import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class HomeQuizPage extends StatefulWidget {
-  HomeQuizPage({super.key});
-  final Utente utente = Utente();
+  const HomeQuizPage({super.key});
   @override
   State<HomeQuizPage> createState() => _HomeQuizPageState();
 }
@@ -18,7 +17,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Color selectedColor = Colors.black;
 
   void saveQuiz() async {
-    await widget.utente.addQuiz(
+    await Utente().addQuiz(
         name: quizNameController.text,
         description: quizDescriptionController.text,
         color: selectedColor);
@@ -68,7 +67,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 selectedColor = color;
               },
               onSalva: () async {
-                await widget.utente.updateQuiz(quizNameController.text,
+                await Utente().updateQuiz(quizNameController.text,
                     quizDescriptionController.text, selectedColor, quiz);
                 quizNameController.clear();
                 quizDescriptionController.clear();
@@ -81,7 +80,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(Quiz quiz) async {
-    widget.utente.deleteQuiz(quiz);
+    Utente().deleteQuiz(quiz);
     setState(() {});
   }
 
@@ -95,9 +94,9 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
-        itemCount: widget.utente.countQuizzes(),
+        itemCount: Utente().countQuizzes(),
         itemBuilder: (context, index) {
-          Quiz? currentQuiz = widget.utente.getQuiz(index);
+          Quiz? currentQuiz = Utente().getQuiz(index);
           return QuizTile(
             quizName: currentQuiz!.name,
             quizDescription: currentQuiz.description,
