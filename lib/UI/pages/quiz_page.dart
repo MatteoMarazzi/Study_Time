@@ -1,3 +1,4 @@
+import 'package:app/UI/pages/quiz_execution_page.dart';
 import 'package:app/domain/question.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/tiles/question_tile.dart';
@@ -75,7 +76,14 @@ class _QuizPageState extends State<QuizPage> {
 
   openQuestion(int index) {}
 
-  startQuiz() {}
+  startQuiz() async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => QuizExecutionPage(
+                  quiz: widget.quiz,
+                )));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +107,22 @@ class _QuizPageState extends State<QuizPage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: createQuestion,
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton(
+              onPressed: createQuestion,
+              child: const Icon(Icons.add),
+            ),
+            const SizedBox(width: 16),
+            FloatingActionButton(
+              onPressed: startQuiz,
+              child: const Icon(Icons.play_arrow),
+            ),
+          ],
+        ),
       ),
     );
   }
