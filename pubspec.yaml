@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   hive: ^2.2.3
+  one_clock: ^2.0.0
   flex_color_picker: ^3.3.1
   hive_flutter: ^1.1.0
   cupertino_icons: ^1.0.2

@@ -1,3 +1,4 @@
+import 'package:app/UI/pages/sessionPage.dart';
 import 'package:flutter/material.dart';
 
 class StudySession extends StatefulWidget {
@@ -431,7 +432,9 @@ class _StudySessionState extends State<StudySession> {
                 margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => sessionPage()),
+                    );
                     setState(() {
                       widget.onTimerClose(true);
                     });
