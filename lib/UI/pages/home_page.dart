@@ -3,7 +3,6 @@ import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
 import 'package:app/UI/tiles/home_tile.dart';
-import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -19,7 +18,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Utente().mountDatabase();
   }
 
   @override
