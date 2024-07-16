@@ -108,6 +108,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: '1',
         onPressed: () {
           createQuiz();
         },
