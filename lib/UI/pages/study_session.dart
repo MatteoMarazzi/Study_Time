@@ -1,17 +1,15 @@
 import 'package:app/UI/pages/sessionPage.dart';
+import 'package:app/domain/session.dart';
+import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class StudySession extends StatefulWidget {
-  final int studio;
-  final int pausa;
-  final int volte;
+  final Session session;
   final bool canModifyValues;
   final Function(bool) onTimerClose;
   const StudySession(
       {super.key,
-      required this.studio,
-      required this.pausa,
-      required this.volte,
+      required this.session,
       required this.canModifyValues,
       required this.onTimerClose});
 
@@ -33,9 +31,9 @@ class _StudySessionState extends State<StudySession> {
   @override
   void initState() {
     super.initState();
-    _counter = widget.studio;
-    counterPause = widget.pausa;
-    _nSession = widget.volte;
+    _counter = widget.session.minutiStudio;
+    counterPause = widget.session.minutiPausa;
+    _nSession = widget.session.ripetizioni;
     if (widget.canModifyValues == false) {
       colorM1 = Colors.grey;
       colorM2 = Colors.grey;
@@ -43,7 +41,9 @@ class _StudySessionState extends State<StudySession> {
       colorP3 = Colors.grey;
       colorP2 = Colors.grey;
       colorP1 = Colors.grey;
-    } else if (widget.studio == 0 && widget.pausa == 0 && widget.volte == 0) {
+    } else if (widget.session.minutiStudio == 0 &&
+        widget.session.minutiPausa == 0 &&
+        widget.session.ripetizioni == 0) {
       _counter = 40;
       counterPause = 15;
       _nSession = 2;
@@ -404,7 +404,10 @@ class _StudySessionState extends State<StudySession> {
                 shadowColor: Colors.black,
                 margin: const EdgeInsets.all(0),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Utente().updateSession(
+                        widget.session, _counter, _nSession, counterPause);
+                  },
                   style: ButtonStyle(
                     animationDuration: const Duration(seconds: 5),
                     overlayColor: MaterialStateProperty.all(Colors.grey),
@@ -432,6 +435,8 @@ class _StudySessionState extends State<StudySession> {
                 margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
+                    Utente().updateSession(
+                        widget.session, _counter, _nSession, counterPause);
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => sessionPage()),
                     );

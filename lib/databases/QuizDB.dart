@@ -40,7 +40,7 @@ class QuizzesDatabase {
   ''');
   }
 
-  Future<Iterable<Quiz>> getAllQuizzes(Utente utente) async {
+  Future<Iterable<Quiz>> getAllQuizzes() async {
     final db = await database;
     final List<Map<String, dynamic>> quizMaps = await db.query('quizzes');
     final Iterable<Quiz> quizList = quizMaps.map((quizMap) {

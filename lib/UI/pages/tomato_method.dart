@@ -1,6 +1,8 @@
 import 'package:app/UI/pages/ideal_page.dart';
 import 'package:app/UI/pages/study_session.dart';
 import 'package:app/UI/tiles/session_tile.dart';
+import 'package:app/domain/session.dart';
+import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class TomatoMethod extends StatefulWidget {
@@ -19,6 +21,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
   late bool isTimerActive = false;
   String mex = 'ATTIVA UNA SESSIONE';
   String mex1 = '';
+
   void metodoPomodoro() {
     if (isTimerActive) {
       deadline = DateTime.now();
@@ -155,9 +158,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => StudySession(
-                              studio: studyTime,
-                              pausa: pauseTime,
-                              volte: 4,
+                              session: Utente().standardSession,
                               canModifyValues: false,
                               onTimerClose: (value) {
                                 isTimerActive = true;
@@ -166,11 +167,9 @@ class _TomatoMethodState extends State<TomatoMethod> {
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
                 },
-                child: const SessionTile(
-                  title: 'SESSIONE STANDARD',
-                  studio: 25,
-                  pausa: 7,
-                  volte: 4,
+                child: SessionTile(
+                  title: 'STANDARD',
+                  session: Utente().standardSession,
                   color: Colors.redAccent,
                 ),
               ),
@@ -180,9 +179,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => StudySession(
-                              studio: 0,
-                              pausa: 0,
-                              volte: 0,
+                              session: Utente().standardSession,
                               canModifyValues: true,
                               onTimerClose: (value) {
                                 isTimerActive = true;
@@ -191,11 +188,9 @@ class _TomatoMethodState extends State<TomatoMethod> {
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
                 },
-                child: const SessionTile(
+                child: SessionTile(
                   title: 'PERSONALIZZATA 1',
-                  studio: 0,
-                  pausa: 0,
-                  volte: 0,
+                  session: Utente().personalizzata1Session,
                   color: Colors.blue,
                 ),
               ),
@@ -205,9 +200,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => StudySession(
-                              studio: 0,
-                              pausa: 0,
-                              volte: 0,
+                              session: Utente().personalizzata1Session,
                               canModifyValues: true,
                               onTimerClose: (value) {
                                 isTimerActive = true;
@@ -216,11 +209,9 @@ class _TomatoMethodState extends State<TomatoMethod> {
                             )), // Utilizziamo il widget destinazione per la navigazione
                   );
                 },
-                child: const SessionTile(
+                child: SessionTile(
                   title: 'PERSONALIZZATA 2',
-                  studio: 0,
-                  pausa: 0,
-                  volte: 0,
+                  session: Utente().personalizzata2Session,
                   color: Colors.green,
                 ),
               ),
@@ -239,7 +230,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                       ),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Perchè crearsi una sessione di studio personalizzata ?',
                     style: TextStyle(
                         fontSize: 25,
