@@ -138,6 +138,7 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   ),
                 ),
               ),*/
+
               const SizedBox(
                 height: 20,
               ),
@@ -224,31 +225,51 @@ class _TomatoMethodState extends State<TomatoMethod> {
                   color: Colors.green,
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 40,
               ),
               Padding(
                 padding: EdgeInsets.all(20),
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            IdealPage(), // Utilizziamo il widget destinazione per la navigazione
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              IdealPage(), // Utilizziamo il widget destinazione per la navigazione
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        color: Colors.white,
                       ),
-                    );
-                  },
-                  child: Text(
-                    'Perchè crearsi una sessione di studio personalizzata ?',
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        //decoration: TextDecoration.underline,
-                        decorationThickness: 1),
-                  ),
-                ),
-              )
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Perchè crearsi una sessione di studio personalizzata ?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            //decoration: TextDecoration.underline,
+                            decorationThickness: 1,
+                          ),
+                        ),
+                      ),
+                    )),
+              ),
             ],
           ),
         ),
