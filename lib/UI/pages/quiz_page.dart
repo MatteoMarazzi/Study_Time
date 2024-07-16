@@ -113,11 +113,13 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             FloatingActionButton(
+              heroTag: '2',
               onPressed: createQuestion,
               child: const Icon(Icons.add),
             ),
             const SizedBox(width: 16),
             FloatingActionButton(
+              heroTag: '3',
               onPressed: startQuiz,
               child: const Icon(Icons.play_arrow),
             ),
