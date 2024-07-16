@@ -19,9 +19,9 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pages = [
     const MyHomePage(),
     const TomatoMethod(),
-    const DataPage(),
-    const HomeQuizPage(),
     const ExamPage(),
+    const HomeQuizPage(),
+    const DataPage(),
   ];
 
   void _onItemTapped(int index) {

@@ -1,3 +1,4 @@
+import 'package:app/UI/pages/ideal_page.dart';
 import 'package:app/UI/pages/study_session.dart';
 import 'package:app/UI/tiles/session_tile.dart';
 import 'package:flutter/material.dart';
@@ -226,15 +227,26 @@ class _TomatoMethodState extends State<TomatoMethod> {
               const SizedBox(
                 height: 10,
               ),
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  'Perchè crearsi una sessione di studio personalizzata ?',
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      //decoration: TextDecoration.underline,
-                      decorationThickness: 1),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            IdealPage(), // Utilizziamo il widget destinazione per la navigazione
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Perchè crearsi una sessione di studio personalizzata ?',
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        //decoration: TextDecoration.underline,
+                        decorationThickness: 1),
+                  ),
                 ),
               )
             ],
