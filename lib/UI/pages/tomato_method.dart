@@ -1,6 +1,7 @@
 import 'package:app/UI/pages/ideal_page.dart';
 import 'package:app/UI/pages/study_session.dart';
 import 'package:app/UI/tiles/session_tile.dart';
+import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
 class TomatoMethod extends StatefulWidget {
@@ -19,6 +20,25 @@ class _TomatoMethodState extends State<TomatoMethod> {
   late bool isTimerActive = false;
   String mex = 'ATTIVA UNA SESSIONE';
   String mex1 = '';
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      counter = 0;
+      isTimerActive = false;
+      mex = 'ATTIVA UNA SESSIONE';
+      mex1 = '';
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Any logic to handle when dependencies change can go here
+    setState(() {});
+  }
+
   void metodoPomodoro() {
     if (isTimerActive) {
       deadline = DateTime.now();
@@ -32,6 +52,26 @@ class _TomatoMethodState extends State<TomatoMethod> {
         deadline = deadline.add(Duration(minutes: pauseTime));
       }
     }
+  }
+
+  void navigateToStudySession(int sessionId, bool canModifyValues) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StudySession(
+          session: Utente().getSession(sessionId),
+          canModifyValues: canModifyValues,
+          onTimerClose: (value) {
+            setState(() {
+              isTimerActive = true;
+              metodoPomodoro();
+            });
+          },
+        ),
+      ),
+    );
+    // This will trigger a rebuild when returning from StudySession
+    setState(() {});
   }
 
   @override
@@ -152,76 +192,31 @@ class _TomatoMethodState extends State<TomatoMethod> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudySession(
-                              studio: studyTime,
-                              pausa: pauseTime,
-                              volte: 4,
-                              canModifyValues: false,
-                              onTimerClose: (value) {
-                                isTimerActive = true;
-                                metodoPomodoro();
-                              },
-                            )), // Utilizziamo il widget destinazione per la navigazione
-                  );
+                  navigateToStudySession(1, false);
                 },
-                child: const SessionTile(
-                  title: 'SESSIONE STANDARD',
-                  studio: 25,
-                  pausa: 7,
-                  volte: 4,
+                child: SessionTile(
+                  title: 'STANDARD',
+                  session: Utente().getSession(1),
                   color: Colors.redAccent,
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudySession(
-                              studio: 0,
-                              pausa: 0,
-                              volte: 0,
-                              canModifyValues: true,
-                              onTimerClose: (value) {
-                                isTimerActive = true;
-                                metodoPomodoro();
-                              },
-                            )), // Utilizziamo il widget destinazione per la navigazione
-                  );
+                  navigateToStudySession(2, true);
                 },
-                child: const SessionTile(
+                child: SessionTile(
                   title: 'PERSONALIZZATA 1',
-                  studio: 0,
-                  pausa: 0,
-                  volte: 0,
+                  session: Utente().getSession(2),
                   color: Colors.blue,
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudySession(
-                              studio: 0,
-                              pausa: 0,
-                              volte: 0,
-                              canModifyValues: true,
-                              onTimerClose: (value) {
-                                isTimerActive = true;
-                                metodoPomodoro();
-                              },
-                            )), // Utilizziamo il widget destinazione per la navigazione
-                  );
+                  navigateToStudySession(3, true);
                 },
-                child: const SessionTile(
+                child: SessionTile(
                   title: 'PERSONALIZZATA 2',
-                  studio: 0,
-                  pausa: 0,
-                  volte: 0,
+                  session: Utente().getSession(3),
                   color: Colors.green,
                 ),
               ),

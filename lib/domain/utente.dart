@@ -1,11 +1,14 @@
 import 'dart:ui';
 import 'package:app/databases/QuizDB.dart';
+import 'package:app/databases/sessionsDB.dart';
 import 'package:app/domain/quiz.dart';
+import 'package:app/domain/session.dart';
 
 class Utente {
   static final Utente _instance = Utente._internal();
   Map<int, Quiz> quizzesMap = {};
   final List<Quiz> quizzesList = [];
+  Map<int, Session> sessions = {};
 
   factory Utente() {
     return _instance;
@@ -14,11 +17,13 @@ class Utente {
   Utente._internal();
 
   Future mountDatabase() async {
-    quizzesList.addAll(await QuizzesDatabase().getAllQuizzes(this));
+    quizzesList.addAll(await QuizzesDatabase().getAllQuizzes());
     quizzesMap = {for (var quiz in quizzesList) quiz.id: quiz};
     for (Quiz q in quizzesList) {
       q.mountDatabase();
     }
+    List<Session> sessionsList = await SessionsDatabase().getSessions();
+    sessions = {for (var session in sessionsList) session.id: session};
   }
 
   //aggiunta di un nuovo quiz non presente nel database
@@ -48,6 +53,15 @@ class Utente {
     }
   }
 
+  Future updateSession(Session session, int newMinutiStudio, int newMinutiPausa,
+      int newRipetizioni) async {
+    session = sessions[session.id]!;
+    session.minutiStudio = newMinutiStudio;
+    session.minutiPausa = newMinutiPausa;
+    session.ripetizioni = newRipetizioni;
+    SessionsDatabase().updateSession(session);
+  }
+
   Future deleteQuiz(Quiz quiz) async {
     await QuizzesDatabase().deleteQuiz(quiz);
     quizzesMap.remove(quiz.id);
@@ -63,5 +77,12 @@ class Utente {
 
   int countQuizzes() {
     return quizzesList.length;
+  }
+
+  Session getSession(int id) {
+    if (!sessions.containsKey(id)) {
+      throw Exception("Sessione con ID $id non trovata");
+    }
+    return sessions[id]!;
   }
 }
