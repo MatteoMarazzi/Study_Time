@@ -438,7 +438,9 @@ class _StudySessionState extends State<StudySession> {
                     Utente().updateSession(widget.session, counterStudio,
                         counterPausa, counterRipetizioni);
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => sessionPage()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              SessionPage(session: widget.session)),
                     );
                     setState(() {
                       widget.onTimerClose(true);
