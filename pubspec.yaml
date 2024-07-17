@@ -45,6 +45,7 @@ dependencies:
   uuid: ^3.0.4
   flutter_localizations:
     sdk: flutter
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
      - assets/calendar.png
      - assets/study.json
      - assets/calendar_1.json
+     - assets/ragazzo_studioso.png
 
   fonts:
     - family: Garamond

@@ -126,7 +126,7 @@ class _StudySessionState extends State<StudySession> {
   void _decrementCounter() {
     if (widget.canModifyValues == true) {
       setState(() {
-        if (counterStudio > 10) {
+        if (counterStudio > 20) {
           counterStudio = counterStudio - 5;
           colorP1 = Colors.black;
         }
@@ -438,8 +438,7 @@ class _StudySessionState extends State<StudySession> {
                     Utente().updateSession(widget.session, counterStudio,
                         counterPausa, counterRipetizioni);
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => const sessionPage()),
+                      MaterialPageRoute(builder: (context) => sessionPage()),
                     );
                     setState(() {
                       widget.onTimerClose(true);
