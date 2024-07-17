@@ -1,7 +1,6 @@
 import 'package:app/UI/pages/ideal_page.dart';
 import 'package:app/UI/pages/study_session.dart';
 import 'package:app/UI/tiles/session_tile.dart';
-import 'package:app/domain/session.dart';
 import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +21,24 @@ class _TomatoMethodState extends State<TomatoMethod> {
   String mex = 'ATTIVA UNA SESSIONE';
   String mex1 = '';
 
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      counter = 0;
+      isTimerActive = false;
+      mex = 'ATTIVA UNA SESSIONE';
+      mex1 = '';
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Any logic to handle when dependencies change can go here
+    setState(() {});
+  }
+
   void metodoPomodoro() {
     if (isTimerActive) {
       deadline = DateTime.now();
@@ -37,6 +54,26 @@ class _TomatoMethodState extends State<TomatoMethod> {
     }
   }
 
+  void navigateToStudySession(int sessionId, bool canModifyValues) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StudySession(
+          session: Utente().getSession(sessionId),
+          canModifyValues: canModifyValues,
+          onTimerClose: (value) {
+            setState(() {
+              isTimerActive = true;
+              metodoPomodoro();
+            });
+          },
+        ),
+      ),
+    );
+    // This will trigger a rebuild when returning from StudySession
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -49,98 +86,6 @@ class _TomatoMethodState extends State<TomatoMethod> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              /*Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: GestureDetector(
-                  onTap: () {
-                    if (isTimerActive) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => timerPage(
-                                  //vanno cambiate le variabili passate
-                                  timer_attivo: deadline,
-                                  pause_time:
-                                      pause_time, //tutti valori da aggiungere con dataBase
-                                  study_time:
-                                      study_time, //tutti valori da aggiungere con dataBase
-                                  nSession:
-                                      4, //tutti valori da aggiungere con dataBase
-                                )), // Utilizziamo il widget destinazione per la navigazione
-                      );
-                    } else {
-                      setState(() {
-                        mex = 'AVVIA UNA SESSIONE PRIMA';
-                        mex_adv = 6;
-                      });
-                    }
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color.fromARGB(34, 228, 15, 0),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, right: 8, top: 7, bottom: 10),
-                          child: Text(
-                            mex,
-                            style: TextStyle(
-                              fontFamily: 'Garamond',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        Container(
-                            child: TomatoTimer(
-                          deadline: deadline,
-                          onDeadlineUpdated: (newDeadline) {
-                            setState(() {
-                              if (counter < 2 && isTimerActive) {
-                                counter++;
-                                metodoPomodoro(); //inizializza qui la lista dei timer e li fa partire
-                              } else {
-                                counter = 0;
-                                isTimerActive = false;
-                                mex1 = '';
-                                if (mex_adv > 3) {
-                                  mex_adv--;
-                                } else {
-                                  mex = 'ATTIVA UNA SESSIONE';
-                                }
-                              }
-                            });
-                          },
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, right: 8, top: 10),
-                          child: Text(
-                            mex1,
-                            style: TextStyle(
-                              fontFamily: 'Garamond',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),*/
               const SizedBox(
                 height: 20,
               ),
@@ -154,64 +99,31 @@ class _TomatoMethodState extends State<TomatoMethod> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudySession(
-                              session: Utente().standardSession,
-                              canModifyValues: false,
-                              onTimerClose: (value) {
-                                isTimerActive = true;
-                                metodoPomodoro();
-                              },
-                            )), // Utilizziamo il widget destinazione per la navigazione
-                  );
+                  navigateToStudySession(1, false);
                 },
                 child: SessionTile(
                   title: 'STANDARD',
-                  session: Utente().standardSession,
+                  session: Utente().getSession(1),
                   color: Colors.redAccent,
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudySession(
-                              session: Utente().standardSession,
-                              canModifyValues: true,
-                              onTimerClose: (value) {
-                                isTimerActive = true;
-                                metodoPomodoro();
-                              },
-                            )), // Utilizziamo il widget destinazione per la navigazione
-                  );
+                  navigateToStudySession(2, true);
                 },
                 child: SessionTile(
                   title: 'PERSONALIZZATA 1',
-                  session: Utente().personalizzata1Session,
+                  session: Utente().getSession(2),
                   color: Colors.blue,
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudySession(
-                              session: Utente().personalizzata1Session,
-                              canModifyValues: true,
-                              onTimerClose: (value) {
-                                isTimerActive = true;
-                                metodoPomodoro();
-                              },
-                            )), // Utilizziamo il widget destinazione per la navigazione
-                  );
+                  navigateToStudySession(3, true);
                 },
                 child: SessionTile(
                   title: 'PERSONALIZZATA 2',
-                  session: Utente().personalizzata2Session,
+                  session: Utente().getSession(3),
                   color: Colors.green,
                 ),
               ),

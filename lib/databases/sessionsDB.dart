@@ -52,19 +52,12 @@ class SessionsDatabase {
     }
   }
 
-  Future<Session> getSession(String sessionTitle) async {
+  Future<List<Session>> getSessions() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'sessions',
-      where: 'title = ?',
-      whereArgs: [sessionTitle],
-    );
-
-    if (maps.isNotEmpty) {
-      return Session.fromMap(maps.first);
-    } else {
-      throw Exception('No session found with title $sessionTitle');
-    }
+    final List<Map<String, dynamic>> maps = await db.query('sessions');
+    return List.generate(maps.length, (i) {
+      return Session.fromMap(maps[i]);
+    });
   }
 
   Future<int> updateSession(Session session) async {

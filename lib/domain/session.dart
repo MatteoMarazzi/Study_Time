@@ -1,3 +1,5 @@
+import 'package:app/databases/sessionsDB.dart';
+
 class Session {
   final int id;
   String title;
@@ -11,6 +13,14 @@ class Session {
       required this.minutiPausa,
       required this.ripetizioni,
       required this.id});
+
+  Future update(
+      int newMinutiStudio, int newMinutiPausa, int newRipetizioni) async {
+    minutiStudio = newMinutiStudio;
+    minutiPausa = newMinutiPausa;
+    ripetizioni = newRipetizioni;
+    await SessionsDatabase().updateSession(this);
+  }
 
   Map<String, dynamic> toMap() {
     return {

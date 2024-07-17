@@ -18,9 +18,9 @@ class StudySession extends StatefulWidget {
 }
 
 class _StudySessionState extends State<StudySession> {
-  int _counter = 20;
-  int counterPause = 5;
-  int _nSession = 1;
+  int counterStudio = 20;
+  int counterPausa = 5;
+  int counterRipetizioni = 1;
   Color colorP1 = Colors.black;
   Color colorP2 = Colors.black;
   Color colorP3 = Colors.black;
@@ -31,9 +31,9 @@ class _StudySessionState extends State<StudySession> {
   @override
   void initState() {
     super.initState();
-    _counter = widget.session.minutiStudio;
-    counterPause = widget.session.minutiPausa;
-    _nSession = widget.session.ripetizioni;
+    counterStudio = widget.session.minutiStudio;
+    counterPausa = widget.session.minutiPausa;
+    counterRipetizioni = widget.session.ripetizioni;
     if (widget.canModifyValues == false) {
       colorM1 = Colors.grey;
       colorM2 = Colors.grey;
@@ -44,9 +44,9 @@ class _StudySessionState extends State<StudySession> {
     } else if (widget.session.minutiStudio == 0 &&
         widget.session.minutiPausa == 0 &&
         widget.session.ripetizioni == 0) {
-      _counter = 40;
-      counterPause = 15;
-      _nSession = 2;
+      counterStudio = 40;
+      counterPausa = 15;
+      counterRipetizioni = 2;
     }
   }
 
@@ -54,11 +54,11 @@ class _StudySessionState extends State<StudySession> {
     //NUMERO SESSIONI
     if (widget.canModifyValues == true) {
       setState(() {
-        if (_nSession < 8) {
-          _nSession = _nSession + 1;
+        if (counterRipetizioni < 8) {
+          counterRipetizioni = counterRipetizioni + 1;
           colorM3 = Colors.black;
         }
-        if (_nSession == 8) {
+        if (counterRipetizioni == 8) {
           colorP3 = Colors.grey;
         }
       });
@@ -68,11 +68,11 @@ class _StudySessionState extends State<StudySession> {
   void decrementSessionCounter() {
     if (widget.canModifyValues == true) {
       setState(() {
-        if (_nSession > 1) {
-          _nSession = _nSession - 1;
+        if (counterRipetizioni > 1) {
+          counterRipetizioni = counterRipetizioni - 1;
           colorP3 = Colors.black;
         }
-        if (_nSession == 1) {
+        if (counterRipetizioni == 1) {
           colorM3 = Colors.grey;
         }
       });
@@ -83,11 +83,11 @@ class _StudySessionState extends State<StudySession> {
     //MIN DI PAUSA
     if (widget.canModifyValues == true) {
       setState(() {
-        if (counterPause < 25) {
-          counterPause = counterPause + 2;
+        if (counterPausa < 25) {
+          counterPausa = counterPausa + 2;
           colorM2 = Colors.black;
         }
-        if (counterPause == 25) {
+        if (counterPausa == 25) {
           colorP2 = Colors.grey;
         }
       });
@@ -97,11 +97,11 @@ class _StudySessionState extends State<StudySession> {
   void decrementPauseCounter() {
     if (widget.canModifyValues == true) {
       setState(() {
-        if (counterPause > 5) {
-          counterPause = counterPause - 2;
+        if (counterPausa > 5) {
+          counterPausa = counterPausa - 2;
           colorP2 = Colors.black;
         }
-        if (counterPause == 5) {
+        if (counterPausa == 5) {
           colorM2 = Colors.grey;
         }
       });
@@ -112,11 +112,11 @@ class _StudySessionState extends State<StudySession> {
     //Durata mini-sessione
     if (widget.canModifyValues == true) {
       setState(() {
-        if (_counter < 60) {
-          _counter = _counter + 5;
+        if (counterStudio < 60) {
+          counterStudio = counterStudio + 5;
           colorM1 = Colors.black;
         }
-        if (_counter == 60) {
+        if (counterStudio == 60) {
           colorP1 = Colors.grey;
         }
       });
@@ -126,11 +126,11 @@ class _StudySessionState extends State<StudySession> {
   void _decrementCounter() {
     if (widget.canModifyValues == true) {
       setState(() {
-        if (_counter > 10) {
-          _counter = _counter - 5;
+        if (counterStudio > 10) {
+          counterStudio = counterStudio - 5;
           colorP1 = Colors.black;
         }
-        if (_counter == 10) {
+        if (counterStudio == 10) {
           colorM1 = Colors.grey;
         }
       });
@@ -145,13 +145,12 @@ class _StudySessionState extends State<StudySession> {
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(false); // Passing false as result
             },
             icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             )),
-        //va sistemato il leading
         backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
@@ -199,7 +198,7 @@ class _StudySessionState extends State<StudySession> {
                         width: 50,
                       ),
                       Text(
-                        '$_counter',
+                        '$counterStudio',
                         style: const TextStyle(
                             fontSize: 100.0, fontWeight: FontWeight.bold),
                       ),
@@ -274,7 +273,7 @@ class _StudySessionState extends State<StudySession> {
                         width: 50,
                       ),
                       Text(
-                        '$counterPause',
+                        '$counterPausa',
                         style: const TextStyle(
                             fontSize: 100.0, fontWeight: FontWeight.bold),
                       ),
@@ -350,7 +349,7 @@ class _StudySessionState extends State<StudySession> {
                     width: 10,
                   ),
                   Text(
-                    '$_nSession',
+                    '$counterRipetizioni',
                     style: const TextStyle(
                         fontSize: 40, fontWeight: FontWeight.w400),
                   ),
@@ -405,13 +404,14 @@ class _StudySessionState extends State<StudySession> {
                 margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
-                    Utente().updateSession(
-                        widget.session, _counter, _nSession, counterPause);
+                    Utente().updateSession(widget.session, counterStudio,
+                        counterPausa, counterRipetizioni);
+                    Navigator.of(context).pop(true);
+                    setState(() {});
                   },
                   style: ButtonStyle(
                     animationDuration: const Duration(seconds: 5),
                     overlayColor: MaterialStateProperty.all(Colors.grey),
-                    // Altre personalizzazioni come colori, bordi, ecc.
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -435,10 +435,11 @@ class _StudySessionState extends State<StudySession> {
                 margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
-                    Utente().updateSession(
-                        widget.session, _counter, _nSession, counterPause);
+                    Utente().updateSession(widget.session, counterStudio,
+                        counterPausa, counterRipetizioni);
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => sessionPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const sessionPage()),
                     );
                     setState(() {
                       widget.onTimerClose(true);
