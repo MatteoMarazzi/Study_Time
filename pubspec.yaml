@@ -90,6 +90,9 @@ flutter:
      - assets/calendar_1.json
      - assets/ragazzo_studioso.png
      - assets/icon/icon.png
+     - assets/spezzacatene.png
+     - assets/corridore.png
+
 
   fonts:
     - family: Garamond

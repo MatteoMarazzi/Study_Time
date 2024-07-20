@@ -48,6 +48,24 @@ class _StudySessionState extends State<StudySession> {
       counterPausa = 15;
       counterRipetizioni = 2;
     }
+    if (counterRipetizioni == 1) {
+      colorM3 = Colors.grey;
+    }
+    if (counterRipetizioni == 8) {
+      colorP3 = Colors.grey;
+    }
+    if (counterPausa == 25) {
+      colorP2 = Colors.grey;
+    }
+    if (counterPausa == 5) {
+      colorM2 = Colors.grey;
+    }
+    if (counterStudio == 20) {
+      colorM1 = Colors.grey;
+    }
+    if (counterStudio == 60) {
+      colorP1 = Colors.grey;
+    }
   }
 
   void incrementSessionCounter() {
@@ -130,7 +148,7 @@ class _StudySessionState extends State<StudySession> {
           counterStudio = counterStudio - 5;
           colorP1 = Colors.black;
         }
-        if (counterStudio == 10) {
+        if (counterStudio == 20) {
           colorM1 = Colors.grey;
         }
       });
