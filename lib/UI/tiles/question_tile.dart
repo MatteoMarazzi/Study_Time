@@ -3,15 +3,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class QuestionTile extends StatelessWidget {
   String questionText;
-  String answer;
-  VoidCallback onOpenTile;
   VoidCallback onOpenModifica;
   VoidCallback onOpenElimina;
   QuestionTile(
       {super.key,
       required this.questionText,
-      required this.answer,
-      required this.onOpenTile,
       required this.onOpenModifica,
       required this.onOpenElimina});
 
@@ -29,27 +25,21 @@ class QuestionTile extends StatelessWidget {
           ),
           child: Center(
             child: ListTile(
-              onTap: onOpenTile,
               title: Row(
-                //attualmente inutilizzata, ma si vorrebbe aggiungere il numero di domande per quiz
                 children: [
-                  Text(
-                    questionText,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Text(
+                      questionText,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
                     ),
                   ),
                 ],
-              ),
-              subtitle: Text(
-                answer,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
               ),
               trailing: PopupMenuButton(
                 icon: const Icon(

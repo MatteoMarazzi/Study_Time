@@ -30,10 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  hive: ^2.2.3
   one_clock: ^2.0.0
   flex_color_picker: ^3.3.1
-  hive_flutter: ^1.1.0
   cupertino_icons: ^1.0.2
   font_awesome_flutter: ^10.6.0
   http: ^1.1.0
@@ -43,6 +41,7 @@ dependencies:
   lottie: ^2.6.0                    #per pulsanti animati
   calendar_date_picker2: ^0.5.3     #per calendari sofisticati
   uuid: ^3.0.4
+  flip_card: ^0.7.0
   flutter_localizations:
     sdk: flutter
   get: ^4.6.5

@@ -1,5 +1,4 @@
 import 'package:app/domain/question.dart';
-import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';

@@ -74,8 +74,6 @@ class _QuizPageState extends State<QuizPage> {
         });
   }
 
-  openQuestion(int index) {}
-
   startQuiz() async {
     await Navigator.push(
         context,
@@ -93,15 +91,19 @@ class _QuizPageState extends State<QuizPage> {
         centerTitle: true,
         backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
       ),
-      body: ListView.builder(
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Due riquadri per riga
+          crossAxisSpacing: 10, // Spazio orizzontale tra i riquadri
+          mainAxisSpacing: 8, // Spazio verticale tra i riquadri
+          childAspectRatio: 2 / 3, // Rapporto larghezza/altezza per i riquadri
+        ),
         padding: const EdgeInsets.all(8), //contorno intera lista
         itemCount: widget.quiz.questionsList.length,
         itemBuilder: (context, index) {
           Question? currentQuestion = widget.quiz.questionsList[index];
           return QuestionTile(
             questionText: currentQuestion.text,
-            answer: currentQuestion.answer,
-            onOpenTile: () => openQuestion(index),
             onOpenElimina: () => deleteQuestion(currentQuestion),
             onOpenModifica: () => modifyQuestion(currentQuestion),
           );
