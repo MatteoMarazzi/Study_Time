@@ -104,6 +104,7 @@ class _QuizPageState extends State<QuizPage> {
           Question? currentQuestion = widget.quiz.questionsList[index];
           return QuestionTile(
             questionText: currentQuestion.text,
+            color: widget.quiz.color,
             onOpenElimina: () => deleteQuestion(currentQuestion),
             onOpenModifica: () => modifyQuestion(currentQuestion),
           );
