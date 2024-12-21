@@ -87,9 +87,18 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: const TextStyle(color: Colors.white)),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop(false); // Passing false as result
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
+        title: Text(widget.title, style: const TextStyle(color: Colors.black)),
         centerTitle: true,
-        backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
+        backgroundColor: Colors.white,
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -118,12 +127,14 @@ class _QuizPageState extends State<QuizPage> {
             FloatingActionButton(
               heroTag: '2',
               onPressed: createQuestion,
+              backgroundColor: const Color.fromARGB(255, 8, 73, 108),
               child: const Icon(Icons.add),
             ),
             const SizedBox(width: 16),
             FloatingActionButton(
               heroTag: '3',
               onPressed: startQuiz,
+              backgroundColor: const Color.fromARGB(255, 8, 73, 108),
               child: const Icon(Icons.play_arrow),
             ),
           ],

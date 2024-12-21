@@ -14,7 +14,7 @@ class HomeQuizPage extends StatefulWidget {
 class _HomeQuizPageState extends State<HomeQuizPage> {
   final quizNameController = TextEditingController();
   final quizDescriptionController = TextEditingController();
-  Color selectedColor = Colors.black;
+  Color selectedColor = Colors.white;
 
   void saveQuiz() async {
     await Utente().addQuiz(
@@ -88,10 +88,19 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop(false); // Passing false as result
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text('QUIZ',
-            textAlign: TextAlign.left, style: TextStyle(color: Colors.white)),
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
         itemCount: Utente().countQuizzes(),
@@ -99,7 +108,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
           Quiz? currentQuiz = Utente().getQuiz(index);
           return QuizTile(
             quizName: currentQuiz!.name,
-            quizDescription: currentQuiz.description,
+            flashcardsCount: currentQuiz.questionsList.length,
             color: currentQuiz.color,
             onOpenTile: () => openQuiz(currentQuiz),
             onOpenModifica: () => modifyQuiz(currentQuiz),

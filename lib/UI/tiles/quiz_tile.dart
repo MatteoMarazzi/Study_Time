@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class QuizTile extends StatelessWidget {
   final String quizName;
-  final String quizDescription;
+  int flashcardsCount;
   Color color;
   VoidCallback onOpenTile;
   VoidCallback onOpenModifica;
@@ -11,7 +11,7 @@ class QuizTile extends StatelessWidget {
   QuizTile(
       {super.key,
       required this.quizName,
-      required this.quizDescription,
+      required this.flashcardsCount,
       required this.color,
       required this.onOpenTile,
       required this.onOpenModifica,
@@ -40,14 +40,14 @@ class QuizTile extends StatelessWidget {
                     quizName,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
               subtitle: Text(
-                quizDescription,
+                "$flashcardsCount Flashcards",
                 strutStyle: const StrutStyle(
                   height: 1.5,
                 ),
