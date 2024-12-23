@@ -90,7 +90,7 @@ class _QuizPageState extends State<QuizPage> {
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop(false); // Passing false as result
+              Navigator.of(context).pop(false);
             },
             icon: const Icon(
               Icons.arrow_back,

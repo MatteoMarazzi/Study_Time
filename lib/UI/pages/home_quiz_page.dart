@@ -1,3 +1,4 @@
+import 'package:app/UI/pages/quiz_editor_page.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
 import 'package:app/UI/util/add_quiz_box.dart';
@@ -29,19 +30,16 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void createQuiz() async {
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AddQuizBox(
-            controller: quizNameController,
-            controllerd: quizDescriptionController,
-            onColorSelected: (Color color) {
-              selectedColor = color;
-            },
-            onSalva: saveQuiz,
-            onAnnulla: () => Navigator.of(context).pop(),
-          );
-        });
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => QuizEditorPage(
+                  onColorSelected: (Color color) {
+                    selectedColor = color;
+                  },
+                  onSalva: saveQuiz,
+                  onAnnulla: () => Navigator.of(context).pop(),
+                )));
   }
 
   void openQuiz(Quiz quiz) async {
@@ -55,6 +53,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void modifyQuiz(Quiz quiz) async {
+    selectedColor = quiz
+        .color; //così che se non viene modificato il colore rimane il precedente
     quizNameController.text = quiz.name;
     quizDescriptionController.text = quiz.description;
     await showDialog(
