@@ -1,4 +1,3 @@
-import 'package:app/UI/util/buttons.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +11,8 @@ class QuizEditorPage extends StatefulWidget {
 
   QuizEditorPage(
       {super.key,
-      this.controller,
-      this.controllerd,
+      required this.controller,
+      required this.controllerd,
       required this.onColorSelected,
       required this.onSalva,
       required this.onAnnulla});
@@ -71,9 +70,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              widget.onSalva;
-            },
+            onPressed: widget.onSalva,
             icon: const Icon(
               Icons.check,
               color: Colors.black,
@@ -96,6 +93,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                     children: [
                       TextField(
                         maxLength: 28,
+                        controller: widget.controller,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: "Nome quiz",
@@ -117,6 +115,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                       buildColorPicker(),
                       const SizedBox(height: 16.0),
                       TextField(
+                          controller: widget.controllerd,
                           maxLines: null,
                           minLines: 1,
                           decoration: InputDecoration(

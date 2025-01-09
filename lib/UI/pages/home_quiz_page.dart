@@ -1,7 +1,6 @@
 import 'package:app/UI/pages/quiz_editor_page.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
-import 'package:app/UI/util/add_quiz_box.dart';
 import 'package:app/UI/tiles/quiz_tile.dart';
 import 'package:app/domain/utente.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +33,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         context,
         MaterialPageRoute(
             builder: (context) => QuizEditorPage(
+                  controller: quizNameController,
+                  controllerd: quizDescriptionController,
                   onColorSelected: (Color color) {
                     selectedColor = color;
                   },
@@ -57,26 +58,18 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         .color; //così che se non viene modificato il colore rimane il precedente
     quizNameController.text = quiz.name;
     quizDescriptionController.text = quiz.description;
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AddQuizBox(
-              controller: quizNameController,
-              controllerd: quizDescriptionController,
-              onColorSelected: (Color color) {
-                selectedColor = color;
-              },
-              onSalva: () async {
-                await Utente().updateQuiz(quizNameController.text,
-                    quizDescriptionController.text, selectedColor, quiz);
-                quizNameController.clear();
-                quizDescriptionController.clear();
-                setState(() {
-                  Navigator.of(context).pop();
-                });
-              },
-              onAnnulla: (() => Navigator.of(context).pop()));
-        });
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => QuizEditorPage(
+                  controller: quizNameController,
+                  controllerd: quizDescriptionController,
+                  onColorSelected: (Color color) {
+                    selectedColor = color;
+                  },
+                  onSalva: saveQuiz,
+                  onAnnulla: () => Navigator.of(context).pop(),
+                )));
   }
 
   void deleteQuiz(Quiz quiz) async {
