@@ -133,8 +133,10 @@ class _QuizPageState extends State<QuizPage> {
             const SizedBox(width: 16),
             FloatingActionButton(
               heroTag: '3',
-              onPressed: startQuiz,
-              backgroundColor: const Color.fromARGB(255, 8, 73, 108),
+              onPressed: widget.quiz.questionsList.isEmpty ? null : startQuiz,
+              backgroundColor: widget.quiz.questionsList.isEmpty
+                  ? Colors.grey
+                  : const Color.fromARGB(255, 8, 73, 108),
               child: const Icon(Icons.play_arrow),
             ),
           ],

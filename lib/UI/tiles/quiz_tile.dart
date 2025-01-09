@@ -1,3 +1,4 @@
+import 'package:app/UI/util/editor_menu.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -57,17 +58,18 @@ class QuizTile extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                 ),
               ),
-              trailing: PopupMenuButton(
+              trailing: IconButton(
                 icon: const Icon(
                   Icons.more_vert_rounded,
                   color: Colors.black,
                 ),
-                itemBuilder: (BuildContext context) => [
-                  PopupMenuItem(
-                      onTap: onOpenModifica, child: const Text('modifica')),
-                  PopupMenuItem(
-                      onTap: onOpenElimina, child: const Text('elimina'))
-                ],
+                onPressed: () {
+                  EditorMenu(
+                          context: context,
+                          onOpenElimina: onOpenElimina,
+                          onOpenModifica: onOpenModifica)
+                      .show();
+                },
               ),
             ),
           )),
