@@ -83,7 +83,17 @@ class _QuizPageState extends State<QuizPage> {
             builder: (context) => QuestionsEditorPage(
                   questionController: questionTextController,
                   answerController: answerTextController,
-                  onSalva: saveQuestion,
+                  onSalva: () async {
+                    /*await*/ widget.quiz.updateQuestion(
+                        questionTextController.text,
+                        answerTextController.text,
+                        questionToModify);
+                    questionTextController.clear();
+                    answerTextController.clear();
+                    setState(() {
+                      Navigator.of(context).pop();
+                    });
+                  },
                   onAnnulla: () => Navigator.of(context).pop(),
                 )));
   }

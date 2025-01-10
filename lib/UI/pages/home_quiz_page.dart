@@ -63,14 +63,21 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         context,
         MaterialPageRoute(
             builder: (context) => QuizEditorPage(
-                  controller: quizNameController,
-                  controllerd: quizDescriptionController,
-                  onColorSelected: (Color color) {
-                    selectedColor = color;
-                  },
-                  onSalva: saveQuiz,
-                  onAnnulla: () => Navigator.of(context).pop(),
-                )));
+                controller: quizNameController,
+                controllerd: quizDescriptionController,
+                onColorSelected: (Color color) {
+                  selectedColor = color;
+                },
+                onSalva: () async {
+                  await Utente().updateQuiz(quizNameController.text,
+                      quizDescriptionController.text, selectedColor, quiz);
+                  quizNameController.clear();
+                  quizDescriptionController.clear();
+                  setState(() {
+                    Navigator.of(context).pop();
+                  });
+                },
+                onAnnulla: (() => Navigator.of(context).pop()))));
   }
 
   void deleteQuiz(Quiz quiz) async {
