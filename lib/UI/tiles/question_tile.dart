@@ -1,3 +1,4 @@
+import 'package:app/UI/util/editor_menu.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -44,22 +45,18 @@ class QuestionTile extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: PopupMenuButton(
-                  icon: const Icon(
-                    Icons.more_horiz_rounded,
-                    color: Colors.black,
-                  ),
-                  itemBuilder: (BuildContext context) => [
-                    PopupMenuItem(
-                      onTap: onOpenModifica,
-                      child: const Text('modifica'),
+                child: IconButton(
+                    icon: const Icon(
+                      Icons.more_horiz_rounded,
+                      color: Colors.black,
                     ),
-                    PopupMenuItem(
-                      onTap: onOpenElimina,
-                      child: const Text('elimina'),
-                    ),
-                  ],
-                ),
+                    onPressed: () {
+                      EditorMenu(
+                              context: context,
+                              onOpenElimina: onOpenElimina,
+                              onOpenModifica: onOpenModifica)
+                          .show();
+                    }),
               ),
             ],
           ),

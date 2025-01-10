@@ -1,8 +1,8 @@
+import 'package:app/UI/pages/questions_editor_page.dart';
 import 'package:app/UI/pages/quiz_execution_page.dart';
 import 'package:app/domain/question.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/tiles/question_tile.dart';
-import 'package:app/UI/util/add_question_box.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -33,16 +33,15 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void createQuestion() async {
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AddQuestionBox(
-            questionController: questionTextController,
-            answerController: answerTextController,
-            onSalva: saveQuestion,
-            onAnnulla: () => Navigator.of(context).pop(),
-          );
-        });
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => QuestionsEditorPage(
+                  questionController: questionTextController,
+                  answerController: answerTextController,
+                  onSalva: saveQuestion,
+                  onAnnulla: () => Navigator.of(context).pop(),
+                )));
   }
 
   deleteQuestion(Question questionToDelete) {
@@ -53,25 +52,15 @@ class _QuizPageState extends State<QuizPage> {
   modifyQuestion(Question questionToModify) async {
     questionTextController.text = questionToModify.text;
     answerTextController.text = questionToModify.answer;
-    await showDialog(
-        context: context,
-        builder: (context) {
-          return AddQuestionBox(
-              questionController: questionTextController,
-              answerController: answerTextController,
-              onSalva: () async {
-                /*await*/ widget.quiz.updateQuestion(
-                    questionTextController.text,
-                    answerTextController.text,
-                    questionToModify);
-                questionTextController.clear();
-                answerTextController.clear();
-                setState(() {
-                  Navigator.of(context).pop();
-                });
-              },
-              onAnnulla: (() => Navigator.of(context).pop()));
-        });
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => QuestionsEditorPage(
+                  questionController: questionTextController,
+                  answerController: answerTextController,
+                  onSalva: saveQuestion,
+                  onAnnulla: () => Navigator.of(context).pop(),
+                )));
   }
 
   startQuiz() async {
