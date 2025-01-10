@@ -54,6 +54,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void modifyQuiz(Quiz quiz) async {
+    Navigator.pop(context);
     selectedColor = quiz
         .color; //così che se non viene modificato il colore rimane il precedente
     quizNameController.text = quiz.name;
@@ -73,8 +74,33 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void deleteQuiz(Quiz quiz) async {
-    Utente().deleteQuiz(quiz);
-    setState(() {});
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Conferma eliminazione'),
+          content: const Text(
+              'Sei sicuro di voler eliminare questo quiz? Eliminerai tutti le flashcard ad esso associate'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Annulla'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await Utente().deleteQuiz(quiz);
+                setState(() {});
+                Navigator.of(context).pop();
+                Navigator.pop(context);
+              },
+              child: const Text('Elimina', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

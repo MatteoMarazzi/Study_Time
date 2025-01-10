@@ -105,10 +105,9 @@ class _QuestionsEditorPageState extends State<QuestionsEditorPage> {
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: EdgeInsets.only(
-              left: screenSize.width * 0.08), // Margine simmetrico
+          padding: EdgeInsets.only(left: screenSize.width * 0.08),
           child: SizedBox(
-            width: 400, // Si estende al massimo possibile
+            width: 400,
             child: Card(
               elevation: 5,
               color: Colors.white,

@@ -25,9 +25,9 @@ class _QuizPageState extends State<QuizPage> {
       text: questionTextController.text,
       answer: answerTextController.text,
     );
+    setState(() {});
     questionTextController.clear();
     answerTextController.clear();
-    setState(() {});
     if (!mounted) return;
     Navigator.of(context).pop();
   }
@@ -45,8 +45,33 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   deleteQuestion(Question questionToDelete) {
-    widget.quiz.deleteQuestion(questionToDelete);
-    setState(() {});
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Conferma eliminazione'),
+          content:
+              const Text('Sei sicuro di voler eliminare questa flashcard?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Annulla'),
+            ),
+            TextButton(
+              onPressed: () async {
+                widget.quiz.deleteQuestion(questionToDelete);
+                setState(() {});
+                Navigator.of(context).pop();
+                Navigator.pop(context);
+              },
+              child: const Text('Elimina', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   modifyQuestion(Question questionToModify) async {

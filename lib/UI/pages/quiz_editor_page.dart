@@ -49,6 +49,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -68,15 +69,6 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
           textAlign: TextAlign.left,
           style: TextStyle(color: Colors.black),
         ),
-        actions: [
-          IconButton(
-            onPressed: widget.onSalva,
-            icon: const Icon(
-              Icons.check,
-              color: Colors.black,
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Column(
@@ -91,15 +83,22 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        'Nome quiz',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       TextField(
                         maxLength: 28,
                         controller: widget.controller,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: "Nome quiz",
+                          hintText: "Aggiungi il nome del quiz",
                           hintStyle: TextStyle(
                             fontSize: 20,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
@@ -108,19 +107,23 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                         "Scegli il colore:",
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       const SizedBox(height: 8.0),
                       buildColorPicker(),
                       const SizedBox(height: 16.0),
+                      Text('Descrizione', style: TextStyle(fontSize: 18)),
+                      SizedBox(
+                        height: 10,
+                      ),
                       TextField(
                           controller: widget.controllerd,
                           maxLines: null,
                           minLines: 1,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Descrizione",
+                              hintText: "Aggiungi la descrzione",
                               hintStyle: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
@@ -131,6 +134,37 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: EdgeInsets.only(left: screenSize.width * 0.08),
+          child: SizedBox(
+            width: 400,
+            child: Card(
+              elevation: 5,
+              color: Colors.white,
+              shadowColor: Colors.black,
+              child: TextButton(
+                onPressed: widget.onSalva,
+                style: ButtonStyle(
+                  animationDuration: const Duration(seconds: 5),
+                  overlayColor: MaterialStateProperty.all(Colors.grey),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Salva',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
