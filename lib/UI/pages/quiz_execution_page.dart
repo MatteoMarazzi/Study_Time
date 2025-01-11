@@ -20,17 +20,34 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flashcard Quiz'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop(false); // Passing false as result
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
+        backgroundColor: Colors.white,
         centerTitle: true,
-        backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
+        title: Text('${widget.quiz.name}',
+            textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Text(
+              'Flashcard ${currentIndex + 1} di ${widget.quiz.questionsList.length}',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             SizedBox(
               width: 350,
-              height: 450,
+              height: 550,
               child: FlipCard(
                 key: cardKey,
                 flipOnTouch: true,
@@ -45,15 +62,65 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                OutlinedButton.icon(
+                IconButton(
                   onPressed: previousCard,
                   icon: Icon(Icons.chevron_left),
-                  label: Text('Prev'),
                 ),
-                OutlinedButton.icon(
+                Container(
+                  height: 80,
+                  width: 120,
+                  child: Card(
+                    elevation: 5,
+                    color: Colors.red,
+                    shadowColor: Colors.black,
+                    child: TextButton(
+                      onPressed: null,
+                      style: ButtonStyle(
+                        animationDuration: const Duration(seconds: 5),
+                        overlayColor: MaterialStateProperty.all(Colors.grey),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Difficile',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 120,
+                  height: 80,
+                  child: Card(
+                    elevation: 5,
+                    color: Colors.green,
+                    shadowColor: Colors.black,
+                    child: TextButton(
+                      onPressed: null,
+                      style: ButtonStyle(
+                        animationDuration: const Duration(seconds: 5),
+                        overlayColor: MaterialStateProperty.all(Colors.grey),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Facile',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
                   onPressed: nextCard,
                   icon: Icon(Icons.chevron_right),
-                  label: Text('Next'),
                 ),
               ],
             )
