@@ -55,6 +55,13 @@ class Quiz {
     }
   }
 
+  Future<void> updateDifficulty(
+      Question question, Difficulty newDifficulty) async {
+    await QuizzesDatabase()
+        .updateQuestionDifficulty(question.id, difficultyToInt(newDifficulty));
+    question.difficulty = newDifficulty;
+  }
+
   void deleteQuestion(Question question) async {
     await QuizzesDatabase().deleteQuestion(question);
     questionsMap.remove(question.id);

@@ -34,6 +34,7 @@ class QuizzesDatabase {
       quiz INTEGER NOT NULL,
       text TEXT NOT NULL,
       answer TEXT,
+      difficulty INTEGER NOT NULL DEFAULT 2,
       FOREIGN KEY (quiz) REFERENCES quizzes(id)
     )
   ''');
@@ -98,6 +99,14 @@ class QuizzesDatabase {
     int dbupdateid = await db.rawUpdate(
         'UPDATE questions SET text = ?, answer = ? WHERE id = ?',
         [text, answer, question.id]);
+    return dbupdateid;
+  }
+
+  Future<int> updateQuestionDifficulty(int questionId, int difficulty) async {
+    final db = await database;
+    int dbupdateid = await db.rawUpdate(
+        'UPDATE questions SET difficulty = ? WHERE id = ?',
+        [difficulty, questionId]);
     return dbupdateid;
   }
 

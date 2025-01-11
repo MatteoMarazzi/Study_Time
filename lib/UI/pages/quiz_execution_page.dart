@@ -1,4 +1,5 @@
 import 'package:app/UI/util/flashcard.dart';
+import 'package:app/domain/question.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
@@ -51,11 +52,44 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
               child: FlipCard(
                 key: cardKey,
                 flipOnTouch: true,
-                front: Flashcard(
-                  text: widget.quiz.questionsList[currentIndex].text,
+                front: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 8.0,
+                          left: 8.0,
+                          child: Text(
+                            '${widget.quiz.questionsList[currentIndex].difficultyString()}',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            widget.quiz.questionsList[currentIndex].text,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                back: Flashcard(
-                  text: widget.quiz.questionsList[currentIndex].answer,
+                back: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        widget.quiz.questionsList[currentIndex].text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -74,7 +108,12 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                     color: Colors.red,
                     shadowColor: Colors.black,
                     child: TextButton(
-                      onPressed: null,
+                      onPressed: () {
+                        widget.quiz.updateDifficulty(
+                            widget.quiz.questionsList[currentIndex],
+                            Difficulty.difficile);
+                        nextCard();
+                      },
                       style: ButtonStyle(
                         animationDuration: const Duration(seconds: 5),
                         overlayColor: MaterialStateProperty.all(Colors.grey),
@@ -100,7 +139,12 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                     color: Colors.green,
                     shadowColor: Colors.black,
                     child: TextButton(
-                      onPressed: null,
+                      onPressed: () {
+                        widget.quiz.updateDifficulty(
+                            widget.quiz.questionsList[currentIndex],
+                            Difficulty.facile);
+                        nextCard();
+                      },
                       style: ButtonStyle(
                         animationDuration: const Duration(seconds: 5),
                         overlayColor: MaterialStateProperty.all(Colors.grey),
