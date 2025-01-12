@@ -13,8 +13,8 @@ Difficulty intToDifficulty(int value) {
 class Question {
   final Quiz quiz;
   final int id;
-  final String text;
-  final String answer;
+  String text;
+  String answer;
   Difficulty difficulty;
 
   Question(
@@ -36,8 +36,6 @@ class Question {
         return 'Difficile';
       case Difficulty.nonValutata:
         return 'Nuova';
-      default:
-        return '';
     }
   }
 }

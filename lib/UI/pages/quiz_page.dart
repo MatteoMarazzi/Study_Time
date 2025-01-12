@@ -119,6 +119,7 @@ class _QuizPageState extends State<QuizPage> {
     int newQuestions = widget.quiz.questionsList
         .where((q) => q.difficulty == Difficulty.nonValutata)
         .length;
+    int totalQuestions = widget.quiz.questionsList.length;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -134,62 +135,90 @@ class _QuizPageState extends State<QuizPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          PieChart(PieChartData(sections: [
-            PieChartSectionData(
-              value: easyQuestions.toDouble(),
-              title: 'Facile ($easyQuestions)',
-              color: Colors.green,
-              radius: 50,
-              titleStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+      body: totalQuestions > 0
+          ? Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                  child: Text(widget.quiz.description),
+                ),
+                SizedBox(
+                    height: 200,
+                    child: PieChart(PieChartData(
+                      sections: [
+                        PieChartSectionData(
+                          value: (easyQuestions / totalQuestions) * 100,
+                          title:
+                              '${((easyQuestions / totalQuestions) * 100).toInt()}%',
+                          color: Colors.green,
+                          radius: 80,
+                          titleStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        PieChartSectionData(
+                          value: (difficultQuestions / totalQuestions) * 100,
+                          title:
+                              '${((difficultQuestions / totalQuestions) * 100).toInt()}%',
+                          color: Colors.red,
+                          radius: 80,
+                          titleStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        PieChartSectionData(
+                          value: (newQuestions / totalQuestions) * 100,
+                          title:
+                              '${((newQuestions / totalQuestions) * 100).toInt()}%',
+                          color: Colors.grey,
+                          radius: 80,
+                          titleStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ],
+                      borderData: FlBorderData(show: false), // Nessun bordo
+                      centerSpaceRadius: 0, // Raggio dello spazio centrale
+                      sectionsSpace: 4, // Spazio tra le sezioni)),
+                    ))),
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Due riquadri per riga
+                      crossAxisSpacing: 10, // Spazio orizzontale tra i riquadri
+                      mainAxisSpacing: 8, // Spazio verticale tra i riquadri
+                      childAspectRatio:
+                          2 / 3, // Rapporto larghezza/altezza per i riquadri
+                    ),
+                    padding: const EdgeInsets.all(8), //contorno intera lista
+                    itemCount: widget.quiz.questionsList.length,
+                    itemBuilder: (context, index) {
+                      Question? currentQuestion =
+                          widget.quiz.questionsList[index];
+                      return QuestionTile(
+                        questionText: currentQuestion.text,
+                        color: widget.quiz.color,
+                        onOpenElimina: () => deleteQuestion(currentQuestion),
+                        onOpenModifica: () => modifyQuestion(currentQuestion),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          : Center(
+              child: Text(
+                'Nessun dato disponibile per il grafico',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
-            PieChartSectionData(
-              value: difficultQuestions.toDouble(),
-              title: 'Difficile ($difficultQuestions)',
-              color: Colors.red,
-              radius: 50,
-              titleStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            PieChartSectionData(
-              value: newQuestions.toDouble(),
-              title: 'Non Valutata ($newQuestions)',
-              color: Colors.grey,
-              radius: 50,
-              titleStyle: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-          ])),
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Due riquadri per riga
-              crossAxisSpacing: 10, // Spazio orizzontale tra i riquadri
-              mainAxisSpacing: 8, // Spazio verticale tra i riquadri
-              childAspectRatio:
-                  2 / 3, // Rapporto larghezza/altezza per i riquadri
-            ),
-            padding: const EdgeInsets.all(8), //contorno intera lista
-            itemCount: widget.quiz.questionsList.length,
-            itemBuilder: (context, index) {
-              Question? currentQuestion = widget.quiz.questionsList[index];
-              return QuestionTile(
-                questionText: currentQuestion.text,
-                color: widget.quiz.color,
-                onOpenElimina: () => deleteQuestion(currentQuestion),
-                onOpenModifica: () => modifyQuestion(currentQuestion),
-              );
-            },
-          ),
-        ],
-      ),
       floatingActionButton: Container(
         margin: const EdgeInsets.all(16.0),
         child: Row(

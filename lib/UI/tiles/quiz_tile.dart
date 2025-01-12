@@ -35,7 +35,6 @@ class QuizTile extends StatelessWidget {
             child: ListTile(
               onTap: onOpenTile,
               title: Row(
-                //attualmente inutilizzata, ma si vorrebbe aggiungere il numero di domande per quiz
                 children: [
                   Text(
                     quizName,

@@ -38,17 +38,17 @@ dependencies:
   path_provider: ^2.1.1
   sqflite: ^2.3.0
   shared_preferences: ^2.2.2
-  lottie: ^2.6.0                    #per pulsanti animati
-  calendar_date_picker2: ^0.5.3     #per calendari sofisticati
-  uuid: ^3.0.4
+  lottie: ^3.3.1                    #per pulsanti animati
+  calendar_date_picker2: ^1.1.8     #per calendari sofisticati
+  uuid: ^4.5.1
   flip_card: ^0.7.0
   flutter_localizations:
     sdk: flutter
   get: ^4.6.5
-  fl_chart: ^0.65.0
+  fl_chart: ^0.70.1
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.9.2
+  flutter_launcher_icons: ^0.14.2
   flutter_test:
     sdk: flutter
 

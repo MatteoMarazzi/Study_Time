@@ -39,18 +39,9 @@ class Utente {
   Future updateQuiz(
       String newName, String newDescription, Color newColor, Quiz quiz) async {
     await QuizzesDatabase().updateQuiz(newName, newDescription, newColor, quiz);
-    Quiz updatedQuiz = Quiz(
-        id: quiz.id,
-        name: newName,
-        description: newDescription,
-        color: newColor);
-    quizzesMap[quiz.id] = updatedQuiz;
-    for (int i = 0; i < quizzesList.length; i++) {
-      if (quizzesList[i].id == quiz.id) {
-        quizzesList[i] = updatedQuiz;
-        break;
-      }
-    }
+    quiz.name = newName;
+    quiz.description = newDescription;
+    quiz.color = newColor;
   }
 
   Future updateSession(Session session, int newMinutiStudio, int newMinutiPausa,

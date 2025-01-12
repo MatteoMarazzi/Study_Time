@@ -4,9 +4,9 @@ import 'package:app/domain/question.dart';
 
 class Quiz {
   final int id;
-  final String name;
-  final String description;
-  final Color color;
+  String name;
+  String description;
+  Color color;
   Map<int, Question> questionsMap = {};
   final List<Question> questionsList = [];
 
@@ -44,15 +44,8 @@ class Quiz {
 
   void updateQuestion(String newText, String newAnswer, Question question) {
     QuizzesDatabase().updateQuestion(newText, newAnswer, question);
-    Question updatedQuestion =
-        Question(text: newText, answer: newAnswer, id: question.id, quiz: this);
-    questionsMap[question.id] = updatedQuestion;
-    for (int i = 0; i < questionsList.length; i++) {
-      if (questionsList[i].id == question.id) {
-        questionsList[i] = updatedQuestion;
-        break;
-      }
-    }
+    question.text = newText;
+    question.answer = newAnswer;
   }
 
   Future<void> updateDifficulty(

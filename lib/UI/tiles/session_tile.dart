@@ -24,7 +24,7 @@ class SessionTile extends StatelessWidget {
           top: screenSize.height * 0.04),
       child: Container(
         width: 500,
-        height: 125,
+        height: 135,
         decoration: BoxDecoration(
           boxShadow: const [
             BoxShadow(
