@@ -51,11 +51,12 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop(false); // Passing false as result
+            Navigator.of(context).pop(false);
           },
           icon: const Icon(
             Icons.clear_rounded,

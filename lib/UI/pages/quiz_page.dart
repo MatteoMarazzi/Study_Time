@@ -3,6 +3,7 @@ import 'package:app/UI/pages/quiz_execution_page.dart';
 import 'package:app/domain/question.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/tiles/question_tile.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -109,6 +110,15 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    int easyQuestions = widget.quiz.questionsList
+        .where((q) => q.difficulty == Difficulty.facile)
+        .length;
+    int difficultQuestions = widget.quiz.questionsList
+        .where((q) => q.difficulty == Difficulty.difficile)
+        .length;
+    int newQuestions = widget.quiz.questionsList
+        .where((q) => q.difficulty == Difficulty.nonValutata)
+        .length;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -124,24 +134,61 @@ class _QuizPageState extends State<QuizPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Due riquadri per riga
-          crossAxisSpacing: 10, // Spazio orizzontale tra i riquadri
-          mainAxisSpacing: 8, // Spazio verticale tra i riquadri
-          childAspectRatio: 2 / 3, // Rapporto larghezza/altezza per i riquadri
-        ),
-        padding: const EdgeInsets.all(8), //contorno intera lista
-        itemCount: widget.quiz.questionsList.length,
-        itemBuilder: (context, index) {
-          Question? currentQuestion = widget.quiz.questionsList[index];
-          return QuestionTile(
-            questionText: currentQuestion.text,
-            color: widget.quiz.color,
-            onOpenElimina: () => deleteQuestion(currentQuestion),
-            onOpenModifica: () => modifyQuestion(currentQuestion),
-          );
-        },
+      body: Column(
+        children: [
+          PieChart(PieChartData(sections: [
+            PieChartSectionData(
+              value: easyQuestions.toDouble(),
+              title: 'Facile ($easyQuestions)',
+              color: Colors.green,
+              radius: 50,
+              titleStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            PieChartSectionData(
+              value: difficultQuestions.toDouble(),
+              title: 'Difficile ($difficultQuestions)',
+              color: Colors.red,
+              radius: 50,
+              titleStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            PieChartSectionData(
+              value: newQuestions.toDouble(),
+              title: 'Non Valutata ($newQuestions)',
+              color: Colors.grey,
+              radius: 50,
+              titleStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ])),
+          GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // Due riquadri per riga
+              crossAxisSpacing: 10, // Spazio orizzontale tra i riquadri
+              mainAxisSpacing: 8, // Spazio verticale tra i riquadri
+              childAspectRatio:
+                  2 / 3, // Rapporto larghezza/altezza per i riquadri
+            ),
+            padding: const EdgeInsets.all(8), //contorno intera lista
+            itemCount: widget.quiz.questionsList.length,
+            itemBuilder: (context, index) {
+              Question? currentQuestion = widget.quiz.questionsList[index];
+              return QuestionTile(
+                questionText: currentQuestion.text,
+                color: widget.quiz.color,
+                onOpenElimina: () => deleteQuestion(currentQuestion),
+                onOpenModifica: () => modifyQuestion(currentQuestion),
+              );
+            },
+          ),
+        ],
       ),
       floatingActionButton: Container(
         margin: const EdgeInsets.all(16.0),

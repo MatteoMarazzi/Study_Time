@@ -66,6 +66,7 @@ class QuizzesDatabase {
           id: questionMap['id'],
           text: questionMap['text'],
           answer: questionMap['answer'],
+          difficulty: intToDifficulty(questionMap['difficulty']),
           quiz: quiz);
     });
     return questionsList;
