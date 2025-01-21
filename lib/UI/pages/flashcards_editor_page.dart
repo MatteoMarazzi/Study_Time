@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class QuestionsEditorPage extends StatefulWidget {
+class FlashcardsEditorPage extends StatefulWidget {
   final questionController;
   final answerController;
   VoidCallback onSalva;
   VoidCallback onAnnulla;
 
-  QuestionsEditorPage(
+  FlashcardsEditorPage(
       {super.key,
       required this.questionController,
       required this.answerController,
@@ -15,10 +15,10 @@ class QuestionsEditorPage extends StatefulWidget {
       required this.onAnnulla});
 
   @override
-  State<QuestionsEditorPage> createState() => _QuestionsEditorPageState();
+  State<FlashcardsEditorPage> createState() => _FlashcardsEditorPageState();
 }
 
-class _QuestionsEditorPageState extends State<QuestionsEditorPage> {
+class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;

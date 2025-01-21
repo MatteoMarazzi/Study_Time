@@ -1,14 +1,14 @@
 import 'dart:ui';
 import 'package:app/databases/QuizDB.dart';
-import 'package:app/domain/question.dart';
+import 'package:app/domain/flashcard.dart';
 
 class Quiz {
   final int id;
   String name;
   String description;
   Color color;
-  Map<int, Question> questionsMap = {};
-  final List<Question> questionsList = [];
+  Map<int, Flashcard> flashcardsMap = {};
+  final List<Flashcard> flashcardsList = [];
 
   Quiz({
     required this.id,
@@ -22,43 +22,48 @@ class Quiz {
   }
 
   Future mountDatabase() async {
-    questionsList.addAll(await QuizzesDatabase().getAllQuestions(this));
-    questionsMap = {for (var question in questionsList) question.id: question};
+    flashcardsList.addAll(await QuizzesDatabase().getAllFlashcards(this));
+    flashcardsMap = {
+      for (var question in flashcardsList) question.id: question
+    };
   }
 
-  Question? getQuestion(int index) {
-    if (index < 0 || index >= questionsList.length) {
+  Flashcard? getFlashcard(int index) {
+    if (index < 0 || index >= flashcardsList.length) {
       return null;
     }
-    return questionsList[index];
+    return flashcardsList[index];
   }
 
-  void addQuestion({required text, required answer}) async {
-    Question temp = Question(id: 0, text: text, answer: answer, quiz: this);
-    int genereatedId = await QuizzesDatabase().insertQuestion(temp);
-    Question newQuestion =
-        Question(id: genereatedId, text: text, answer: answer, quiz: this);
-    questionsList.add(newQuestion);
-    questionsMap[newQuestion.id] = newQuestion;
+  void addFlashcard({required question, required answer}) async {
+    Flashcard temp =
+        Flashcard(id: 0, question: question, answer: answer, quiz: this);
+    int genereatedId = await QuizzesDatabase().insertFlashcard(temp);
+    Flashcard newFlashcard = Flashcard(
+        id: genereatedId, question: question, answer: answer, quiz: this);
+    print("passo di qui?");
+    flashcardsList.add(newFlashcard);
+    flashcardsMap[newFlashcard.id] = newFlashcard;
   }
 
-  void updateQuestion(String newText, String newAnswer, Question question) {
-    QuizzesDatabase().updateQuestion(newText, newAnswer, question);
-    question.text = newText;
-    question.answer = newAnswer;
+  void updateFlashcard(
+      String newQuestion, String newAnswer, Flashcard flashcard) {
+    QuizzesDatabase().updateFlashcard(newQuestion, newAnswer, flashcard);
+    flashcard.question = newQuestion;
+    flashcard.answer = newAnswer;
   }
 
   Future<void> updateDifficulty(
-      Question question, Difficulty newDifficulty) async {
-    await QuizzesDatabase()
-        .updateQuestionDifficulty(question.id, difficultyToInt(newDifficulty));
-    question.difficulty = newDifficulty;
+      Flashcard flashcard, Difficulty newDifficulty) async {
+    await QuizzesDatabase().updateFlashcardDifficulty(
+        flashcard.id, difficultyToInt(newDifficulty));
+    flashcard.difficulty = newDifficulty;
   }
 
-  void deleteQuestion(Question question) async {
-    await QuizzesDatabase().deleteQuestion(question);
-    questionsMap.remove(question.id);
-    questionsList.remove(question);
+  void deleteFlashcard(Flashcard flashcard) async {
+    await QuizzesDatabase().deleteFlashcard(flashcard);
+    flashcardsMap.remove(flashcard.id);
+    flashcardsList.remove(flashcard);
   }
 }
 

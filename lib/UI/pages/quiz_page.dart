@@ -1,8 +1,8 @@
-import 'package:app/UI/pages/questions_editor_page.dart';
+import 'package:app/UI/pages/flashcards_editor_page.dart';
 import 'package:app/UI/pages/quiz_execution_page.dart';
-import 'package:app/domain/question.dart';
+import 'package:app/domain/flashcard.dart';
 import 'package:app/domain/quiz.dart';
-import 'package:app/UI/tiles/question_tile.dart';
+import 'package:app/UI/tiles/flashcard_tile.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -21,9 +21,9 @@ class _QuizPageState extends State<QuizPage> {
   final questionTextController = TextEditingController();
   final answerTextController = TextEditingController();
 
-  void saveQuestion() async {
-    widget.quiz.addQuestion(
-      text: questionTextController.text,
+  void saveFlashcard() async {
+    widget.quiz.addFlashcard(
+      question: questionTextController.text,
       answer: answerTextController.text,
     );
     setState(() {});
@@ -33,19 +33,19 @@ class _QuizPageState extends State<QuizPage> {
     Navigator.of(context).pop();
   }
 
-  void createQuestion() async {
+  void createFlashcard() async {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => QuestionsEditorPage(
+            builder: (context) => FlashcardsEditorPage(
                   questionController: questionTextController,
                   answerController: answerTextController,
-                  onSalva: saveQuestion,
+                  onSalva: saveFlashcard,
                   onAnnulla: () => Navigator.of(context).pop(),
                 )));
   }
 
-  deleteQuestion(Question questionToDelete) {
+  deleteFlashcard(Flashcard questionToDelete) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -62,7 +62,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
             TextButton(
               onPressed: () async {
-                widget.quiz.deleteQuestion(questionToDelete);
+                widget.quiz.deleteFlashcard(questionToDelete);
                 setState(() {});
                 Navigator.of(context).pop();
                 Navigator.pop(context);
@@ -75,17 +75,17 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  modifyQuestion(Question questionToModify) async {
-    questionTextController.text = questionToModify.text;
+  modifyFlashcard(Flashcard questionToModify) async {
+    questionTextController.text = questionToModify.question;
     answerTextController.text = questionToModify.answer;
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => QuestionsEditorPage(
+            builder: (context) => FlashcardsEditorPage(
                   questionController: questionTextController,
                   answerController: answerTextController,
                   onSalva: () async {
-                    /*await*/ widget.quiz.updateQuestion(
+                    /*await*/ widget.quiz.updateFlashcard(
                         questionTextController.text,
                         answerTextController.text,
                         questionToModify);
@@ -110,16 +110,16 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    int easyQuestions = widget.quiz.questionsList
+    int easyFlashcards = widget.quiz.flashcardsList
         .where((q) => q.difficulty == Difficulty.facile)
         .length;
-    int difficultQuestions = widget.quiz.questionsList
+    int difficultFlashcards = widget.quiz.flashcardsList
         .where((q) => q.difficulty == Difficulty.difficile)
         .length;
-    int newQuestions = widget.quiz.questionsList
+    int newFlashcards = widget.quiz.flashcardsList
         .where((q) => q.difficulty == Difficulty.nonValutata)
         .length;
-    int totalQuestions = widget.quiz.questionsList.length;
+    int totalFlashcards = widget.quiz.flashcardsList.length;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -135,7 +135,7 @@ class _QuizPageState extends State<QuizPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: totalQuestions > 0
+      body: totalFlashcards > 0
           ? Column(
               children: [
                 SizedBox(
@@ -147,9 +147,9 @@ class _QuizPageState extends State<QuizPage> {
                     child: PieChart(PieChartData(
                       sections: [
                         PieChartSectionData(
-                          value: (easyQuestions / totalQuestions) * 100,
+                          value: (easyFlashcards / totalFlashcards) * 100,
                           title:
-                              '${((easyQuestions / totalQuestions) * 100).toInt()}%',
+                              '${((easyFlashcards / totalFlashcards) * 100).toInt()}%',
                           color: Colors.green,
                           radius: 80,
                           titleStyle: TextStyle(
@@ -158,9 +158,9 @@ class _QuizPageState extends State<QuizPage> {
                               color: Colors.white),
                         ),
                         PieChartSectionData(
-                          value: (difficultQuestions / totalQuestions) * 100,
+                          value: (difficultFlashcards / totalFlashcards) * 100,
                           title:
-                              '${((difficultQuestions / totalQuestions) * 100).toInt()}%',
+                              '${((difficultFlashcards / totalFlashcards) * 100).toInt()}%',
                           color: Colors.red,
                           radius: 80,
                           titleStyle: TextStyle(
@@ -169,9 +169,9 @@ class _QuizPageState extends State<QuizPage> {
                               color: Colors.white),
                         ),
                         PieChartSectionData(
-                          value: (newQuestions / totalQuestions) * 100,
+                          value: (newFlashcards / totalFlashcards) * 100,
                           title:
-                              '${((newQuestions / totalQuestions) * 100).toInt()}%',
+                              '${((newFlashcards / totalFlashcards) * 100).toInt()}%',
                           color: Colors.grey,
                           radius: 80,
                           titleStyle: TextStyle(
@@ -198,15 +198,15 @@ class _QuizPageState extends State<QuizPage> {
                           2 / 3, // Rapporto larghezza/altezza per i riquadri
                     ),
                     padding: const EdgeInsets.all(8), //contorno intera lista
-                    itemCount: widget.quiz.questionsList.length,
+                    itemCount: widget.quiz.flashcardsList.length,
                     itemBuilder: (context, index) {
-                      Question? currentQuestion =
-                          widget.quiz.questionsList[index];
-                      return QuestionTile(
-                        questionText: currentQuestion.text,
+                      Flashcard? currentFlashcard =
+                          widget.quiz.flashcardsList[index];
+                      return FlashcardTile(
+                        questionText: currentFlashcard.question,
                         color: widget.quiz.color,
-                        onOpenElimina: () => deleteQuestion(currentQuestion),
-                        onOpenModifica: () => modifyQuestion(currentQuestion),
+                        onOpenElimina: () => deleteFlashcard(currentFlashcard),
+                        onOpenModifica: () => modifyFlashcard(currentFlashcard),
                       );
                     },
                   ),
@@ -226,15 +226,15 @@ class _QuizPageState extends State<QuizPage> {
           children: [
             FloatingActionButton(
               heroTag: '2',
-              onPressed: createQuestion,
+              onPressed: createFlashcard,
               backgroundColor: const Color.fromARGB(255, 8, 73, 108),
               child: const Icon(Icons.add),
             ),
             const SizedBox(width: 16),
             FloatingActionButton(
               heroTag: '3',
-              onPressed: widget.quiz.questionsList.isEmpty ? null : startQuiz,
-              backgroundColor: widget.quiz.questionsList.isEmpty
+              onPressed: widget.quiz.flashcardsList.isEmpty ? null : startQuiz,
+              backgroundColor: widget.quiz.flashcardsList.isEmpty
                   ? Colors.grey
                   : const Color.fromARGB(255, 8, 73, 108),
               child: const Icon(Icons.play_arrow),

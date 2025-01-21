@@ -2,13 +2,13 @@ import 'package:app/UI/util/editor_menu.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class QuestionTile extends StatelessWidget {
+class FlashcardTile extends StatelessWidget {
   final String questionText;
   final Color color;
   final VoidCallback onOpenModifica;
   final VoidCallback onOpenElimina;
 
-  QuestionTile({
+  FlashcardTile({
     super.key,
     required this.color,
     required this.questionText,

@@ -44,6 +44,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void openQuiz(Quiz quiz) async {
+    print("quiz: ${quiz.flashcardsList}");
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -134,7 +135,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
           Quiz? currentQuiz = Utente().getQuiz(index);
           return QuizTile(
             quizName: currentQuiz!.name,
-            flashcardsCount: currentQuiz.questionsList.length,
+            flashcardsCount: currentQuiz.flashcardsList.length,
             color: currentQuiz.color,
             onOpenTile: () => openQuiz(currentQuiz),
             onOpenModifica: () => modifyQuiz(currentQuiz),

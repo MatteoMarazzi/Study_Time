@@ -10,22 +10,22 @@ Difficulty intToDifficulty(int value) {
   return Difficulty.values[value];
 }
 
-class Question {
+class Flashcard {
   final Quiz quiz;
   final int id;
-  String text;
+  String question;
   String answer;
   Difficulty difficulty;
 
-  Question(
-      {required this.text,
+  Flashcard(
+      {required this.question,
       required this.answer,
       required this.id,
       required this.quiz,
       this.difficulty = Difficulty.nonValutata});
 
   Map<String, dynamic> toMap() {
-    return {'text': text, 'answer': answer, 'quiz': quiz.id};
+    return {'question': question, 'answer': answer, 'quiz': quiz.id};
   }
 
   String difficultyString() {

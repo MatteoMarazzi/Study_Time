@@ -1,4 +1,4 @@
-import 'package:app/domain/question.dart';
+import 'package:app/domain/flashcard.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
@@ -39,7 +39,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              'Flashcard ${currentIndex + 1} di ${widget.quiz.questionsList.length}',
+              'Flashcard ${currentIndex + 1} di ${widget.quiz.flashcardsList.length}',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -61,14 +61,14 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                           top: 8.0,
                           left: 8.0,
                           child: Text(
-                            '${widget.quiz.questionsList[currentIndex].difficultyString()}',
+                            '${widget.quiz.flashcardsList[currentIndex].difficultyString()}',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
                         Center(
                           child: Text(
-                            widget.quiz.questionsList[currentIndex].text,
+                            widget.quiz.flashcardsList[currentIndex].question,
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 20),
                           ),
@@ -83,7 +83,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
-                        widget.quiz.questionsList[currentIndex].text,
+                        widget.quiz.flashcardsList[currentIndex].question,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 20),
                       ),
@@ -109,7 +109,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                     child: TextButton(
                       onPressed: () {
                         widget.quiz.updateDifficulty(
-                            widget.quiz.questionsList[currentIndex],
+                            widget.quiz.flashcardsList[currentIndex],
                             Difficulty.difficile);
                         nextCard();
                       },
@@ -140,7 +140,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                     child: TextButton(
                       onPressed: () {
                         widget.quiz.updateDifficulty(
-                            widget.quiz.questionsList[currentIndex],
+                            widget.quiz.flashcardsList[currentIndex],
                             Difficulty.facile);
                         nextCard();
                       },
@@ -177,14 +177,14 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
     setState(() {
       currentIndex = (currentIndex - 1 >= 0)
           ? currentIndex - 1
-          : widget.quiz.questionsList.length - 1;
+          : widget.quiz.flashcardsList.length - 1;
       cardKey = GlobalKey<FlipCardState>();
     });
   }
 
   void nextCard() {
     setState(() {
-      currentIndex = (currentIndex + 1 < widget.quiz.questionsList.length)
+      currentIndex = (currentIndex + 1 < widget.quiz.flashcardsList.length)
           ? currentIndex + 1
           : 0;
       cardKey = GlobalKey<FlipCardState>();

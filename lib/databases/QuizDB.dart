@@ -1,4 +1,4 @@
-import 'package:app/domain/question.dart';
+import 'package:app/domain/flashcard.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -29,10 +29,10 @@ class QuizzesDatabase {
     )
   ''');
     await db.execute('''
-    CREATE TABLE questions(
+    CREATE TABLE flashcards(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       quiz INTEGER NOT NULL,
-      text TEXT NOT NULL,
+      question TEXT NOT NULL,
       answer TEXT,
       difficulty INTEGER NOT NULL DEFAULT 2,
       FOREIGN KEY (quiz) REFERENCES quizzes(id)
@@ -54,22 +54,23 @@ class QuizzesDatabase {
     return quizList;
   }
 
-  Future<Iterable<Question>> getAllQuestions(Quiz quiz) async {
+  Future<Iterable<Flashcard>> getAllFlashcards(Quiz quiz) async {
     final db = await database;
-    final List<Map<String, dynamic>> questionsMaps = await db.query(
-      'questions',
+    final List<Map<String, dynamic>> flashcardsMaps = await db.query(
+      'flashcards',
       where: 'quiz = ?',
       whereArgs: [quiz.id],
     );
-    final Iterable<Question> questionsList = questionsMaps.map((questionMap) {
-      return Question(
-          id: questionMap['id'],
-          text: questionMap['text'],
-          answer: questionMap['answer'],
-          difficulty: intToDifficulty(questionMap['difficulty']),
+    final Iterable<Flashcard> flashcardsList =
+        flashcardsMaps.map((flashcardMap) {
+      return Flashcard(
+          id: flashcardMap['id'],
+          question: flashcardMap['question'],
+          answer: flashcardMap['answer'],
+          difficulty: intToDifficulty(flashcardMap['difficulty']),
           quiz: quiz);
     });
-    return questionsList;
+    return flashcardsList;
   }
 
   Future<int> insertQuiz(Quiz quiz) async {
@@ -94,36 +95,36 @@ class QuizzesDatabase {
     return 'succesfully deleted';
   }
 
-  Future<int> updateQuestion(
-      String text, String answer, Question question) async {
+  Future<int> updateFlashcard(
+      String question, String answer, Flashcard flashcard) async {
     final db = await database;
     int dbupdateid = await db.rawUpdate(
-        'UPDATE questions SET text = ?, answer = ? WHERE id = ?',
-        [text, answer, question.id]);
+        'UPDATE flashcards SET question = ?, answer = ? WHERE id = ?',
+        [question, answer, flashcard.id]);
     return dbupdateid;
   }
 
-  Future<int> updateQuestionDifficulty(int questionId, int difficulty) async {
+  Future<int> updateFlashcardDifficulty(int flashcardId, int difficulty) async {
     final db = await database;
     int dbupdateid = await db.rawUpdate(
-        'UPDATE questions SET difficulty = ? WHERE id = ?',
-        [difficulty, questionId]);
+        'UPDATE flashcards SET difficulty = ? WHERE id = ?',
+        [difficulty, flashcardId]);
     return dbupdateid;
   }
 
-  Future insertQuestion(Question question) async {
+  Future insertFlashcard(Flashcard flashcard) async {
     final db = await database;
-    final id = db.insert("questions", question.toMap());
+    final id = db.insert("flashcards", flashcard.toMap());
     return await id;
   }
 
-  Future deleteQuestion(Question? question) async {
+  Future deleteFlashcard(Flashcard? flashcard) async {
     final db = await database;
-    await db!.delete("questions", where: 'id=?', whereArgs: [question!.id]);
+    await db!.delete("flashcards", where: 'id=?', whereArgs: [flashcard!.id]);
   }
 
-  Future deleteAllQuestionsFromQuiz(Quiz quiz) async {
+  Future deleteAllFlashcardsFromQuiz(Quiz quiz) async {
     final db = await database;
-    await db.delete('questions', where: 'quiz = ?', whereArgs: [quiz.id]);
+    await db.delete('flashcards', where: 'quiz = ?', whereArgs: [quiz.id]);
   }
 }
