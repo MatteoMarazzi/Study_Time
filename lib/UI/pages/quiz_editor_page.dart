@@ -22,30 +22,37 @@ class QuizEditorPage extends StatefulWidget {
 }
 
 class _QuizEditorPageState extends State<QuizEditorPage> {
-  Color chosenColor = Colors.red;
   double radius = 17;
-  dynamic colorC = Color.fromARGB(255, 0, 0, 0);
+  dynamic selectedColor;
   Widget buildColorPicker() => ColorPicker(
-          color: colorC,
-          onColorChanged: (value) {
-            setState(() {
-              colorC = value;
-            });
-            widget.onColorSelected(value);
-          },
-          spacing: 13.6,
-          hasBorder: true,
-          borderColor: Colors.black,
-          borderRadius: 23,
-          enableShadesSelection: false,
-          pickersEnabled: const <ColorPickerType, bool>{
-            ColorPickerType.both: false,
-            ColorPickerType.primary: true,
-            ColorPickerType.accent: false,
-            ColorPickerType.bw: false,
-            ColorPickerType.custom: false,
-            ColorPickerType.wheel: false
+        color: selectedColor = Colors.transparent,
+        onColorChanged: (value) {
+          setState(() {
+            selectedColor = value;
           });
+          widget.onColorSelected(value);
+        },
+        spacing: 20,
+        hasBorder: true,
+        borderColor: Colors.black,
+        borderRadius: 20,
+        enableShadesSelection: false,
+        pickersEnabled: const <ColorPickerType, bool>{
+          ColorPickerType.both: false,
+          ColorPickerType.primary: false,
+          ColorPickerType.accent: false,
+          ColorPickerType.bw: false,
+          ColorPickerType.custom: true,
+        },
+        customColorSwatchesAndNames: {
+          Colors.red: 'Rosso',
+          Colors.blue: 'Blu',
+          Colors.green: 'Verde',
+          Colors.orange: 'Arancione',
+          Colors.purple: 'Viola',
+          Colors.yellow: 'Giallo',
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -75,62 +82,57 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
         child: Column(
           children: [
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Nome quiz',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        maxLength: 28,
-                        controller: widget.controller,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Aggiungi il nome del quiz",
-                          hintStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        "Scegli il colore:",
-                        style: TextStyle(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Nome quiz',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextField(
+                      maxLength: 28,
+                      controller: widget.controller,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Aggiungi il nome del quiz",
+                        hintStyle: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      const SizedBox(height: 8.0),
-                      buildColorPicker(),
-                      const SizedBox(height: 16.0),
-                      Text('Descrizione', style: TextStyle(fontSize: 18)),
-                      SizedBox(
-                        height: 10,
+                    ),
+                    const Text(
+                      "Scegli il colore:",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
                       ),
-                      TextField(
-                          controller: widget.controllerd,
-                          maxLines: null,
-                          minLines: 1,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Aggiungi la descrzione",
-                              hintStyle: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                              ))),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 8.0),
+                    buildColorPicker(),
+                    Text('Descrizione', style: TextStyle(fontSize: 18)),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextField(
+                        maxLength: 80,
+                        controller: widget.controllerd,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Aggiungi la descrzione",
+                            hintStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                            ))),
+                  ],
                 ),
               ),
             ),
