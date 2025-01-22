@@ -130,6 +130,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
+        padding: EdgeInsets.only(bottom: 80),
         itemCount: Utente().countQuizzes(),
         itemBuilder: (context, index) {
           Quiz? currentQuiz = Utente().getQuiz(index);

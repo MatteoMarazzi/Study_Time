@@ -19,6 +19,22 @@ class FlashcardsEditorPage extends StatefulWidget {
 }
 
 class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
+  bool isSaveButtonEnabled = false;
+  @override
+  void initState() {
+    super.initState();
+    widget.questionController.addListener(_validateInputs);
+    _validateInputs();
+  }
+
+  void _validateInputs() {
+    if (mounted) {
+      setState(() {
+        isSaveButtonEnabled = widget.questionController.text.isNotEmpty;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -64,7 +80,7 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
                       ),
                       TextField(
                         controller: widget.questionController,
-                        maxLines: null,
+                        maxLines: 3,
                         minLines: 3,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
@@ -85,7 +101,7 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
                       ),
                       TextField(
                           controller: widget.answerController,
-                          maxLines: null,
+                          maxLines: 3,
                           minLines: 3,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -110,10 +126,10 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
             width: 400,
             child: Card(
               elevation: 5,
-              color: Colors.white,
+              color: isSaveButtonEnabled ? Colors.white : Colors.grey,
               shadowColor: Colors.black,
               child: TextButton(
-                onPressed: widget.onSalva,
+                onPressed: isSaveButtonEnabled ? widget.onSalva : null,
                 style: ButtonStyle(
                   animationDuration: const Duration(seconds: 5),
                   overlayColor: MaterialStateProperty.all(Colors.grey),

@@ -22,8 +22,24 @@ class QuizEditorPage extends StatefulWidget {
 }
 
 class _QuizEditorPageState extends State<QuizEditorPage> {
-  double radius = 17;
+  //double radius = 17;
+  bool isSaveButtonEnabled = false;
   dynamic selectedColor;
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_validateInputs);
+    _validateInputs();
+  }
+
+  void _validateInputs() {
+    if (mounted) {
+      setState(() {
+        isSaveButtonEnabled = widget.controller.text.isNotEmpty;
+      });
+    }
+  }
+
   Widget buildColorPicker() => ColorPicker(
         color: selectedColor = Colors.transparent,
         onColorChanged: (value) {
@@ -85,54 +101,56 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
               height: 10,
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8, left: 15, right: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Nome quiz',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    TextField(
-                      maxLength: 28,
-                      controller: widget.controller,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Aggiungi il nome del quiz",
-                        hintStyle: TextStyle(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 15, right: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Nome quiz',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      TextField(
+                        maxLength: 28,
+                        controller: widget.controller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: "Aggiungi il nome del quiz",
+                          hintStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        "Scegli il colore:",
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                    ),
-                    const Text(
-                      "Scegli il colore:",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
+                      const SizedBox(height: 8.0),
+                      buildColorPicker(),
+                      Text('Descrizione', style: TextStyle(fontSize: 18)),
+                      const SizedBox(
+                        height: 8,
                       ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    buildColorPicker(),
-                    Text('Descrizione', style: TextStyle(fontSize: 18)),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    TextField(
-                        maxLength: 80,
-                        controller: widget.controllerd,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Aggiungi la descrzione",
-                            hintStyle: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
-                            ))),
-                  ],
+                      TextField(
+                          maxLength: 80,
+                          controller: widget.controllerd,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Aggiungi la descrzione",
+                              hintStyle: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                              ))),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -147,10 +165,10 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
             width: 400,
             child: Card(
               elevation: 5,
-              color: Colors.white,
               shadowColor: Colors.black,
+              color: isSaveButtonEnabled ? Colors.white : Colors.grey,
               child: TextButton(
-                onPressed: widget.onSalva,
+                onPressed: isSaveButtonEnabled ? widget.onSalva : null,
                 style: ButtonStyle(
                   animationDuration: const Duration(seconds: 5),
                   overlayColor: MaterialStateProperty.all(Colors.grey),
