@@ -124,7 +124,6 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
               Icons.arrow_back,
               color: Colors.black,
             )),
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text('QUIZ',
             textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
@@ -149,8 +148,11 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         onPressed: () {
           createQuiz();
         },
-        backgroundColor: const Color.fromARGB(255, 8, 73, 108),
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.white,
+        child: const Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
       ),
     );
   }

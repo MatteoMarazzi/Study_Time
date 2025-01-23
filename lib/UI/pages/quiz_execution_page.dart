@@ -29,7 +29,6 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
               Icons.arrow_back,
               color: Colors.black,
             )),
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: Text('${widget.quiz.name}',
             textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
@@ -54,7 +53,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                 front: Card(
                   elevation: 4,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Stack(
                       children: [
                         Positioned(
@@ -69,7 +68,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                         Center(
                           child: Text(
                             widget.quiz.flashcardsList[currentIndex].question,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.left,
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
@@ -80,11 +79,11 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                 back: Card(
                   elevation: 4,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(30.0),
                     child: Center(
                       child: Text(
-                        widget.quiz.flashcardsList[currentIndex].question,
-                        textAlign: TextAlign.center,
+                        widget.quiz.flashcardsList[currentIndex].answer,
+                        textAlign: TextAlign.left,
                         style: TextStyle(fontSize: 20),
                       ),
                     ),

@@ -37,7 +37,6 @@ class FlashcardTile extends StatelessWidget {
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
-                    fontWeight: FontWeight.w600,
                   ),
                   maxLines: 10,
                   overflow: TextOverflow.ellipsis,
@@ -47,7 +46,7 @@ class FlashcardTile extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: IconButton(
                     icon: const Icon(
-                      Icons.more_horiz_rounded,
+                      Icons.more_vert_rounded,
                       color: Colors.black,
                     ),
                     onPressed: () {
