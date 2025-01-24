@@ -73,6 +73,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    bool showFab = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -86,7 +87,6 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           'QUIZ Editor',
@@ -140,8 +140,27 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                         height: 8,
                       ),
                       TextField(
+                          maxLines: 7,
+                          minLines: 1,
                           maxLength: 80,
                           controller: widget.controllerd,
+                          onChanged: (text) {
+                            if (widget.controllerd.value.text
+                                    .split('\n')
+                                    .length >
+                                7) {
+                              widget.controllerd.text = widget
+                                  .controllerd.value.text
+                                  .split('\n')
+                                  .sublist(0, 7)
+                                  .join('\n');
+                              widget.controllerd.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset: widget.controllerd.text.length),
+                              );
+                            }
+                          },
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Aggiungi la descrzione",
@@ -157,30 +176,33 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
           ],
         ),
       ),
-      floatingActionButton: Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: EdgeInsets.only(left: screenSize.width * 0.08),
-          child: SizedBox(
-            width: 400,
-            child: Card(
-              elevation: 5,
-              shadowColor: Colors.black,
-              color: isSaveButtonEnabled ? Colors.white : Colors.grey,
-              child: TextButton(
-                onPressed: isSaveButtonEnabled ? widget.onSalva : null,
-                style: ButtonStyle(
-                  animationDuration: const Duration(seconds: 5),
-                  overlayColor: MaterialStateProperty.all(Colors.grey),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Salva',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+      floatingActionButton: Visibility(
+        visible: !showFab,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(left: screenSize.width * 0.08),
+            child: SizedBox(
+              width: 400,
+              child: Card(
+                elevation: 5,
+                shadowColor: Colors.black,
+                color: isSaveButtonEnabled ? Colors.white : Colors.grey,
+                child: TextButton(
+                  onPressed: isSaveButtonEnabled ? widget.onSalva : null,
+                  style: ButtonStyle(
+                    animationDuration: const Duration(seconds: 5),
+                    overlayColor: MaterialStateProperty.all(Colors.grey),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Salva',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),

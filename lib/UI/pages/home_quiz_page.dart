@@ -29,6 +29,8 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void createQuiz() async {
+    quizNameController.clear();
+    quizDescriptionController.clear();
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -44,7 +46,6 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   }
 
   void openQuiz(Quiz quiz) async {
-    print("quiz: ${quiz.flashcardsList}");
     Navigator.push(
         context,
         MaterialPageRoute(

@@ -22,7 +22,7 @@ class _QuizPageState extends State<QuizPage> {
   final answerTextController = TextEditingController();
 
   void saveFlashcard() async {
-    widget.quiz.addFlashcard(
+    await widget.quiz.addFlashcard(
       question: questionTextController.text,
       answer: answerTextController.text,
     );
@@ -34,6 +34,8 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void createFlashcard() async {
+    questionTextController.clear();
+    answerTextController.clear();
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -62,7 +64,7 @@ class _QuizPageState extends State<QuizPage> {
             ),
             TextButton(
               onPressed: () async {
-                widget.quiz.deleteFlashcard(questionToDelete);
+                await widget.quiz.deleteFlashcard(questionToDelete);
                 setState(() {});
                 Navigator.of(context).pop();
                 Navigator.pop(context);
@@ -76,6 +78,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   modifyFlashcard(Flashcard questionToModify) async {
+    Navigator.pop(context);
     questionTextController.text = questionToModify.question;
     answerTextController.text = questionToModify.answer;
     Navigator.push(
@@ -85,7 +88,7 @@ class _QuizPageState extends State<QuizPage> {
                   questionController: questionTextController,
                   answerController: answerTextController,
                   onSalva: () async {
-                    /*await*/ widget.quiz.updateFlashcard(
+                    await widget.quiz.updateFlashcard(
                         questionTextController.text,
                         answerTextController.text,
                         questionToModify);

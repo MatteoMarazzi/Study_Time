@@ -35,7 +35,7 @@ class Quiz {
     return flashcardsList[index];
   }
 
-  void addFlashcard({required question, required answer}) async {
+  Future addFlashcard({required question, required answer}) async {
     Flashcard temp =
         Flashcard(id: 0, question: question, answer: answer, quiz: this);
     int genereatedId = await QuizzesDatabase().insertFlashcard(temp);
@@ -46,8 +46,8 @@ class Quiz {
     flashcardsMap[newFlashcard.id] = newFlashcard;
   }
 
-  void updateFlashcard(
-      String newQuestion, String newAnswer, Flashcard flashcard) {
+  Future updateFlashcard(
+      String newQuestion, String newAnswer, Flashcard flashcard) async {
     QuizzesDatabase().updateFlashcard(newQuestion, newAnswer, flashcard);
     flashcard.question = newQuestion;
     flashcard.answer = newAnswer;
@@ -60,7 +60,7 @@ class Quiz {
     flashcard.difficulty = newDifficulty;
   }
 
-  void deleteFlashcard(Flashcard flashcard) async {
+  Future deleteFlashcard(Flashcard flashcard) async {
     await QuizzesDatabase().deleteFlashcard(flashcard);
     flashcardsMap.remove(flashcard.id);
     flashcardsList.remove(flashcard);

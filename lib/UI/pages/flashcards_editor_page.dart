@@ -38,19 +38,18 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    bool showFab = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop(false); // Passing false as result
+            Navigator.of(context).pop(false);
           },
           icon: const Icon(
             Icons.clear_rounded,
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           'Questions Editor',
@@ -62,7 +61,7 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
         child: Column(
           children: [
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -80,8 +79,27 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
                       ),
                       TextField(
                         controller: widget.questionController,
-                        maxLines: 3,
+                        maxLines: 8,
                         minLines: 3,
+                        maxLength: 400,
+                        onChanged: (text) {
+                          if (widget.questionController.value.text
+                                  .split('\n')
+                                  .length >
+                              8) {
+                            widget.questionController.text = widget
+                                .questionController.value.text
+                                .split('\n')
+                                .sublist(0, 8)
+                                .join('\n');
+                            widget.questionController.selection =
+                                TextSelection.fromPosition(
+                              TextPosition(
+                                  offset:
+                                      widget.questionController.text.length),
+                            );
+                          }
+                        },
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: "Aggiungi domanda",
@@ -101,15 +119,34 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
                       ),
                       TextField(
                           controller: widget.answerController,
-                          maxLines: 3,
                           minLines: 3,
+                          maxLines: 8,
+                          maxLength: 400,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Aggiungi risposta",
                               hintStyle: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
-                              ))),
+                              )),
+                          onChanged: (text) {
+                            if (widget.answerController.value.text
+                                    .split('\n')
+                                    .length >
+                                8) {
+                              widget.answerController.text = widget
+                                  .answerController.value.text
+                                  .split('\n')
+                                  .sublist(0, 8)
+                                  .join('\n');
+                              widget.answerController.selection =
+                                  TextSelection.fromPosition(
+                                TextPosition(
+                                    offset:
+                                        widget.answerController.text.length),
+                              );
+                            }
+                          }),
                     ],
                   ),
                 ),
@@ -118,30 +155,33 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
           ],
         ),
       ),
-      floatingActionButton: Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: EdgeInsets.only(left: screenSize.width * 0.08),
-          child: SizedBox(
-            width: 400,
-            child: Card(
-              elevation: 5,
-              color: isSaveButtonEnabled ? Colors.white : Colors.grey,
-              shadowColor: Colors.black,
-              child: TextButton(
-                onPressed: isSaveButtonEnabled ? widget.onSalva : null,
-                style: ButtonStyle(
-                  animationDuration: const Duration(seconds: 5),
-                  overlayColor: MaterialStateProperty.all(Colors.grey),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Salva',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+      floatingActionButton: Visibility(
+        visible: !showFab,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(left: screenSize.width * 0.08),
+            child: SizedBox(
+              width: 400,
+              child: Card(
+                elevation: 5,
+                color: isSaveButtonEnabled ? Colors.white : Colors.grey,
+                shadowColor: Colors.black,
+                child: TextButton(
+                  onPressed: isSaveButtonEnabled ? widget.onSalva : null,
+                  style: ButtonStyle(
+                    animationDuration: const Duration(seconds: 5),
+                    overlayColor: MaterialStateProperty.all(Colors.grey),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Salva',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),

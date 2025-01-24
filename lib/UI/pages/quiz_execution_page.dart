@@ -69,7 +69,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                           child: Text(
                             widget.quiz.flashcardsList[currentIndex].question,
                             textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 19),
                           ),
                         ),
                       ],
@@ -84,7 +84,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                       child: Text(
                         widget.quiz.flashcardsList[currentIndex].answer,
                         textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 19),
                       ),
                     ),
                   ),
