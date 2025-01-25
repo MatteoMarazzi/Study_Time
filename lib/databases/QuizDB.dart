@@ -84,7 +84,7 @@ class QuizzesDatabase {
     final db = await database;
     int dbupdateid = await db.rawUpdate(
         'UPDATE quizzes SET name = ?, description = ?,color = ? WHERE id = ?',
-        [name, description, selectedColor.toHex(), quiz.id]);
+        [name, description, rgbToHex(selectedColor), quiz.id]);
     return dbupdateid;
   }
 

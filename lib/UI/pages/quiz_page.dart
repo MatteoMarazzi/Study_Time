@@ -1,17 +1,18 @@
 import 'package:app/UI/pages/flashcards_editor_page.dart';
 import 'package:app/UI/pages/quiz_execution_page.dart';
 import 'package:app/domain/flashcard.dart';
-import 'package:app/domain/quiz.dart';
 import 'package:app/UI/tiles/flashcard_tile.dart';
+import 'package:app/domain/quiz.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class QuizPage extends StatefulWidget {
-  QuizPage({super.key, required this.title, required this.quiz});
+  QuizPage({super.key, required this.quiz});
 
-  final String title;
-  Quiz quiz;
+  QueryDocumentSnapshot<Map<String, dynamic>> quiz;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -21,16 +22,25 @@ class _QuizPageState extends State<QuizPage> {
   final questionTextController = TextEditingController();
   final answerTextController = TextEditingController();
 
-  void saveFlashcard() async {
-    await widget.quiz.addFlashcard(
-      question: questionTextController.text,
-      answer: answerTextController.text,
-    );
-    setState(() {});
-    questionTextController.clear();
-    answerTextController.clear();
-    if (!mounted) return;
-    Navigator.of(context).pop();
+  Future<void> uploadFlashcardToDb() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("quizzes")
+          .doc(widget.quiz.id)
+          .collection('flashcards')
+          .add({
+        "creator": FirebaseAuth.instance.currentUser!.uid,
+        "question": questionTextController.text.trim(),
+        "answer": answerTextController.text.trim(),
+        "difficulty": difficultyToInt(Difficulty.nonValutata)
+      });
+      questionTextController.clear();
+      answerTextController.clear();
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void createFlashcard() async {
@@ -42,12 +52,12 @@ class _QuizPageState extends State<QuizPage> {
             builder: (context) => FlashcardsEditorPage(
                   questionController: questionTextController,
                   answerController: answerTextController,
-                  onSalva: saveFlashcard,
+                  onSalva: uploadFlashcardToDb,
                   onAnnulla: () => Navigator.of(context).pop(),
                 )));
   }
 
-  deleteFlashcard(Flashcard questionToDelete) {
+  deleteFlashcard(String flashcardToDelete) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -64,7 +74,12 @@ class _QuizPageState extends State<QuizPage> {
             ),
             TextButton(
               onPressed: () async {
-                await widget.quiz.deleteFlashcard(questionToDelete);
+                await FirebaseFirestore.instance
+                    .collection("quizzes")
+                    .doc(widget.quiz.id)
+                    .collection('flashcards')
+                    .doc(flashcardToDelete)
+                    .delete();
                 setState(() {});
                 Navigator.of(context).pop();
                 Navigator.pop(context);
@@ -77,10 +92,11 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  modifyFlashcard(Flashcard questionToModify) async {
+  modifyFlashcard(
+      QueryDocumentSnapshot<Map<String, dynamic>> flashcardToModify) async {
     Navigator.pop(context);
-    questionTextController.text = questionToModify.question;
-    answerTextController.text = questionToModify.answer;
+    questionTextController.text = flashcardToModify.data()['question'];
+    answerTextController.text = flashcardToModify.data()['answer'];
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -88,10 +104,15 @@ class _QuizPageState extends State<QuizPage> {
                   questionController: questionTextController,
                   answerController: answerTextController,
                   onSalva: () async {
-                    await widget.quiz.updateFlashcard(
-                        questionTextController.text,
-                        answerTextController.text,
-                        questionToModify);
+                    await FirebaseFirestore.instance
+                        .collection("quizzes")
+                        .doc(widget.quiz.id)
+                        .collection('flashcards')
+                        .doc(flashcardToModify.id)
+                        .update({
+                      'question': questionTextController,
+                      'answer': answerTextController
+                    });
                     questionTextController.clear();
                     answerTextController.clear();
                     setState(() {
@@ -102,27 +123,27 @@ class _QuizPageState extends State<QuizPage> {
                 )));
   }
 
-  startQuiz() async {
+  /* startQuiz() async {
     await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => QuizExecutionPage(
                   quiz: widget.quiz,
                 )));
+  }*/
+
+  Future<int> countFlashcards() async {
+    final flashcardsCollection = FirebaseFirestore.instance
+        .collection('quizzes')
+        .doc(widget.quiz.id)
+        .collection('flashcards');
+
+    final querySnapshot = await flashcardsCollection.get();
+    return querySnapshot.size;
   }
 
   @override
   Widget build(BuildContext context) {
-    int easyFlashcards = widget.quiz.flashcardsList
-        .where((q) => q.difficulty == Difficulty.facile)
-        .length;
-    int difficultFlashcards = widget.quiz.flashcardsList
-        .where((q) => q.difficulty == Difficulty.difficile)
-        .length;
-    int newFlashcards = widget.quiz.flashcardsList
-        .where((q) => q.difficulty == Difficulty.nonValutata)
-        .length;
-    int totalFlashcards = widget.quiz.flashcardsList.length;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -134,29 +155,54 @@ class _QuizPageState extends State<QuizPage> {
               Icons.arrow_back,
               color: Colors.black,
             )),
-        title: Text(widget.title, style: const TextStyle(color: Colors.black)),
+        title: Text(widget.quiz.data()['name'],
+            style: const TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
-      body: totalFlashcards > 0
-          ? Column(
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('quizzes')
+              .doc(widget.quiz.id)
+              .collection('flashcards')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Center(
+                child: Text(
+                  'Nessuna flashcard disponibile',
+                  style: TextStyle(fontSize: 18),
+                ),
+              );
+            }
+            final flashcards =
+                snapshot.data!.docs.map((doc) => doc.data()).toList();
+
+            final easyFlashcards = flashcards
+                .where((q) =>
+                    intToDifficulty(q['difficulty']) == Difficulty.facile)
+                .length;
+            final difficultFlashcards = flashcards
+                .where((q) =>
+                    intToDifficulty(q['difficulty']) == Difficulty.difficile)
+                .length;
+            final newFlashcards = flashcards
+                .where((q) =>
+                    intToDifficulty(q['difficulty']) == Difficulty.nonValutata)
+                .length;
+            final totalFlashcards = flashcards.length;
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: widget.quiz.description.isEmpty
-                      ? const Text(
-                          'Nessuna descrizione',
-                          style: const TextStyle(
-                              fontSize: 18, color: Colors.black),
-                        )
-                      : Text(
-                          widget.quiz.description,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
+                  child: Text(
+                    widget.quiz.data()['description'] ?? 'Nessuna descrizione',
+                    style: const TextStyle(fontSize: 18, color: Colors.black),
+                  ),
                 ),
                 SizedBox(
                   height: 40,
@@ -268,27 +314,23 @@ class _QuizPageState extends State<QuizPage> {
                       childAspectRatio: 0.8,
                     ),
                     padding: const EdgeInsets.all(8),
-                    itemCount: widget.quiz.flashcardsList.length,
+                    itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      Flashcard? currentFlashcard =
-                          widget.quiz.flashcardsList[index];
                       return FlashcardTile(
-                        questionText: currentFlashcard.question,
-                        color: widget.quiz.color,
-                        onOpenElimina: () => deleteFlashcard(currentFlashcard),
-                        onOpenModifica: () => modifyFlashcard(currentFlashcard),
+                        questionText:
+                            snapshot.data!.docs[index].data()['question'],
+                        color: hexToColor(widget.quiz.data()['color']),
+                        onOpenElimina: () =>
+                            deleteFlashcard(snapshot.data!.docs[index].id),
+                        onOpenModifica: () =>
+                            modifyFlashcard(snapshot.data!.docs[index]),
                       );
                     },
                   ),
                 ),
               ],
-            )
-          : Center(
-              child: Text(
-                'Nessun dato disponibile per il grafico',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
+            );
+          }),
       floatingActionButton: Container(
         margin: const EdgeInsets.all(16.0),
         child: Row(
@@ -306,10 +348,11 @@ class _QuizPageState extends State<QuizPage> {
             const SizedBox(width: 16),
             FloatingActionButton(
               heroTag: '3',
-              onPressed: widget.quiz.flashcardsList.isEmpty ? null : startQuiz,
-              backgroundColor: widget.quiz.flashcardsList.isEmpty
-                  ? Colors.grey
-                  : Colors.white,
+              onPressed: () async {
+                await countFlashcards() == 0 ? null : null;
+              },
+              backgroundColor:
+                  countFlashcards() == 0 ? Colors.grey : Colors.white,
               child: const Icon(
                 Icons.play_arrow,
                 color: Colors.black,

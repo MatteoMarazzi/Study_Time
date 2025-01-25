@@ -24,7 +24,7 @@ class QuizEditorPage extends StatefulWidget {
 class _QuizEditorPageState extends State<QuizEditorPage> {
   //double radius = 17;
   bool isSaveButtonEnabled = false;
-  dynamic selectedColor;
+  dynamic selectedColor = Colors.transparent;
   @override
   void initState() {
     super.initState();
@@ -39,36 +39,6 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
       });
     }
   }
-
-  Widget buildColorPicker() => ColorPicker(
-        color: selectedColor = Colors.transparent,
-        onColorChanged: (value) {
-          setState(() {
-            selectedColor = value;
-          });
-          widget.onColorSelected(value);
-        },
-        spacing: 20,
-        hasBorder: true,
-        borderColor: Colors.black,
-        borderRadius: 20,
-        enableShadesSelection: false,
-        pickersEnabled: const <ColorPickerType, bool>{
-          ColorPickerType.both: false,
-          ColorPickerType.primary: false,
-          ColorPickerType.accent: false,
-          ColorPickerType.bw: false,
-          ColorPickerType.custom: true,
-        },
-        customColorSwatchesAndNames: {
-          Colors.red: 'Rosso',
-          Colors.blue: 'Blu',
-          Colors.green: 'Verde',
-          Colors.orange: 'Arancione',
-          Colors.purple: 'Viola',
-          Colors.yellow: 'Giallo',
-        },
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +104,35 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                         ),
                       ),
                       const SizedBox(height: 8.0),
-                      buildColorPicker(),
+                      ColorPicker(
+                        color: selectedColor,
+                        onColorChanged: (Color color) {
+                          setState(() {
+                            selectedColor = color;
+                          });
+                          widget.onColorSelected(color);
+                        },
+                        spacing: 20,
+                        hasBorder: true,
+                        borderColor: Colors.black,
+                        borderRadius: 20,
+                        enableShadesSelection: false,
+                        pickersEnabled: const <ColorPickerType, bool>{
+                          ColorPickerType.both: false,
+                          ColorPickerType.primary: false,
+                          ColorPickerType.accent: false,
+                          ColorPickerType.bw: false,
+                          ColorPickerType.custom: true,
+                        },
+                        customColorSwatchesAndNames: {
+                          Colors.red: 'Rosso',
+                          Colors.blue: 'Blu',
+                          Colors.green: 'Verde',
+                          Colors.orange: 'Arancione',
+                          Colors.purple: 'Viola',
+                          Colors.yellow: 'Giallo',
+                        },
+                      ),
                       Text('Descrizione', style: TextStyle(fontSize: 18)),
                       const SizedBox(
                         height: 8,

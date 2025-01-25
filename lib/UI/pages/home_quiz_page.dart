@@ -3,6 +3,8 @@ import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
 import 'package:app/UI/tiles/quiz_tile.dart';
 import 'package:app/domain/utente.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeQuizPage extends StatefulWidget {
@@ -16,16 +18,28 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   final quizDescriptionController = TextEditingController();
   Color selectedColor = Colors.white;
 
-  void saveQuiz() async {
-    await Utente().addQuiz(
-        name: quizNameController.text,
-        description: quizDescriptionController.text,
-        color: selectedColor);
-    setState(() {});
-    quizNameController.clear();
-    quizDescriptionController.clear();
-    if (!mounted) return;
-    Navigator.of(context).pop();
+  @override
+  void dispose() {
+    quizNameController.dispose();
+    quizDescriptionController.dispose();
+    super.dispose();
+  }
+
+  Future<void> uploadQuizToDb() async {
+    try {
+      await FirebaseFirestore.instance.collection("quizzes").add({
+        "creator": FirebaseAuth.instance.currentUser!.uid,
+        "name": quizNameController.text.trim(),
+        "description": quizDescriptionController.text.trim(),
+        "color": rgbToHex(selectedColor),
+      });
+      quizNameController.clear();
+      quizDescriptionController.clear();
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void createQuiz() async {
@@ -40,27 +54,27 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                   onColorSelected: (Color color) {
                     selectedColor = color;
                   },
-                  onSalva: saveQuiz,
+                  onSalva: uploadQuizToDb,
                   onAnnulla: () => Navigator.of(context).pop(),
                 )));
   }
 
-  void openQuiz(Quiz quiz) async {
+  void openQuiz(QueryDocumentSnapshot<Map<String, dynamic>> quiz) async {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => QuizPage(
-                  title: quiz.name,
                   quiz: quiz,
                 )));
   }
 
-  void modifyQuiz(Quiz quiz) async {
+  void modifyQuiz(
+      QueryDocumentSnapshot<Map<String, dynamic>> quizToModify) async {
     Navigator.pop(context);
-    selectedColor = quiz
-        .color; //così che se non viene modificato il colore rimane il precedente
-    quizNameController.text = quiz.name;
-    quizDescriptionController.text = quiz.description;
+    selectedColor = hexToColor(quizToModify.data()[
+        'color']); //così che se non viene modificato il colore rimane il precedente
+    quizNameController.text = quizToModify.data()['name'];
+    quizDescriptionController.text = quizToModify.data()['description'];
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -71,10 +85,14 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                   selectedColor = color;
                 },
                 onSalva: () async {
-                  await Utente().updateQuiz(quizNameController.text,
-                      quizDescriptionController.text, selectedColor, quiz);
-                  quizNameController.clear();
-                  quizDescriptionController.clear();
+                  await FirebaseFirestore.instance
+                      .collection("quizzes")
+                      .doc(quizToModify.id)
+                      .update({
+                    'name': quizNameController.text,
+                    'description': quizDescriptionController.text,
+                    'color': rgbToHex(selectedColor)
+                  });
                   setState(() {
                     Navigator.of(context).pop();
                   });
@@ -82,7 +100,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                 onAnnulla: (() => Navigator.of(context).pop()))));
   }
 
-  void deleteQuiz(Quiz quiz) async {
+  void deleteQuiz(String quizToDeleteId) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -99,8 +117,10 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             ),
             TextButton(
               onPressed: () async {
-                await Utente().deleteQuiz(quiz);
-                setState(() {});
+                FirebaseFirestore.instance
+                    .collection("quizzes")
+                    .doc(quizToDeleteId)
+                    .delete();
                 Navigator.of(context).pop();
                 Navigator.pop(context);
               },
@@ -129,18 +149,33 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         title: const Text('QUIZ',
             textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.only(bottom: 80),
-        itemCount: Utente().countQuizzes(),
-        itemBuilder: (context, index) {
-          Quiz? currentQuiz = Utente().getQuiz(index);
-          return QuizTile(
-            quizName: currentQuiz!.name,
-            flashcardsCount: currentQuiz.flashcardsList.length,
-            color: currentQuiz.color,
-            onOpenTile: () => openQuiz(currentQuiz),
-            onOpenModifica: () => modifyQuiz(currentQuiz),
-            onOpenElimina: () => deleteQuiz(currentQuiz),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("quizzes")
+            .where('creator', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (!snapshot.hasData) {
+            return Text("Non ci sono ancora quiz");
+          }
+          return ListView.builder(
+            padding: EdgeInsets.only(bottom: 80),
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              return QuizTile(
+                quizName: snapshot.data!.docs[index].data()['name'],
+                flashcardsCount: 1,
+                color: hexToColor(snapshot.data!.docs[index].data()['color']),
+                onOpenTile: () => openQuiz(snapshot.data!.docs[index]),
+                onOpenModifica: () => modifyQuiz(snapshot.data!.docs[index]),
+                onOpenElimina: () => deleteQuiz(snapshot.data!.docs[index].id),
+              );
+            },
           );
         },
       ),
