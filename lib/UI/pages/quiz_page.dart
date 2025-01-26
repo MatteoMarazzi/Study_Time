@@ -8,11 +8,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class QuizPage extends StatefulWidget {
   QuizPage({super.key, required this.quiz});
 
-  QueryDocumentSnapshot<Map<String, dynamic>> quiz;
+  final QueryDocumentSnapshot<Map<String, dynamic>> quiz;
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -123,14 +122,15 @@ class _QuizPageState extends State<QuizPage> {
                 )));
   }
 
-  /* startQuiz() async {
+  startQuiz(int flashcardsCount) async {
     await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => QuizExecutionPage(
+                  flashcardsCount: flashcardsCount,
                   quiz: widget.quiz,
                 )));
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class _QuizPageState extends State<QuizPage> {
               .where((q) =>
                   intToDifficulty(q['difficulty']) == Difficulty.nonValutata)
               .length;
-          final totalFlashcards = flashcards.length;
+          final flashcardsCount = flashcards.length;
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -176,7 +176,7 @@ class _QuizPageState extends State<QuizPage> {
                   style: const TextStyle(color: Colors.black)),
               centerTitle: true,
             ),
-            body: totalFlashcards > 0
+            body: flashcardsCount > 0
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -236,10 +236,10 @@ class _QuizPageState extends State<QuizPage> {
                                   sections: [
                                     PieChartSectionData(
                                       value:
-                                          (easyFlashcards / totalFlashcards) *
+                                          (easyFlashcards / flashcardsCount) *
                                               100,
                                       title:
-                                          '${((easyFlashcards / totalFlashcards) * 100).toInt()}%',
+                                          '${((easyFlashcards / flashcardsCount) * 100).toInt()}%',
                                       color: Colors.green,
                                       radius: 80,
                                       titleStyle: TextStyle(
@@ -249,10 +249,10 @@ class _QuizPageState extends State<QuizPage> {
                                     ),
                                     PieChartSectionData(
                                       value: (difficultFlashcards /
-                                              totalFlashcards) *
+                                              flashcardsCount) *
                                           100,
                                       title:
-                                          '${((difficultFlashcards / totalFlashcards) * 100).toInt()}%',
+                                          '${((difficultFlashcards / flashcardsCount) * 100).toInt()}%',
                                       color: Colors.red,
                                       radius: 80,
                                       titleStyle: TextStyle(
@@ -261,10 +261,10 @@ class _QuizPageState extends State<QuizPage> {
                                           color: Colors.white),
                                     ),
                                     PieChartSectionData(
-                                      value: (newFlashcards / totalFlashcards) *
+                                      value: (newFlashcards / flashcardsCount) *
                                           100,
                                       title:
-                                          '${((newFlashcards / totalFlashcards) * 100).toInt()}%',
+                                          '${((newFlashcards / flashcardsCount) * 100).toInt()}%',
                                       color: Colors.grey,
                                       radius: 80,
                                       titleStyle: TextStyle(
@@ -287,7 +287,7 @@ class _QuizPageState extends State<QuizPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 33, top: 15),
                           child: Text(
-                            '${totalFlashcards} Flashcards',
+                            '${flashcardsCount} Flashcards',
                             style: TextStyle(
                               fontSize: 19,
                               fontWeight: FontWeight.bold,
@@ -357,10 +357,10 @@ class _QuizPageState extends State<QuizPage> {
                   FloatingActionButton(
                     heroTag: '3',
                     onPressed: () async {
-                      totalFlashcards > 0 ? null : null;
+                      flashcardsCount > 0 ? startQuiz(flashcardsCount) : null;
                     },
                     backgroundColor:
-                        totalFlashcards > 0 ? Colors.white : Colors.grey,
+                        flashcardsCount > 0 ? Colors.white : Colors.grey,
                     child: const Icon(
                       Icons.play_arrow,
                       color: Colors.black,

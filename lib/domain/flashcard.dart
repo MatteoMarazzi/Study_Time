@@ -10,6 +10,17 @@ Difficulty intToDifficulty(int value) {
   return Difficulty.values[value];
 }
 
+String difficultyToString(Difficulty difficulty) {
+  switch (difficulty) {
+    case Difficulty.facile:
+      return 'Facile';
+    case Difficulty.difficile:
+      return 'Difficile';
+    case Difficulty.nonValutata:
+      return 'Nuova';
+  }
+}
+
 class Flashcard {
   final Quiz quiz;
   final int id;
@@ -26,16 +37,5 @@ class Flashcard {
 
   Map<String, dynamic> toMap() {
     return {'question': question, 'answer': answer, 'quiz': quiz.id};
-  }
-
-  String difficultyString() {
-    switch (difficulty) {
-      case Difficulty.facile:
-        return 'Facile';
-      case Difficulty.difficile:
-        return 'Difficile';
-      case Difficulty.nonValutata:
-        return 'Nuova';
-    }
   }
 }

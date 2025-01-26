@@ -1,11 +1,13 @@
 import 'package:app/domain/flashcard.dart';
-import 'package:app/domain/quiz.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 
 class QuizExecutionPage extends StatefulWidget {
-  final Quiz quiz;
-  const QuizExecutionPage({super.key, required this.quiz});
+  final QueryDocumentSnapshot<Map<String, dynamic>> quiz;
+  final int flashcardsCount;
+  const QuizExecutionPage(
+      {super.key, required this.quiz, required this.flashcardsCount});
 
   @override
   State<QuizExecutionPage> createState() => _QuizExecutionPageState();
@@ -18,174 +20,198 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop(false); // Passing false as result
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
-        centerTitle: true,
-        title: Text('${widget.quiz.name}',
-            textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              'Flashcard ${currentIndex + 1} di ${widget.quiz.flashcardsList.length}',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('quizzes')
+            .doc(widget.quiz.id)
+            .collection('flashcards')
+            .snapshots(),
+        builder: (context, snapshot) {
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // Passing false as result
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  )),
+              centerTitle: true,
+              title: Text('${widget.quiz.data()['name']}',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(color: Colors.black)),
             ),
-            SizedBox(
-              width: 350,
-              height: 550,
-              child: FlipCard(
-                key: cardKey,
-                flipOnTouch: true,
-                front: Card(
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 8.0,
-                          left: 8.0,
-                          child: Text(
-                            '${widget.quiz.flashcardsList[currentIndex].difficultyString()}',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Flashcard ${currentIndex + 1} di ${widget.flashcardsCount}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 350,
+                    height: 550,
+                    child: FlipCard(
+                      key: cardKey,
+                      flipOnTouch: true,
+                      front: Card(
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 8.0,
+                                left: 8.0,
+                                child: Text(
+                                  '${difficultyToString(intToDifficulty(snapshot.data!.docs[currentIndex].data()['difficulty']))}',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  snapshot.data!.docs[currentIndex]
+                                      .data()['question'],
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 19),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Center(
-                          child: Text(
-                            widget.quiz.flashcardsList[currentIndex].question,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(fontSize: 19),
+                      ),
+                      back: Card(
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Center(
+                            child: Text(
+                              snapshot.data!.docs[currentIndex]
+                                  .data()['answer'],
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: 19),
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                back: Card(
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Center(
-                      child: Text(
-                        widget.quiz.flashcardsList[currentIndex].answer,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 19),
                       ),
                     ),
                   ),
-                ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: previousCard,
+                        icon: Icon(Icons.chevron_left),
+                      ),
+                      Container(
+                        height: 80,
+                        width: 120,
+                        child: Card(
+                          elevation: 5,
+                          color: Colors.red,
+                          shadowColor: Colors.black,
+                          child: TextButton(
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection("quizzes")
+                                  .doc(widget.quiz.id)
+                                  .collection('flashcards')
+                                  .doc(snapshot.data!.docs[currentIndex].id)
+                                  .update({
+                                'difficulty':
+                                    difficultyToInt(Difficulty.difficile)
+                              });
+                              nextCard();
+                            },
+                            style: ButtonStyle(
+                              animationDuration: const Duration(seconds: 5),
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.grey),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Difficile',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 120,
+                        height: 80,
+                        child: Card(
+                          elevation: 5,
+                          color: Colors.green,
+                          shadowColor: Colors.black,
+                          child: TextButton(
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection("quizzes")
+                                  .doc(widget.quiz.id)
+                                  .collection('flashcards')
+                                  .doc(snapshot.data!.docs[currentIndex].id)
+                                  .update({
+                                'difficulty': difficultyToInt(Difficulty.facile)
+                              });
+                              nextCard();
+                            },
+                            style: ButtonStyle(
+                              animationDuration: const Duration(seconds: 5),
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.grey),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                'Facile',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: nextCard,
+                        icon: Icon(Icons.chevron_right),
+                      ),
+                    ],
+                  )
+                ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  onPressed: previousCard,
-                  icon: Icon(Icons.chevron_left),
-                ),
-                Container(
-                  height: 80,
-                  width: 120,
-                  child: Card(
-                    elevation: 5,
-                    color: Colors.red,
-                    shadowColor: Colors.black,
-                    child: TextButton(
-                      onPressed: () {
-                        widget.quiz.updateDifficulty(
-                            widget.quiz.flashcardsList[currentIndex],
-                            Difficulty.difficile);
-                        nextCard();
-                      },
-                      style: ButtonStyle(
-                        animationDuration: const Duration(seconds: 5),
-                        overlayColor: MaterialStateProperty.all(Colors.grey),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Difficile',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 120,
-                  height: 80,
-                  child: Card(
-                    elevation: 5,
-                    color: Colors.green,
-                    shadowColor: Colors.black,
-                    child: TextButton(
-                      onPressed: () {
-                        widget.quiz.updateDifficulty(
-                            widget.quiz.flashcardsList[currentIndex],
-                            Difficulty.facile);
-                        nextCard();
-                      },
-                      style: ButtonStyle(
-                        animationDuration: const Duration(seconds: 5),
-                        overlayColor: MaterialStateProperty.all(Colors.grey),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Facile',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  onPressed: nextCard,
-                  icon: Icon(Icons.chevron_right),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 
   void previousCard() {
     setState(() {
       currentIndex = (currentIndex - 1 >= 0)
           ? currentIndex - 1
-          : widget.quiz.flashcardsList.length - 1;
+          : widget.flashcardsCount - 1;
       cardKey = GlobalKey<FlipCardState>();
     });
   }
 
   void nextCard() {
     setState(() {
-      currentIndex = (currentIndex + 1 < widget.quiz.flashcardsList.length)
-          ? currentIndex + 1
-          : 0;
+      currentIndex =
+          (currentIndex + 1 < widget.flashcardsCount) ? currentIndex + 1 : 0;
       cardKey = GlobalKey<FlipCardState>();
     });
   }
