@@ -132,236 +132,245 @@ class _QuizPageState extends State<QuizPage> {
                 )));
   }*/
 
-  Future<int> countFlashcards() async {
-    final flashcardsCollection = FirebaseFirestore.instance
-        .collection('quizzes')
-        .doc(widget.quiz.id)
-        .collection('flashcards');
-
-    final querySnapshot = await flashcardsCollection.get();
-    return querySnapshot.size;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
-        title: Text(widget.quiz.data()['name'],
-            style: const TextStyle(color: Colors.black)),
-        centerTitle: true,
-      ),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('quizzes')
-              .doc(widget.quiz.id)
-              .collection('flashcards')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return const Center(
-                child: Text(
-                  'Nessuna flashcard disponibile',
-                  style: TextStyle(fontSize: 18),
-                ),
-              );
-            }
-            final flashcards =
-                snapshot.data!.docs.map((doc) => doc.data()).toList();
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('quizzes')
+            .doc(widget.quiz.id)
+            .collection('flashcards')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            final easyFlashcards = flashcards
-                .where((q) =>
-                    intToDifficulty(q['difficulty']) == Difficulty.facile)
-                .length;
-            final difficultFlashcards = flashcards
-                .where((q) =>
-                    intToDifficulty(q['difficulty']) == Difficulty.difficile)
-                .length;
-            final newFlashcards = flashcards
-                .where((q) =>
-                    intToDifficulty(q['difficulty']) == Difficulty.nonValutata)
-                .length;
-            final totalFlashcards = flashcards.length;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text(
-                    widget.quiz.data()['description'] ?? 'Nessuna descrizione',
-                    style: const TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10, left: 30),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Dati Flashcards',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                LegendItem(
-                                  color: Colors.green,
-                                  text: "Facili: $easyFlashcards",
-                                ),
-                                LegendItem(
-                                  color: Colors.red,
-                                  text: "Difficili: $difficultFlashcards",
-                                ),
-                                LegendItem(
-                                  color: Colors.grey,
-                                  text: "Nuove: $newFlashcards",
-                                ),
-                              ]),
-                        )),
-                    Expanded(
-                      flex: 3,
-                      child: SizedBox(
-                          height: 200,
-                          child: PieChart(PieChartData(
-                            sections: [
-                              PieChartSectionData(
-                                value: (easyFlashcards / totalFlashcards) * 100,
-                                title:
-                                    '${((easyFlashcards / totalFlashcards) * 100).toInt()}%',
-                                color: Colors.green,
-                                radius: 80,
-                                titleStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              PieChartSectionData(
-                                value: (difficultFlashcards / totalFlashcards) *
-                                    100,
-                                title:
-                                    '${((difficultFlashcards / totalFlashcards) * 100).toInt()}%',
-                                color: Colors.red,
-                                radius: 80,
-                                titleStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              PieChartSectionData(
-                                value: (newFlashcards / totalFlashcards) * 100,
-                                title:
-                                    '${((newFlashcards / totalFlashcards) * 100).toInt()}%',
-                                color: Colors.grey,
-                                radius: 80,
-                                titleStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                            borderData:
-                                FlBorderData(show: false), // Nessun bordo
-                            centerSpaceRadius:
-                                0, // Raggio dello spazio centrale
-                            sectionsSpace: 4, // Spazio tra le sezioni)),
-                          ))),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 40,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 33, top: 15),
-                    child: Text(
-                      '${totalFlashcards} Flashcards',
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
+          final flashcards =
+              snapshot.data!.docs.map((doc) => doc.data()).toList();
+
+          final easyFlashcards = flashcards
+              .where(
+                  (q) => intToDifficulty(q['difficulty']) == Difficulty.facile)
+              .length;
+          final difficultFlashcards = flashcards
+              .where((q) =>
+                  intToDifficulty(q['difficulty']) == Difficulty.difficile)
+              .length;
+          final newFlashcards = flashcards
+              .where((q) =>
+                  intToDifficulty(q['difficulty']) == Difficulty.nonValutata)
+              .length;
+          final totalFlashcards = flashcards.length;
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  )),
+              title: Text(widget.quiz.data()['name'],
+                  style: const TextStyle(color: Colors.black)),
+              centerTitle: true,
+            ),
+            body: totalFlashcards > 0
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          widget.quiz.data()['description'] ??
+                              'Nessuna descrizione',
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                        ),
                       ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, left: 30),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Dati Flashcards',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      LegendItem(
+                                        color: Colors.green,
+                                        text: "Facili: $easyFlashcards",
+                                      ),
+                                      LegendItem(
+                                        color: Colors.red,
+                                        text: "Difficili: $difficultFlashcards",
+                                      ),
+                                      LegendItem(
+                                        color: Colors.grey,
+                                        text: "Nuove: $newFlashcards",
+                                      ),
+                                    ]),
+                              )),
+                          Expanded(
+                            flex: 3,
+                            child: SizedBox(
+                                height: 200,
+                                child: PieChart(PieChartData(
+                                  sections: [
+                                    PieChartSectionData(
+                                      value:
+                                          (easyFlashcards / totalFlashcards) *
+                                              100,
+                                      title:
+                                          '${((easyFlashcards / totalFlashcards) * 100).toInt()}%',
+                                      color: Colors.green,
+                                      radius: 80,
+                                      titleStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    PieChartSectionData(
+                                      value: (difficultFlashcards /
+                                              totalFlashcards) *
+                                          100,
+                                      title:
+                                          '${((difficultFlashcards / totalFlashcards) * 100).toInt()}%',
+                                      color: Colors.red,
+                                      radius: 80,
+                                      titleStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    PieChartSectionData(
+                                      value: (newFlashcards / totalFlashcards) *
+                                          100,
+                                      title:
+                                          '${((newFlashcards / totalFlashcards) * 100).toInt()}%',
+                                      color: Colors.grey,
+                                      radius: 80,
+                                      titleStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                  borderData:
+                                      FlBorderData(show: false), // Nessun bordo
+                                  centerSpaceRadius:
+                                      0, // Raggio dello spazio centrale
+                                  sectionsSpace: 4, // Spazio tra le sezioni)),
+                                ))),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 33, top: 15),
+                          child: Text(
+                            '${totalFlashcards} Flashcards',
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 200,
+                        child: GridView.builder(
+                          scrollDirection: Axis.horizontal,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.8,
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            return FlashcardTile(
+                              questionText:
+                                  snapshot.data!.docs[index].data()['question'],
+                              color: hexToColor(widget.quiz.data()['color']),
+                              onOpenElimina: () => deleteFlashcard(
+                                  snapshot.data!.docs[index].id),
+                              onOpenModifica: () =>
+                                  modifyFlashcard(snapshot.data!.docs[index]),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          widget.quiz.data()['description'] ??
+                              'Nessuna descrizione',
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                    ],
+                  ),
+            floatingActionButton: Container(
+              margin: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton(
+                    heroTag: '2',
+                    onPressed: createFlashcard,
+                    backgroundColor: Colors.white,
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.black,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 200,
-                  child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 0.8,
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      return FlashcardTile(
-                        questionText:
-                            snapshot.data!.docs[index].data()['question'],
-                        color: hexToColor(widget.quiz.data()['color']),
-                        onOpenElimina: () =>
-                            deleteFlashcard(snapshot.data!.docs[index].id),
-                        onOpenModifica: () =>
-                            modifyFlashcard(snapshot.data!.docs[index]),
-                      );
+                  const SizedBox(width: 16),
+                  FloatingActionButton(
+                    heroTag: '3',
+                    onPressed: () async {
+                      totalFlashcards > 0 ? null : null;
                     },
+                    backgroundColor:
+                        totalFlashcards > 0 ? Colors.white : Colors.grey,
+                    child: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              ],
-            );
-          }),
-      floatingActionButton: Container(
-        margin: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FloatingActionButton(
-              heroTag: '2',
-              onPressed: createFlashcard,
-              backgroundColor: Colors.white,
-              child: const Icon(
-                Icons.add,
-                color: Colors.black,
+                ],
               ),
             ),
-            const SizedBox(width: 16),
-            FloatingActionButton(
-              heroTag: '3',
-              onPressed: () async {
-                await countFlashcards() == 0 ? null : null;
-              },
-              backgroundColor:
-                  countFlashcards() == 0 ? Colors.grey : Colors.white,
-              child: const Icon(
-                Icons.play_arrow,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
 
