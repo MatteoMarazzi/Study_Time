@@ -1,4 +1,3 @@
-import 'package:app/domain/session.dart';
 import 'package:flutter/material.dart';
 
 class SessionTile extends StatelessWidget {

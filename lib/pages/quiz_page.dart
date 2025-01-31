@@ -1,8 +1,7 @@
 import 'package:app/UI/pages/flashcards_editor_page.dart';
 import 'package:app/UI/pages/quiz_execution_page.dart';
-import 'package:app/domain/flashcard.dart';
+import 'package:app/UI/util/common_functions.dart';
 import 'package:app/UI/tiles/flashcard_tile.dart';
-import 'package:app/domain/quiz.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';

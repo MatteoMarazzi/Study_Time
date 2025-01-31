@@ -1,4 +1,12 @@
-import 'package:app/domain/quiz.dart';
+import 'dart:ui';
+
+String rgbToHex(Color color) {
+  return '${color.red.toRadixString(16).padLeft(2, '0')}${color.green.toRadixString(16).padLeft(2, '0')}${color.blue.toRadixString(16).padLeft(2, '0')}';
+}
+
+Color hexToColor(String hex) {
+  return Color(int.parse(hex, radix: 16) + 0xFF000000);
+}
 
 enum Difficulty { facile, difficile, nonValutata }
 
@@ -18,24 +26,5 @@ String difficultyToString(Difficulty difficulty) {
       return 'Difficile';
     case Difficulty.nonValutata:
       return 'Nuova';
-  }
-}
-
-class Flashcard {
-  final Quiz quiz;
-  final int id;
-  String question;
-  String answer;
-  Difficulty difficulty;
-
-  Flashcard(
-      {required this.question,
-      required this.answer,
-      required this.id,
-      required this.quiz,
-      this.difficulty = Difficulty.nonValutata});
-
-  Map<String, dynamic> toMap() {
-    return {'question': question, 'answer': answer, 'quiz': quiz.id};
   }
 }
