@@ -2,7 +2,6 @@ import 'package:app/UI/pages/quiz_editor_page.dart';
 import 'package:app/domain/quiz.dart';
 import 'package:app/UI/pages/quiz_page.dart';
 import 'package:app/UI/tiles/quiz_tile.dart';
-import 'package:app/domain/utente.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -132,6 +131,16 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
     );
   }
 
+  Future<int> getFlashcardsCount(String quizId) async {
+    QuerySnapshot flashcardsSnapshot = await FirebaseFirestore.instance
+        .collection('quizzes')
+        .doc(quizId)
+        .collection('flashcards')
+        .get();
+
+    return flashcardsSnapshot.size; // Numero di flashcard
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,13 +176,20 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
             padding: EdgeInsets.only(bottom: 80),
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
-              return QuizTile(
-                quizName: snapshot.data!.docs[index].data()['name'],
-                flashcardsCount: 1,
-                color: hexToColor(snapshot.data!.docs[index].data()['color']),
-                onOpenTile: () => openQuiz(snapshot.data!.docs[index]),
-                onOpenModifica: () => modifyQuiz(snapshot.data!.docs[index]),
-                onOpenElimina: () => deleteQuiz(snapshot.data!.docs[index].id),
+              var quizDoc = snapshot.data!.docs[index];
+
+              return FutureBuilder<int>(
+                future: getFlashcardsCount(quizDoc.id),
+                builder: (context, countSnapshot) {
+                  return QuizTile(
+                    quizName: quizDoc.data()['name'],
+                    flashcardsCount: countSnapshot.data ?? 0,
+                    color: hexToColor(quizDoc.data()['color']),
+                    onOpenTile: () => openQuiz(quizDoc),
+                    onOpenModifica: () => modifyQuiz(quizDoc),
+                    onOpenElimina: () => deleteQuiz(quizDoc.id),
+                  );
+                },
               );
             },
           );

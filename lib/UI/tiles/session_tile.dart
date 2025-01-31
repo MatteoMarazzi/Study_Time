@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 
 class SessionTile extends StatelessWidget {
   final String title;
-  final Session session;
+  final int minutiPausa;
+  final int minutiStudio;
+  final int ripetizioni;
   final String? consiglio;
   final Color color;
 
   const SessionTile(
       {super.key,
       required this.title,
-      required this.session,
+      required this.minutiStudio,
+      required this.minutiPausa,
+      required this.ripetizioni,
       required this.color,
       this.consiglio});
 
@@ -58,7 +62,7 @@ class SessionTile extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                   Text(
-                    '  ${session.minutiStudio} min',
+                    '  ${minutiStudio} min',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -73,7 +77,7 @@ class SessionTile extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                   Text(
-                    '  ${session.minutiPausa} min',
+                    '  ${minutiPausa} min',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -88,7 +92,7 @@ class SessionTile extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.normal),
                   ),
                   Text(
-                    '  ${session.ripetizioni} volte',
+                    '  ${ripetizioni} volte',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],

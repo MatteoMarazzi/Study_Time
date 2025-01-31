@@ -1,14 +1,19 @@
 import 'package:app/UI/pages/sessionPage.dart';
-import 'package:app/domain/session.dart';
-import 'package:app/domain/utente.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class StudySession extends StatefulWidget {
-  final Session session;
+  final int minutiStudio;
+  final int minutiPausa;
+  final int ripetizioni;
+  final DocumentReference<Map<String, dynamic>> session;
   final bool canModifyValues;
   final Function(bool) onTimerClose;
   const StudySession(
       {super.key,
+      required this.minutiPausa,
+      required this.minutiStudio,
+      required this.ripetizioni,
       required this.session,
       required this.canModifyValues,
       required this.onTimerClose});
@@ -31,9 +36,9 @@ class _StudySessionState extends State<StudySession> {
   @override
   void initState() {
     super.initState();
-    counterStudio = widget.session.minutiStudio;
-    counterPausa = widget.session.minutiPausa;
-    counterRipetizioni = widget.session.ripetizioni;
+    counterStudio = widget.minutiStudio;
+    counterPausa = widget.minutiPausa;
+    counterRipetizioni = widget.ripetizioni;
     if (widget.canModifyValues == false) {
       colorM1 = Colors.grey;
       colorM2 = Colors.grey;
@@ -41,9 +46,9 @@ class _StudySessionState extends State<StudySession> {
       colorP3 = Colors.grey;
       colorP2 = Colors.grey;
       colorP1 = Colors.grey;
-    } else if (widget.session.minutiStudio == 0 &&
-        widget.session.minutiPausa == 0 &&
-        widget.session.ripetizioni == 0) {
+    } else if (widget.minutiStudio == 0 &&
+        widget.minutiPausa == 0 &&
+        widget.ripetizioni == 0) {
       counterStudio = 40;
       counterPausa = 15;
       counterRipetizioni = 2;
@@ -422,8 +427,14 @@ class _StudySessionState extends State<StudySession> {
                 margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
-                    Utente().updateSession(widget.session, counterStudio,
-                        counterPausa, counterRipetizioni);
+                    FirebaseFirestore.instance
+                        .collection('sessions')
+                        .doc(widget.session.id)
+                        .update({
+                      'minutiStudio': counterStudio,
+                      'minutiPausa': counterPausa,
+                      'ripetizioni': counterRipetizioni
+                    });
                     Navigator.of(context).pop(true);
                     setState(() {});
                   },
@@ -453,12 +464,21 @@ class _StudySessionState extends State<StudySession> {
                 margin: const EdgeInsets.all(0),
                 child: TextButton(
                   onPressed: () {
-                    Utente().updateSession(widget.session, counterStudio,
-                        counterPausa, counterRipetizioni);
+                    FirebaseFirestore.instance
+                        .collection('sessions')
+                        .doc(widget.session.id)
+                        .update({
+                      'minutiStudio': counterStudio,
+                      'minutiPausa': counterPausa,
+                      'ripetizioni': counterRipetizioni
+                    });
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) =>
-                              SessionPage(session: widget.session)),
+                          builder: (context) => SessionPage(
+                                minutiPausa: counterPausa,
+                                minutiStudio: counterStudio,
+                                ripetizioni: counterRipetizioni,
+                              )),
                     );
                     setState(() {
                       widget.onTimerClose(true);

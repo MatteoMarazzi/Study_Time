@@ -27,12 +27,16 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
             .collection('flashcards')
             .snapshots(),
         builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text("Nessuna flashcard trovata"));
+          }
+          final flashcards = snapshot.data!.docs;
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pop(false); // Passing false as result
+                    Navigator.of(context).pop(false);
                   },
                   icon: const Icon(
                     Icons.arrow_back,
@@ -70,7 +74,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 top: 8.0,
                                 left: 8.0,
                                 child: Text(
-                                  '${difficultyToString(intToDifficulty(snapshot.data!.docs[currentIndex].data()['difficulty']))}',
+                                  '${difficultyToString(intToDifficulty(flashcards[currentIndex].data()['difficulty']))}',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),

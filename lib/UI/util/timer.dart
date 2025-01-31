@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:app/domain/session.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class TimerController extends GetxController {
@@ -10,19 +11,23 @@ class TimerController extends GetxController {
   int studio = 0;
   int pausa = 0;
   int ripetizioni = 0;
-  late Session session;
+  late DocumentReference<Map<String, dynamic>> session;
+  late int minutiStudio;
+  late int minutiPausa;
+  late int importedRipetizioni;
   int timerCorrente = 0;
   int currentIteration = 0; // Contatore delle iterazioni attuali
   final VoidCallback onTimerStart;
 
-  TimerController(this.session, this.onTimerStart);
+  TimerController(this.minutiPausa, this.minutiStudio, this.importedRipetizioni,
+      this.onTimerStart);
 
   @override
   void onInit() {
     super.onInit();
-    studio = session.minutiStudio * 1; // Converti minuti in secondi
-    pausa = session.minutiPausa * 1; // Converti minuti in secondi
-    ripetizioni = session.ripetizioni;
+    studio = minutiStudio * 1; // Converti minuti in secondi
+    pausa = minutiPausa * 1; // Converti minuti in secondi
+    ripetizioni = importedRipetizioni;
     print(ripetizioni);
     startSession();
   }

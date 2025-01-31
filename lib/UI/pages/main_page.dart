@@ -3,8 +3,8 @@ import 'package:app/UI/pages/exam_page.dart';
 import 'package:app/UI/pages/home_page.dart';
 import 'package:app/UI/pages/home_quiz_page.dart';
 import 'package:app/UI/pages/tomato_method.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:app/domain/utente.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -24,12 +24,6 @@ class _MainPageState extends State<MainPage> {
     const HomeQuizPage(),
     const DataPage(),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    Utente().mountDatabase();
-  }
 
   void _onItemTapped(int index) {
     //si occupa della navigazione tra pagine

@@ -1,12 +1,16 @@
 import 'package:app/UI/util/timer.dart';
-import 'package:app/domain/session.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SessionPage extends StatefulWidget {
-  final Session session;
-
-  SessionPage({required this.session, super.key});
+  final int ripetizioni;
+  final int minutiPausa;
+  final int minutiStudio;
+  SessionPage(
+      {required this.ripetizioni,
+      required this.minutiStudio,
+      required this.minutiPausa,
+      super.key});
 
   @override
   _SessionPageState createState() => _SessionPageState();
@@ -28,7 +32,8 @@ class _SessionPageState extends State<SessionPage> {
       Get.delete<TimerController>();
     }
     // Inizializza un nuovo controller con il callback
-    controller = Get.put(TimerController(widget.session, _onTimerStart));
+    controller = Get.put(TimerController(widget.minutiPausa,
+        widget.minutiStudio, widget.ripetizioni, _onTimerStart));
   }
 
   @override
@@ -43,7 +48,7 @@ class _SessionPageState extends State<SessionPage> {
     print('Timer è iniziato');
     // Puoi aggiungere altre azioni qui se necessario
     setState(() {
-      if (contatore < widget.session.ripetizioni * 2) {
+      if (contatore < widget.ripetizioni * 2) {
         if (contatore % 2 == 0) {
           turno = 'STUDIO';
           timerTextColor = const Color.fromARGB(255, 183, 18, 6);
@@ -56,7 +61,7 @@ class _SessionPageState extends State<SessionPage> {
       }
       print('contatoreee : $contatore');
       // Verifica se la sessione è completata
-      if (contatore == widget.session.ripetizioni * 2) {
+      if (contatore == widget.ripetizioni * 2) {
         showCompletionContainer = true;
         testoPagina = 'CONGRATULAZIONI\nSESSIONE TERMINATA';
       }

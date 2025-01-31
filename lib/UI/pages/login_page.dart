@@ -1,4 +1,6 @@
+import 'package:app/UI/pages/main_page.dart';
 import 'package:app/UI/pages/sign_up_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -26,13 +28,48 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> loginUserWithEmailAndPassword() async {
     try {
-      final userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim());
-      print(userCredential);
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      final firestore = FirebaseFirestore.instance;
+
+      final sessionsSnapshot = await firestore.collection('sessions').get();
+
+      if (sessionsSnapshot.docs.isEmpty) {
+        await firestore.collection('sessions').doc('standard').set({
+          'creator': FirebaseAuth.instance.currentUser!.uid,
+          'title': 'STANDARD',
+          'minutiStudio': 25,
+          'minutiPausa': 4,
+          'ripetizioni': 4,
+        });
+
+        await firestore.collection('sessions').doc('personalizzata1').set({
+          'creator': FirebaseAuth.instance.currentUser!.uid,
+          'title': 'PERSONALIZZATA 1',
+          'minutiStudio': 0,
+          'minutiPausa': 0,
+          'ripetizioni': 0,
+        });
+
+        await firestore.collection('sessions').doc('personalizzata2').set({
+          'creator': FirebaseAuth.instance.currentUser!.uid,
+          'title': 'PERSONALIZZATA 2',
+          'minutiStudio': 0,
+          'minutiPausa': 0,
+          'ripetizioni': 0,
+        });
+      }
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainPage(),
+          ));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Errore durante l\'accesso')),
+      );
     }
   }
 
