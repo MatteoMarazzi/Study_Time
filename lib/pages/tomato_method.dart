@@ -87,9 +87,9 @@ class _TomatoMethodState extends State<TomatoMethod> {
     return Scaffold(
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
               .collection('sessions')
-              .where('creator',
-                  isEqualTo: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

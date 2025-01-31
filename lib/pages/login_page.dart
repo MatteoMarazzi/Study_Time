@@ -34,10 +34,19 @@ class _LoginPageState extends State<LoginPage> {
       );
       final firestore = FirebaseFirestore.instance;
 
-      final sessionsSnapshot = await firestore.collection('sessions').get();
+      final sessionsSnapshot = await firestore
+          .collection('sessions')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('sessions')
+          .get();
 
       if (sessionsSnapshot.docs.isEmpty) {
-        await firestore.collection('sessions').doc('standard').set({
+        await firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('sessions')
+            .doc('standard')
+            .set({
           'creator': FirebaseAuth.instance.currentUser!.uid,
           'title': 'STANDARD',
           'minutiStudio': 25,
@@ -45,7 +54,12 @@ class _LoginPageState extends State<LoginPage> {
           'ripetizioni': 4,
         });
 
-        await firestore.collection('sessions').doc('personalizzata1').set({
+        await firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('sessions')
+            .doc('personalizzata1')
+            .set({
           'creator': FirebaseAuth.instance.currentUser!.uid,
           'title': 'PERSONALIZZATA 1',
           'minutiStudio': 0,
@@ -53,7 +67,12 @@ class _LoginPageState extends State<LoginPage> {
           'ripetizioni': 0,
         });
 
-        await firestore.collection('sessions').doc('personalizzata2').set({
+        await firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('sessions')
+            .doc('personalizzata2')
+            .set({
           'creator': FirebaseAuth.instance.currentUser!.uid,
           'title': 'PERSONALIZZATA 2',
           'minutiStudio': 0,

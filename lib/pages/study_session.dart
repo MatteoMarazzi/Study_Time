@@ -1,5 +1,6 @@
 import 'package:app/pages/sessionPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class StudySession extends StatefulWidget {
@@ -428,6 +429,8 @@ class _StudySessionState extends State<StudySession> {
                 child: TextButton(
                   onPressed: () {
                     FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
                         .collection('sessions')
                         .doc(widget.session.id)
                         .update({
@@ -465,6 +468,8 @@ class _StudySessionState extends State<StudySession> {
                 child: TextButton(
                   onPressed: () {
                     FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
                         .collection('sessions')
                         .doc(widget.session.id)
                         .update({
