@@ -1,4 +1,4 @@
-import 'package:app/UI/util/common_functions.dart';
+import 'package:app/util/common_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';

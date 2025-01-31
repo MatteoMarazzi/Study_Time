@@ -1,8 +1,8 @@
-import 'package:app/UI/pages/data_page.dart';
-import 'package:app/UI/pages/exam_page.dart';
-import 'package:app/UI/pages/home_page.dart';
-import 'package:app/UI/pages/home_quiz_page.dart';
-import 'package:app/UI/pages/tomato_method.dart';
+import 'package:app/pages/data_page.dart';
+import 'package:app/pages/exam_page.dart';
+import 'package:app/pages/home_page.dart';
+import 'package:app/pages/home_quiz_page.dart';
+import 'package:app/pages/tomato_method.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

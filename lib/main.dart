@@ -1,5 +1,5 @@
-import 'package:app/UI/pages/main_page.dart';
-import 'package:app/UI/pages/sign_up_page.dart';
+import 'package:app/pages/main_page.dart';
+import 'package:app/pages/sign_up_page.dart';
 import 'package:app/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

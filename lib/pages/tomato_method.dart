@@ -1,6 +1,6 @@
-import 'package:app/UI/pages/ideal_page.dart';
-import 'package:app/UI/pages/study_session.dart';
-import 'package:app/UI/tiles/session_tile.dart';
+import 'package:app/pages/ideal_page.dart';
+import 'package:app/pages/study_session.dart';
+import 'package:app/tiles/session_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

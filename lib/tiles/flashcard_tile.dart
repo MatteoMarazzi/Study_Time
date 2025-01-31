@@ -1,4 +1,4 @@
-import 'package:app/UI/util/editor_menu.dart';
+import 'package:app/util/editor_menu.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable

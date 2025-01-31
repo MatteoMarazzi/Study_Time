@@ -1,7 +1,7 @@
-import 'package:app/UI/pages/quiz_editor_page.dart';
-import 'package:app/UI/pages/quiz_page.dart';
-import 'package:app/UI/tiles/quiz_tile.dart';
-import 'package:app/UI/util/common_functions.dart';
+import 'package:app/pages/quiz_editor_page.dart';
+import 'package:app/pages/quiz_page.dart';
+import 'package:app/tiles/quiz_tile.dart';
+import 'package:app/util/common_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

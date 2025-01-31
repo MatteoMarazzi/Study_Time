@@ -1,5 +1,5 @@
 // ignore: file_names
-import 'package:app/UI/pages/tomato_method.dart';
+import 'package:app/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
 
 class SessionInterupt extends StatelessWidget {

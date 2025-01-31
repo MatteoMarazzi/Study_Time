@@ -1,4 +1,4 @@
-import 'package:app/UI/util/timer.dart';
+import 'package:app/util/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

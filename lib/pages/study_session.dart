@@ -1,4 +1,4 @@
-import 'package:app/UI/pages/sessionPage.dart';
+import 'package:app/pages/sessionPage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
