@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class DataPage extends StatefulWidget {
@@ -194,6 +195,31 @@ class DataPageState extends State<DataPage> {
               ),
               const SizedBox(
                 height: 20,
+              ),
+              Card(
+                elevation: 5,
+                color: Colors.white,
+                shadowColor: Colors.black,
+                margin: const EdgeInsets.all(0),
+                child: TextButton(
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                  },
+                  style: ButtonStyle(
+                    animationDuration: const Duration(seconds: 5),
+                    overlayColor: MaterialStateProperty.all(Colors.grey),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Log out',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
