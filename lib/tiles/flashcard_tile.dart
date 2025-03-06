@@ -18,46 +18,40 @@ class FlashcardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 2),
-          borderRadius: BorderRadius.circular(30),
-          color: color,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  questionText,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                  maxLines: 10,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: IconButton(
-                    icon: const Icon(
-                      Icons.more_vert_rounded,
+    return GestureDetector(
+      onTap: () {
+        EditorMenu(
+                context: context,
+                onOpenElimina: onOpenElimina,
+                onOpenModifica: onOpenModifica)
+            .show();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1),
+            borderRadius: BorderRadius.circular(30),
+            color: color,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    questionText,
+                    style: const TextStyle(
                       color: Colors.black,
+                      fontSize: 18,
                     ),
-                    onPressed: () {
-                      EditorMenu(
-                              context: context,
-                              onOpenElimina: onOpenElimina,
-                              onOpenModifica: onOpenModifica)
-                          .show();
-                    }),
-              ),
-            ],
+                    maxLines: 10,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

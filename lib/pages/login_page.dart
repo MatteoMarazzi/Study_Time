@@ -129,11 +129,13 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   await loginUserWithEmailAndPassword();
                 },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade300),
                 child: const Text(
                   'ACCEDI',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),

@@ -27,7 +27,7 @@ class QuizTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             border: Border.all(
-              width: 2,
+              width: 1,
             ),
             borderRadius: BorderRadius.circular(30),
           ),

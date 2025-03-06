@@ -84,7 +84,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 child: Text(
                                   snapshot.data!.docs[currentIndex]
                                       .data()['question'],
-                                  textAlign: TextAlign.left,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 19),
                                 ),
                               ),

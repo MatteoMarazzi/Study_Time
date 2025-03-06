@@ -138,7 +138,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                         height: 8,
                       ),
                       TextField(
-                          maxLines: 7,
+                          maxLines: 4,
                           minLines: 1,
                           maxLength: 80,
                           controller: widget.controllerd,
@@ -146,11 +146,11 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                             if (widget.controllerd.value.text
                                     .split('\n')
                                     .length >
-                                7) {
+                                4) {
                               widget.controllerd.text = widget
                                   .controllerd.value.text
                                   .split('\n')
-                                  .sublist(0, 7)
+                                  .sublist(0, 4)
                                   .join('\n');
                               widget.controllerd.selection =
                                   TextSelection.fromPosition(

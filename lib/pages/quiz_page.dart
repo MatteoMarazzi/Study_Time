@@ -133,6 +133,7 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('quizzes')
@@ -179,7 +180,6 @@ class _QuizPageState extends State<QuizPage> {
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 30),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Text(
@@ -189,9 +189,7 @@ class _QuizPageState extends State<QuizPage> {
                               fontSize: 18, color: Colors.black),
                         ),
                       ),
-                      SizedBox(
-                        height: 40,
-                      ),
+                      SizedBox(height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -295,12 +293,12 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 200,
+                        height: screenSize.height * 0.5075,
                         child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
+                          scrollDirection: Axis.vertical,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
+                            crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             childAspectRatio: 0.8,
                           ),

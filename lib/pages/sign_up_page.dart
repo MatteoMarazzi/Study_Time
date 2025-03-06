@@ -110,11 +110,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 onPressed: () async {
                   await createUserWithEmailAndPassword();
                 },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade300),
                 child: const Text(
                   'ISCRIVITI',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
