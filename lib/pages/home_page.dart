@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:app/tiles/home_tile.dart';
@@ -121,20 +120,6 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 20,
           ),
-          HomeTile(
-            standard: 1,
-            color: const Color.fromARGB(255, 0, 0, 0),
-            shadowColor: Color.fromARGB(255, 255, 255, 255),
-            backgroundColor: Color.fromARGB(99, 39, 199, 74),
-            boxTitle: "ESAMI",
-            destinationPage: ExamPage(),
-            pathImage: 'assets/exam_1.png',
-            heightImage: 130,
-            weightImage: 250,
-          ),
-          // ],
-          // ),
-          // ),
         ],
       ))),
     );

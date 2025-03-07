@@ -38,7 +38,7 @@ class ProfilePageState extends State<ProfilePage> {
               future: getUserName(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
                   return Text("Errore nel caricamento");
@@ -52,7 +52,7 @@ class ProfilePageState extends State<ProfilePage> {
                       height: 20,
                     ),
                     Text(
-                      'Ciao ${userName}',
+                      'Ciao ${userName} 👋',
                       style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,

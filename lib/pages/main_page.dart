@@ -1,5 +1,4 @@
 import 'package:app/pages/profile_page.dart';
-import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
@@ -18,9 +17,8 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _pages = [
     const MyHomePage(),
-    const TomatoMethod(),
-    const ExamPage(),
     const HomeQuizPage(),
+    const TomatoMethod(),
     const ProfilePage(),
   ];
 
@@ -69,17 +67,10 @@ class _MainPageState extends State<MainPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.search_outlined,
+              Icons.menu_book_rounded,
               color: Colors.black,
             ),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.folder,
-              color: Colors.black,
-            ),
-            label: 'Esami',
+            label: 'Pomodoro',
           ),
           BottomNavigationBarItem(
             icon: Icon(
