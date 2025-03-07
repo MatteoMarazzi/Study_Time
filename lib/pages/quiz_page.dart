@@ -108,8 +108,8 @@ class _QuizPageState extends State<QuizPage> {
                         .collection('flashcards')
                         .doc(flashcardToModify.id)
                         .update({
-                      'question': questionTextController,
-                      'answer': answerTextController
+                      'question': questionTextController.text,
+                      'answer': answerTextController.text
                     });
                     questionTextController.clear();
                     answerTextController.clear();
@@ -133,7 +133,7 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    //Size screenSize = MediaQuery.of(context).size;
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('quizzes')
@@ -293,26 +293,26 @@ class _QuizPageState extends State<QuizPage> {
                         ),
                       ),
                       SizedBox(
-                        height: screenSize.height * 0.5075,
+                        height: 200,
                         child: GridView.builder(
-                          scrollDirection: Axis.vertical,
+                          scrollDirection: Axis.horizontal,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
+                            crossAxisCount: 1,
                             crossAxisSpacing: 10,
                             childAspectRatio: 0.8,
                           ),
                           padding: const EdgeInsets.all(8),
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
+                            var flashcardDoc = snapshot.data!.docs[index];
                             return FlashcardTile(
-                              questionText:
-                                  snapshot.data!.docs[index].data()['question'],
+                              questionText: flashcardDoc.data()['question'],
                               color: hexToColor(widget.quiz.data()['color']),
-                              onOpenElimina: () => deleteFlashcard(
-                                  snapshot.data!.docs[index].id),
+                              onOpenElimina: () =>
+                                  deleteFlashcard(flashcardDoc.id),
                               onOpenModifica: () =>
-                                  modifyFlashcard(snapshot.data!.docs[index]),
+                                  modifyFlashcard(flashcardDoc),
                             );
                           },
                         ),
