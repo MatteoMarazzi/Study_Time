@@ -15,6 +15,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -31,12 +32,26 @@ class _SignUpPageState extends State<SignUpPage> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+
       final firestore = FirebaseFirestore.instance;
 
       final sessionsSnapshot = await firestore.collection('sessions').get();
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        "name": nameController.text,
+        "email": emailController.text,
+        "createdAt": FieldValue.serverTimestamp(),
+      });
 
       if (sessionsSnapshot.docs.isEmpty) {
-        await firestore.collection('sessions').doc('standard').set({
+        await firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('sessions')
+            .doc('standard')
+            .set({
           'creator': FirebaseAuth.instance.currentUser!.uid,
           'title': 'STANDARD',
           'minutiStudio': 25,
@@ -44,7 +59,12 @@ class _SignUpPageState extends State<SignUpPage> {
           'ripetizioni': 4,
         });
 
-        await firestore.collection('sessions').doc('personalizzata1').set({
+        await firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('sessions')
+            .doc('personalizzata1')
+            .set({
           'creator': FirebaseAuth.instance.currentUser!.uid,
           'title': 'PERSONALIZZATA 1',
           'minutiStudio': 0,
@@ -52,7 +72,12 @@ class _SignUpPageState extends State<SignUpPage> {
           'ripetizioni': 0,
         });
 
-        await firestore.collection('sessions').doc('personalizzata2').set({
+        await firestore
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('sessions')
+            .doc('personalizzata2')
+            .set({
           'creator': FirebaseAuth.instance.currentUser!.uid,
           'title': 'PERSONALIZZATA 2',
           'minutiStudio': 0,
@@ -60,15 +85,21 @@ class _SignUpPageState extends State<SignUpPage> {
           'ripetizioni': 0,
         });
       }
-      Navigator.pushReplacement(
+
+      if (mounted) {
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const MainPage(),
-          ));
+          ),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Errore durante l\'accesso')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Errore durante l\'accesso')),
+        );
+      }
     }
   }
 
@@ -91,6 +122,13 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               const SizedBox(height: 10),
               const SizedBox(height: 20),
+              TextFormField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  hintText: 'Nome',
+                ),
+              ),
+              const SizedBox(height: 15),
               TextFormField(
                 controller: emailController,
                 decoration: const InputDecoration(

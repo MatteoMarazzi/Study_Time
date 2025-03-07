@@ -80,15 +80,20 @@ class _LoginPageState extends State<LoginPage> {
           'ripetizioni': 0,
         });
       }
-      Navigator.pushReplacement(
+      if (mounted) {
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const MainPage(),
-          ));
+          ),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Errore durante l\'accesso')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Errore durante l\'accesso')),
+        );
+      }
     }
   }
 

@@ -1,9 +1,8 @@
-import 'package:app/pages/data_page.dart';
+import 'package:app/pages/profile_page.dart';
 import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -22,7 +21,7 @@ class _MainPageState extends State<MainPage> {
     const TomatoMethod(),
     const ExamPage(),
     const HomeQuizPage(),
-    const DataPage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
