@@ -1,6 +1,5 @@
 import 'package:app/util/bar_button.dart';
 import 'package:app/pages/profile_page.dart';
-import 'package:app/pages/exam_page.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +34,6 @@ class BottomBar extends StatelessWidget {
               color: Color.fromARGB(255, 0, 0, 0),
               icon: Icons.bar_chart_sharp,
               destination: ProfilePage(),
-            ),
-            BarButton(
-              color: Color.fromARGB(255, 0, 0, 0),
-              icon: Icons.folder,
-              destination: ExamPage(),
             ),
           ],
         ),
