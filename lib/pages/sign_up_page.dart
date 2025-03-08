@@ -19,9 +19,32 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  bool isSignUpButtonEnabled = false;
+  final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+  @override
+  void initState() {
+    super.initState();
+    nameController.addListener(_validateInputs);
+    emailController.addListener(_validateInputs);
+    passwordController.addListener(_validateInputs);
+
+    _validateInputs();
+  }
+
+  void _validateInputs() {
+    if (mounted) {
+      setState(() {
+        isSignUpButtonEnabled = nameController.text.isNotEmpty &&
+            passwordController.text.length > 6 &&
+            emailRegex.hasMatch(emailController.text.trim());
+      });
+    }
+  }
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -94,12 +117,9 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         );
       }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Errore durante l\'accesso')),
-        );
-      }
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
     }
   }
 
@@ -120,8 +140,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(
@@ -145,17 +164,23 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  await createUserWithEmailAndPassword();
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade300),
+                onPressed: isSignUpButtonEnabled
+                    ? () async {
+                        await createUserWithEmailAndPassword();
+                      }
+                    : null,
                 child: const Text(
                   'ISCRIVITI',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                   ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey.shade300,
+                  disabledBackgroundColor: Colors.grey,
+                  foregroundColor: Colors.black,
+                  disabledForegroundColor: Colors.black,
                 ),
               ),
               const SizedBox(height: 20),

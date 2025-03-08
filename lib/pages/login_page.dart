@@ -18,6 +18,26 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  bool isSignInButtonEnabled = false;
+  final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(_validateInputs);
+    passwordController.addListener(_validateInputs);
+
+    _validateInputs();
+  }
+
+  void _validateInputs() {
+    if (mounted) {
+      setState(() {
+        isSignInButtonEnabled = passwordController.text.length > 6 &&
+            emailRegex.hasMatch(emailController.text.trim());
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -88,12 +108,9 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Errore durante l\'accesso')),
-        );
-      }
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
     }
   }
 
@@ -131,11 +148,17 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  await loginUserWithEmailAndPassword();
-                },
+                onPressed: isSignInButtonEnabled
+                    ? () async {
+                        await loginUserWithEmailAndPassword();
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade300),
+                  backgroundColor: Colors.grey.shade300,
+                  disabledBackgroundColor: Colors.grey,
+                  foregroundColor: Colors.black,
+                  disabledForegroundColor: Colors.black,
+                ),
                 child: const Text(
                   'ACCEDI',
                   style: TextStyle(
