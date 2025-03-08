@@ -95,6 +95,7 @@ flutter:
      - assets/icon/icon.png
      - assets/spezzacatene.png
      - assets/corridore.png
+     - assets/default-avatar.avif
 
 
   fonts:
