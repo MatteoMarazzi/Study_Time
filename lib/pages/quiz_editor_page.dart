@@ -104,34 +104,36 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                         ),
                       ),
                       const SizedBox(height: 8.0),
-                      ColorPicker(
-                        color: selectedColor,
-                        onColorChanged: (Color color) {
-                          setState(() {
-                            selectedColor = color;
-                          });
-                          widget.onColorSelected(color);
-                        },
-                        spacing: 20,
-                        hasBorder: true,
-                        borderColor: Colors.black,
-                        borderRadius: 20,
-                        enableShadesSelection: false,
-                        pickersEnabled: const <ColorPickerType, bool>{
-                          ColorPickerType.both: false,
-                          ColorPickerType.primary: false,
-                          ColorPickerType.accent: false,
-                          ColorPickerType.bw: false,
-                          ColorPickerType.custom: true,
-                        },
-                        customColorSwatchesAndNames: {
-                          Colors.red: 'Rosso',
-                          Colors.blue: 'Blu',
-                          Colors.green: 'Verde',
-                          Colors.orange: 'Arancione',
-                          Colors.purple: 'Viola',
-                          Colors.yellow: 'Giallo',
-                        },
+                      Center(
+                        child: ColorPicker(
+                          color: selectedColor,
+                          onColorChanged: (Color color) {
+                            setState(() {
+                              selectedColor = color;
+                            });
+                            widget.onColorSelected(color);
+                          },
+                          spacing: 20,
+                          hasBorder: true,
+                          borderColor: Colors.black,
+                          borderRadius: 20,
+                          enableShadesSelection: false,
+                          pickersEnabled: const <ColorPickerType, bool>{
+                            ColorPickerType.both: false,
+                            ColorPickerType.primary: false,
+                            ColorPickerType.accent: false,
+                            ColorPickerType.bw: false,
+                            ColorPickerType.custom: true,
+                          },
+                          customColorSwatchesAndNames: {
+                            Colors.red: 'Rosso',
+                            Colors.blue: 'Blu',
+                            Colors.green: 'Verde',
+                            Colors.orange: 'Arancione',
+                            Colors.purple: 'Viola',
+                            Colors.yellow: 'Giallo',
+                          },
+                        ),
                       ),
                       Text('Descrizione', style: TextStyle(fontSize: 18)),
                       const SizedBox(
@@ -176,38 +178,33 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
       ),
       floatingActionButton: Visibility(
         visible: !showFab,
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.only(left: screenSize.width * 0.08),
-            child: SizedBox(
-              width: 400,
-              child: Card(
-                elevation: 5,
-                shadowColor: Colors.black,
-                color: isSaveButtonEnabled ? Colors.white : Colors.grey,
-                child: TextButton(
-                  onPressed: isSaveButtonEnabled ? widget.onSalva : null,
-                  style: ButtonStyle(
-                    animationDuration: const Duration(seconds: 5),
-                    overlayColor: MaterialStateProperty.all(Colors.grey),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Salva',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
+        child: SizedBox(
+          width: 400,
+          child: Card(
+            elevation: 5,
+            shadowColor: Colors.black,
+            color: isSaveButtonEnabled ? Colors.white : Colors.grey,
+            child: TextButton(
+              onPressed: isSaveButtonEnabled ? widget.onSalva : null,
+              style: ButtonStyle(
+                animationDuration: const Duration(seconds: 5),
+                overlayColor: MaterialStateProperty.all(Colors.grey),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Salva',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ),
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
