@@ -1,3 +1,4 @@
+import 'package:app/util/common_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,33 +11,72 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
-  Future<Map<String, String>> getUserData() async {
+  late Future<Map<String, dynamic>> userDataFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    userDataFuture = getUserStats();
+  }
+
+  Future<Map<String, dynamic>> getUserStats() async {
     User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      DocumentSnapshot doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+    if (user == null)
+      return await {
+        'name': 'Utente',
+        'createdAt': 'Data non disponibile',
+        'flashcardStats': {}
+      };
 
-      if (doc.exists && doc.data() != null) {
-        var data = doc.data() as Map<String, dynamic>;
-        String userName = data.containsKey('name') ? data['name'] : 'Utente';
+    // Recupera dati utente
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    String userName = doc.exists && doc.data() != null && doc['name'] != null
+        ? doc['name']
+        : 'Utente';
 
-        // Recupero e formatto la data di creazione
-        String accountCreationDate = 'Data non disponibile';
-        if (data.containsKey('createdAt')) {
-          Timestamp timestamp = data['createdAt'];
-          DateTime date = timestamp.toDate();
-          accountCreationDate = "${date.day}/${date.month}/${date.year}";
+    // Recupera data creazione account
+    String accountCreationDate = 'Data non disponibile';
+    if (doc.exists && doc['createdAt'] != null) {
+      DateTime date = (doc['createdAt'] as Timestamp).toDate();
+      accountCreationDate = "${date.day}/${date.month}/${date.year}";
+    }
+
+    // Recupera i quiz creati dall'utente
+    QuerySnapshot quizSnapshot = await FirebaseFirestore.instance
+        .collection('quizzes')
+        .where('creator', isEqualTo: user.uid)
+        .get();
+
+    int easyCount = 0, difficultCount = 0, newCount = 0;
+
+    for (var quiz in quizSnapshot.docs) {
+      QuerySnapshot flashcardSnapshot =
+          await quiz.reference.collection('flashcards').get();
+
+      for (var flashcard in flashcardSnapshot.docs) {
+        int difficulty = flashcard['difficulty'] ?? 0;
+        if (difficulty == difficultyToInt(Difficulty.nonValutata)) {
+          newCount++;
+        } else if (difficulty == difficultyToInt(Difficulty.facile)) {
+          easyCount++;
+        } else if (difficulty == difficultyToInt(Difficulty.difficile)) {
+          difficultCount++;
         }
-
-        return {
-          'name': userName,
-          'createdAt': accountCreationDate,
-        };
       }
     }
-    return {'name': 'Utente', 'createdAt': 'Data non disponibile'};
+
+    return {
+      'name': userName,
+      'createdAt': accountCreationDate,
+      'flashcardStats': {
+        'facili': easyCount,
+        'difficili': difficultCount,
+        'nonValutate': newCount
+      }
+    };
   }
 
   @override
@@ -51,8 +91,8 @@ class ProfilePageState extends State<ProfilePage> {
             right: screenSize.width * 0.04,
             top: screenSize.height * 0.04),
         child: Center(
-          child: FutureBuilder<Map<String, String>>(
-              future: getUserData(),
+          child: FutureBuilder<Map<String, dynamic>>(
+              future: userDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -62,6 +102,9 @@ class ProfilePageState extends State<ProfilePage> {
                 }
                 String userName = snapshot.data!['name']!;
                 String accountCreationDate = snapshot.data!['createdAt']!;
+                Map<String, int> flashcardStats =
+                    snapshot.data!['flashcardStats'];
+
                 return Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +165,7 @@ class ProfilePageState extends State<ProfilePage> {
                         color: const Color.fromARGB(255, 230, 233, 235),
                         border: Border.all(width: 2, color: Colors.black),
                       ),
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,8 +182,12 @@ class ProfilePageState extends State<ProfilePage> {
                               height: 10,
                             ),
                             Text(
-                              'Corrette/Sbagliate : 1,2',
-                              style: TextStyle(fontSize: 15),
+                              flashcardStats['difficili']! > 0
+                                  ? 'Facili/Difficili: ${(flashcardStats['facili']! / flashcardStats['difficili']!).toStringAsFixed(2)}'
+                                  : (flashcardStats['facili']! > 0
+                                      ? 'Facili/Difficili: Solo Facili'
+                                      : 'Facili/Difficili: N/A'),
+                              style: const TextStyle(fontSize: 15),
                             ),
                             SizedBox(
                               height: 15,
@@ -167,14 +214,14 @@ class ProfilePageState extends State<ProfilePage> {
                         color: const Color.fromARGB(255, 230, 233, 235),
                         border: Border.all(width: 2, color: Colors.black),
                       ),
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Center(
                                 child: Text(
-                              'STATISTICHE GENERALI',
+                              'STATISTICHE GENERALI FLASHCARDS',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -184,21 +231,21 @@ class ProfilePageState extends State<ProfilePage> {
                               height: 10,
                             ),
                             Text(
-                              'Corrette : 0',
+                              'Facili : ${flashcardStats['facili']}',
                               style: TextStyle(fontSize: 15),
                             ),
                             SizedBox(
                               height: 15,
                             ),
                             Text(
-                              'Sbagliate : 0',
+                              'Difficili : ${flashcardStats['difficili']}',
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
                               height: 15,
                             ),
                             Text(
-                              'Senza risposta : 0', //aggiunta contatore risposte corrette,sbagliate e senza risposta
+                              'Non valutate : ${flashcardStats['nonValutate']}',
                               style: TextStyle(fontSize: 16),
                             )
                           ],
