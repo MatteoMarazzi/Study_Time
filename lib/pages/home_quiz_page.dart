@@ -146,14 +146,6 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop(false); // Passing false as result
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            )),
         centerTitle: true,
         title: const Text('QUIZ',
             textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),

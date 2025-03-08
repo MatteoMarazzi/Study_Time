@@ -51,16 +51,9 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    'Flashcard ${currentIndex + 1} di ${widget.flashcardsCount}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   SizedBox(
                     width: 350,
-                    height: 550,
+                    height: 600,
                     child: FlipCard(
                       key: cardKey,
                       flipOnTouch: true,
@@ -75,6 +68,16 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 left: 8.0,
                                 child: Text(
                                   '${difficultyToString(intToDifficulty(flashcards[currentIndex].data()['difficulty']))}',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Positioned(
+                                top: 8.0,
+                                right: 8.0,
+                                child: Text(
+                                  'Flashcard ${currentIndex + 1} di ${widget.flashcardsCount}',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
