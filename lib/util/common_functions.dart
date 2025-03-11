@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 String rgbToHex(Color color) {
   return '${color.red.toRadixString(16).padLeft(2, '0')}${color.green.toRadixString(16).padLeft(2, '0')}${color.blue.toRadixString(16).padLeft(2, '0')}';
 }
@@ -26,5 +28,16 @@ String difficultyToString(Difficulty difficulty) {
       return 'Difficile';
     case Difficulty.nonValutata:
       return 'Nuova';
+  }
+}
+
+Color difficultyToColor(Difficulty difficulty) {
+  switch (difficulty) {
+    case Difficulty.facile:
+      return Colors.green;
+    case Difficulty.difficile:
+      return Colors.red;
+    case Difficulty.nonValutata:
+      return Colors.grey;
   }
 }

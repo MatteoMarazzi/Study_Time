@@ -212,15 +212,18 @@ class _QuizPageState extends State<QuizPage> {
                                         height: 20,
                                       ),
                                       LegendItem(
-                                        color: Colors.green,
+                                        color: difficultyToColor(
+                                            Difficulty.facile),
                                         text: "Facili: $easyFlashcards",
                                       ),
                                       LegendItem(
-                                        color: Colors.red,
+                                        color: difficultyToColor(
+                                            Difficulty.difficile),
                                         text: "Difficili: $difficultFlashcards",
                                       ),
                                       LegendItem(
-                                        color: Colors.grey,
+                                        color: difficultyToColor(
+                                            Difficulty.nonValutata),
                                         text: "Nuove: $newFlashcards",
                                       ),
                                     ]),
@@ -237,7 +240,8 @@ class _QuizPageState extends State<QuizPage> {
                                               100,
                                       title:
                                           '${((easyFlashcards / flashcardsCount) * 100).toInt()}%',
-                                      color: Colors.green,
+                                      color:
+                                          difficultyToColor(Difficulty.facile),
                                       radius: 80,
                                       titleStyle: TextStyle(
                                           fontSize: 16,
@@ -250,7 +254,8 @@ class _QuizPageState extends State<QuizPage> {
                                           100,
                                       title:
                                           '${((difficultFlashcards / flashcardsCount) * 100).toInt()}%',
-                                      color: Colors.red,
+                                      color: difficultyToColor(
+                                          Difficulty.difficile),
                                       radius: 80,
                                       titleStyle: TextStyle(
                                           fontSize: 16,
@@ -262,7 +267,8 @@ class _QuizPageState extends State<QuizPage> {
                                           100,
                                       title:
                                           '${((newFlashcards / flashcardsCount) * 100).toInt()}%',
-                                      color: Colors.grey,
+                                      color: difficultyToColor(
+                                          Difficulty.nonValutata),
                                       radius: 80,
                                       titleStyle: TextStyle(
                                           fontSize: 16,
@@ -308,7 +314,8 @@ class _QuizPageState extends State<QuizPage> {
                             var flashcardDoc = snapshot.data!.docs[index];
                             return FlashcardTile(
                               questionText: flashcardDoc.data()['question'],
-                              color: hexToColor(widget.quiz.data()['color']),
+                              color: difficultyToColor(intToDifficulty(
+                                  flashcardDoc.data()['difficulty'])),
                               onOpenElimina: () =>
                                   deleteFlashcard(flashcardDoc.id),
                               onOpenModifica: () =>

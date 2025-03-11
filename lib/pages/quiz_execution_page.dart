@@ -69,6 +69,9 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 child: Text(
                                   '${difficultyToString(intToDifficulty(flashcards[currentIndex].data()['difficulty']))}',
                                   style: TextStyle(
+                                      color: difficultyToColor(intToDifficulty(
+                                          flashcards[currentIndex]
+                                              .data()['difficulty'])),
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),
