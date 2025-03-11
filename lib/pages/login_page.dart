@@ -3,6 +3,7 @@ import 'package:app/pages/sign_up_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -109,8 +110,34 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
+      String errorMessage = "Si è verificato un errore. Riprova.";
+      if (e.code == 'user-not-found') {
+        errorMessage = "Nessun utente trovato con questa email.";
+      } else if (e.code == 'wrong-password') {
+        errorMessage = "Password errata. Riprova.";
+      } else if (e.code == 'invalid-email') {
+        errorMessage = "Formato email non valido.";
+      } else if (e.code == 'user-disabled') {
+        errorMessage = "Questo account è stato disabilitato.";
+      } else if (e.code == 'invalid-credential') {
+        errorMessage = "Credenziali errate o scadute.";
+      }
+
+      print("Errore di autenticazione: ${e.code}");
       print(e.message);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    } catch (e) {
+      print('Errore generico: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Errore imprevisto. Riprova.")),
+        );
+      }
     }
   }
 
@@ -142,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                 controller: passwordController,
                 decoration: const InputDecoration(
-                  hintText: 'Password',
+                  hintText: 'Password (+7 caratteri)',
                 ),
                 obscureText: true,
               ),

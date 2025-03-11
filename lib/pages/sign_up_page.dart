@@ -118,8 +118,32 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       }
     } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
+      String errorMessage = "Si è verificato un errore. Riprova.";
+      if (e.code == 'email-already-in-use') {
+        errorMessage = "Questa email è già in uso.";
+      } else if (e.code == 'invalid-email') {
+        errorMessage = "Formato email non valido.";
+      } else if (e.code == 'weak-password') {
+        errorMessage = "La password è troppo debole.";
+      } else if (e.code == 'operation-not-allowed') {
+        errorMessage = "Operazione non permessa.";
+      }
+
+      print("Errore di registrazione: ${e.code}");
       print(e.message);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    } catch (e) {
+      print("Errore generico: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Errore imprevisto. Riprova.")),
+        );
+      }
     }
   }
 
@@ -158,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
               TextFormField(
                 controller: passwordController,
                 decoration: const InputDecoration(
-                  hintText: 'Password',
+                  hintText: 'Password (+7 caratteri)',
                 ),
                 obscureText: true,
               ),
