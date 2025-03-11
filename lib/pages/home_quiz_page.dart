@@ -16,6 +16,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   final quizNameController = TextEditingController();
   final quizDescriptionController = TextEditingController();
   Color selectedColor = Colors.white;
+  String searchQuery = '';
 
   @override
   void dispose() {
@@ -141,6 +142,12 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
     return flashcardsSnapshot.size; // Numero di flashcard
   }
 
+  void _searchQuiz(String query) {
+    setState(() {
+      searchQuery = query;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,42 +157,86 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         title: const Text('QUIZ',
             textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
       ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("quizzes")
-            .where('creator', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (!snapshot.hasData) {
-            return Text("Non ci sono ancora quiz");
-          }
-          return ListView.builder(
-            padding: EdgeInsets.only(bottom: 80),
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              var quizDoc = snapshot.data!.docs[index];
-
-              return FutureBuilder<int>(
-                future: getFlashcardsCount(quizDoc.id),
-                builder: (context, countSnapshot) {
-                  return QuizTile(
-                    quizName: quizDoc.data()['name'],
-                    flashcardsCount: countSnapshot.data ?? 0,
-                    color: hexToColor(quizDoc.data()['color']),
-                    onOpenTile: () => openQuiz(quizDoc),
-                    onOpenModifica: () => modifyQuiz(quizDoc),
-                    onOpenElimina: () => deleteQuiz(quizDoc.id),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 100,
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey[200]),
+                    child: TextField(
+                      onChanged: _searchQuiz,
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                          ),
+                          border: InputBorder.none,
+                          hintStyle:
+                              TextStyle(color: Colors.grey, fontSize: 20),
+                          hintText: "Cerca"),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("quizzes")
+                  .where('creator',
+                      isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-              );
-            },
-          );
-        },
+                }
+
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Text("Non ci sono ancora quiz");
+                }
+
+                final filteredQuizzes = snapshot.data!.docs.where((quiz) {
+                  return quiz['name']
+                      .toLowerCase()
+                      .contains(searchQuery.toLowerCase());
+                }).toList();
+
+                return ListView.builder(
+                  padding: EdgeInsets.only(bottom: 80),
+                  itemCount: filteredQuizzes.length,
+                  itemBuilder: (context, index) {
+                    var quizDoc = filteredQuizzes[index];
+
+                    return FutureBuilder<int>(
+                      future: getFlashcardsCount(quizDoc.id),
+                      builder: (context, countSnapshot) {
+                        return QuizTile(
+                          quizName: quizDoc.data()['name'],
+                          flashcardsCount: countSnapshot.data ?? 0,
+                          color: hexToColor(quizDoc.data()['color']),
+                          onOpenTile: () => openQuiz(quizDoc),
+                          onOpenModifica: () => modifyQuiz(quizDoc),
+                          onOpenElimina: () => deleteQuiz(quizDoc.id),
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: '1',
