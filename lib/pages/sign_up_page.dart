@@ -66,6 +66,8 @@ class _SignUpPageState extends State<SignUpPage> {
         "name": nameController.text,
         "email": emailController.text,
         "createdAt": FieldValue.serverTimestamp(),
+        "completedSessions": 0,
+        "studyTime": 0,
       });
 
       if (sessionsSnapshot.docs.isEmpty) {

@@ -42,7 +42,6 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     bool showFab = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       resizeToAvoidBottomInset: true,

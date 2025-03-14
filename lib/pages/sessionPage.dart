@@ -1,4 +1,6 @@
 import 'package:app/util/timer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,7 +45,29 @@ class _SessionPageState extends State<SessionPage> {
     super.dispose();
   }
 
-  void _onTimerStart() {
+  Future<void> updateSessionStats() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    DocumentReference userDoc =
+        FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(userDoc);
+
+      if (!snapshot.exists) return;
+
+      int currentCount = snapshot['completedSessions'] ?? 0;
+      double currentStudyTime = snapshot['studyTime'] ?? 0;
+      transaction.update(userDoc, {
+        'completedSessions': currentCount + 1,
+        'studyTime':
+            currentStudyTime + ((widget.minutiStudio * widget.ripetizioni) / 60)
+      });
+    });
+  }
+
+  void _onTimerStart() async {
     // Esegui azioni necessarie quando il timer inizia
     print('Timer è iniziato');
     // Puoi aggiungere altre azioni qui se necessario
@@ -61,9 +85,10 @@ class _SessionPageState extends State<SessionPage> {
       }
       print('contatoreee : $contatore');
       // Verifica se la sessione è completata
-      if (contatore == widget.ripetizioni * 2) {
+      if (contatore == widget.ripetizioni * 2 && !showCompletionContainer) {
         showCompletionContainer = true;
         testoPagina = 'CONGRATULAZIONI\nSESSIONE TERMINATA';
+        updateSessionStats();
       }
     });
   }

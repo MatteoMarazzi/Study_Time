@@ -26,6 +26,8 @@ class ProfilePageState extends State<ProfilePage> {
         'name': 'Utente',
         'createdAt': 'Data non disponibile',
         'email': 'Nessuna email',
+        'completedSessions': 0,
+        'studyTime': 0,
         'flashcardStats': {}
       };
 
@@ -47,6 +49,15 @@ class ProfilePageState extends State<ProfilePage> {
     String email = doc.exists && doc.data() != null && doc['email'] != null
         ? doc['email']
         : 'Nessuna email';
+    int sessionsCompleted =
+        doc.exists && doc.data() != null && doc['completedSessions'] != null
+            ? doc['completedSessions']
+            : 0;
+
+    double studyTime =
+        (doc.exists && doc.data() != null && doc['studyTime'] is num)
+            ? double.parse((doc['studyTime'] as num).toStringAsFixed(1))
+            : 0.0;
 
     // Recupera i quiz creati dall'utente
     QuerySnapshot quizSnapshot = await FirebaseFirestore.instance
@@ -76,6 +87,8 @@ class ProfilePageState extends State<ProfilePage> {
       'name': userName,
       'createdAt': accountCreationDate,
       'email': email,
+      'completedSessions': sessionsCompleted,
+      'studyTime': studyTime,
       'flashcardStats': {
         'facili': easyCount,
         'difficili': difficultCount,
@@ -102,6 +115,8 @@ class ProfilePageState extends State<ProfilePage> {
               String userName = snapshot.data!['name']!;
               String accountCreationDate = snapshot.data!['createdAt']!;
               String email = snapshot.data!['email']!;
+              int sessionsCompleted = snapshot.data!['completedSessions'];
+              double studyTime = snapshot.data!['studyTime'];
               Map<String, int> flashcardStats =
                   snapshot.data!['flashcardStats'];
 
@@ -252,8 +267,58 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 125,
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: screenSize.width * 0.8,
+                    height: screenSize.height * 0.1,
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(1, 0),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            blurStyle: BlurStyle.normal),
+                      ],
+                      color: const Color.fromARGB(255, 230, 233, 235),
+                      border: Border.all(width: 2, color: Colors.black),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                '${studyTime} h',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                'Tempo di studio',
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                '$sessionsCompleted',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                'Sessioni completate',
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

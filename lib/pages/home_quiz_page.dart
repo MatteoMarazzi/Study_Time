@@ -212,26 +212,29 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
                       .contains(searchQuery.toLowerCase());
                 }).toList();
 
-                return ListView.builder(
-                  padding: EdgeInsets.only(bottom: 80),
-                  itemCount: filteredQuizzes.length,
-                  itemBuilder: (context, index) {
-                    var quizDoc = filteredQuizzes[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(bottom: 80),
+                    itemCount: filteredQuizzes.length,
+                    itemBuilder: (context, index) {
+                      var quizDoc = filteredQuizzes[index];
 
-                    return FutureBuilder<int>(
-                      future: getFlashcardsCount(quizDoc.id),
-                      builder: (context, countSnapshot) {
-                        return QuizTile(
-                          quizName: quizDoc.data()['name'],
-                          flashcardsCount: countSnapshot.data ?? 0,
-                          color: hexToColor(quizDoc.data()['color']),
-                          onOpenTile: () => openQuiz(quizDoc),
-                          onOpenModifica: () => modifyQuiz(quizDoc),
-                          onOpenElimina: () => deleteQuiz(quizDoc.id),
-                        );
-                      },
-                    );
-                  },
+                      return FutureBuilder<int>(
+                        future: getFlashcardsCount(quizDoc.id),
+                        builder: (context, countSnapshot) {
+                          return QuizTile(
+                            quizName: quizDoc.data()['name'],
+                            flashcardsCount: countSnapshot.data ?? 0,
+                            color: hexToColor(quizDoc.data()['color']),
+                            onOpenTile: () => openQuiz(quizDoc),
+                            onOpenModifica: () => modifyQuiz(quizDoc),
+                            onOpenElimina: () => deleteQuiz(quizDoc.id),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 );
               },
             ),
