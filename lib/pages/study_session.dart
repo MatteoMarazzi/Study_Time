@@ -175,7 +175,6 @@ class _StudySessionState extends State<StudySession> {
               Icons.arrow_back,
               color: Colors.black,
             )),
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           'Imposta sessione di studio',

@@ -99,9 +99,13 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(217, 255, 255, 255),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          elevation: 0,
+        ),
+      ),
       body: Center(
         child: FutureBuilder<Map<String, dynamic>>(
             future: userDataFuture,
@@ -124,9 +128,6 @@ class ProfilePageState extends State<ProfilePage> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 50,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -135,7 +136,7 @@ class ProfilePageState extends State<ProfilePage> {
                         width: 130,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('assets/default-avatar.avif'),
+                            image: AssetImage('assets/default-avatar.png'),
                           ),
                         ),
                       ),
@@ -166,8 +167,8 @@ class ProfilePageState extends State<ProfilePage> {
                     height: 25,
                   ),
                   Container(
-                    width: screenSize.width * 0.8,
-                    height: screenSize.height * 0.11,
+                    width: 350,
+                    height: 100,
                     decoration: BoxDecoration(
                       boxShadow: const [
                         BoxShadow(
@@ -215,8 +216,8 @@ class ProfilePageState extends State<ProfilePage> {
                     height: 20,
                   ),
                   Container(
-                    width: screenSize.width * 0.8,
-                    height: screenSize.height * 0.2,
+                    width: 350,
+                    height: 150,
                     decoration: BoxDecoration(
                       boxShadow: const [
                         BoxShadow(
@@ -271,8 +272,8 @@ class ProfilePageState extends State<ProfilePage> {
                     height: 20,
                   ),
                   Container(
-                    width: screenSize.width * 0.8,
-                    height: screenSize.height * 0.1,
+                    width: 350,
+                    height: 100,
                     decoration: BoxDecoration(
                       boxShadow: const [
                         BoxShadow(

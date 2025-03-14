@@ -21,71 +21,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
-/*        appBar: AppBar(
-            backgroundColor: const Color.fromRGBO(2, 67, 69, 1),
-            title: Text(
-              widget.title,
-              style: TextStyle(color: Colors.white),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeQuizPage(title: "QUIZ"),
-                    ),
-                  );
-                },
-                icon: Image.asset('assets/tomato.png'),
-              ),
-            ]),*/
-
+      appBar: AppBar(),
       body: SingleChildScrollView(
           child: Center(
               child: Column(
         // ignore: prefer_const_literals_to_create_immutables
         children: [
           //aggiunta spazio per le notifiche
-          Padding(
-            padding: EdgeInsets.only(
-                left: screenSize.width * 0.04,
-                right: screenSize.width * 0.04,
-                top: screenSize.height * 0.06),
-            child: Container(
-              height: 300,
-              width: 350,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2.3,
-                ),
-                borderRadius: BorderRadius.circular(40),
-                color: Color.fromARGB(255, 239, 231, 231),
+          Container(
+            height: 300,
+            width: 350,
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 2.3,
               ),
-              child: Column(
-                children: const [
-                  SizedBox(height: 8),
-                  Text(
-                    "RIPASSANDO",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        shadows: [
-                          /*Shadow(
-                            offset: Offset(1, 2),
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            blurRadius: 10,
-                          )*/
-                        ],
-                        fontSize: 23),
-                  )
-                ],
-              ),
+              borderRadius: BorderRadius.circular(40),
+              color: Color.fromARGB(255, 239, 231, 231),
+            ),
+            child: Column(
+              children: const [
+                SizedBox(height: 8),
+                Text(
+                  "RIPASSANDO",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      shadows: [
+                        /*Shadow(
+                          offset: Offset(1, 2),
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          blurRadius: 10,
+                        )*/
+                      ],
+                      fontSize: 23),
+                )
+              ],
             ),
           ),
 
