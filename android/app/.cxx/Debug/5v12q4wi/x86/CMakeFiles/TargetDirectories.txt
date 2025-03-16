@@ -1,0 +1,2 @@
+C:/Users/utente/Documents/GitHub/Mobile-Computing/android/app/.cxx/Debug/5v12q4wi/x86/CMakeFiles/edit_cache.dir
+C:/Users/utente/Documents/GitHub/Mobile-Computing/android/app/.cxx/Debug/5v12q4wi/x86/CMakeFiles/rebuild_cache.dir
