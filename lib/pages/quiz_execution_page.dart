@@ -28,7 +28,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text("Nessuna flashcard trovata"));
+            return const Center(child: CircularProgressIndicator());
           }
           final flashcards = snapshot.data!.docs;
           return Scaffold(
@@ -101,14 +101,41 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                       back: Card(
                         elevation: 4,
                         child: Padding(
-                          padding: const EdgeInsets.all(30.0),
-                          child: Center(
-                            child: Text(
-                              snapshot.data!.docs[currentIndex]
-                                  .data()['answer'],
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 19),
-                            ),
+                          padding: const EdgeInsets.all(10.0),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 8.0,
+                                left: 8.0,
+                                child: Text(
+                                  '${difficultyToString(intToDifficulty(flashcards[currentIndex].data()['difficulty']))}',
+                                  style: TextStyle(
+                                      color: difficultyToColor(intToDifficulty(
+                                          flashcards[currentIndex]
+                                              .data()['difficulty'])),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Positioned(
+                                top: 8.0,
+                                right: 8.0,
+                                child: Text(
+                                  'Flashcard ${currentIndex + 1} di ${widget.flashcardsCount}',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  snapshot.data!.docs[currentIndex]
+                                      .data()['answer'],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 19),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
