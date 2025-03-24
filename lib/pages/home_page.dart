@@ -2,6 +2,7 @@
 import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:app/tiles/home_tile.dart';
+import 'package:app/util/noti_service.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {

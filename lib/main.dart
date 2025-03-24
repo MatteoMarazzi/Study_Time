@@ -1,6 +1,7 @@
 import 'package:app/pages/main_page.dart';
 import 'package:app/pages/sign_up_page.dart';
 import 'package:app/firebase_options.dart';
+import 'package:app/util/noti_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotiService().initNotification();
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
