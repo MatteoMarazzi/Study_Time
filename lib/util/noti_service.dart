@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 class NotiService {
   final notificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -9,6 +14,10 @@ class NotiService {
 
   Future<void> initNotification() async {
     if (_isInitialized) return;
+
+    tz.initializeTimeZones();
+    final String currentTimezone = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(currentTimezone));
 
     const initSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -40,5 +49,43 @@ class NotiService {
     String? body,
   }) async {
     return notificationsPlugin.show(id, title, body, notificationDetails());
+  }
+
+  Future<void> scheduleNotification({
+    int id = 1,
+    required String title,
+    required String body,
+    required int hour,
+    required int minute,
+  }) async {
+    final now = tz.TZDateTime.now(tz.local);
+
+    var scheduleDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+
+    await notificationsPlugin.zonedSchedule(
+        id, title, body, scheduleDate, notificationDetails(),
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  Future<void> cancelAllNotifications() async {
+    await notificationsPlugin.cancelAll();
+  }
+
+  Future<void> sendRandomDailyNotification() async {
+    final random = Random();
+    int hour = 21;
+    int minute = 15;
+
+    String title = 'Notifica Giornaliera';
+    String body = 'Questa è una notifica giornaliera casuale.';
+
+    await scheduleNotification(
+      title: title,
+      body: body,
+      hour: hour,
+      minute: minute,
+    );
   }
 }
