@@ -10,7 +10,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotiService().initNotification();
+  await NotiService().initNotification();
+  await NotiService().sendRandomDailyNotification();
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);

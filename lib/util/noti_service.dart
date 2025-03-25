@@ -67,6 +67,7 @@ class NotiService {
         id, title, body, scheduleDate, notificationDetails(),
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: DateTimeComponents.time);
+    print("Schedulata ${scheduleDate.toString()}");
   }
 
   Future<void> cancelAllNotifications() async {
@@ -75,11 +76,11 @@ class NotiService {
 
   Future<void> sendRandomDailyNotification() async {
     final random = Random();
-    int hour = 21;
-    int minute = 15;
+    int hour = random.nextInt(10) + 9;
+    int minute = random.nextInt(60);
 
-    String title = 'Notifica Giornaliera';
-    String body = 'Questa è una notifica giornaliera casuale.';
+    String title = 'Study Time';
+    String body = 'Ripassa delle flashcard casuali';
 
     await scheduleNotification(
       title: title,
