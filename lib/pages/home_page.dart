@@ -102,12 +102,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 NotiService().showNotification(title: 'a', body: 'a');
               },
               child: Text('data')),
-          ElevatedButton(
-              onPressed: () {
-                NotiService().scheduleNotification(
-                    title: 'a', body: 'a', hour: 12, minute: 43);
-              },
-              child: Text('data'))
         ],
       ))),
     );

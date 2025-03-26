@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 
 class QuizExecutionPage extends StatefulWidget {
-  final QueryDocumentSnapshot<Map<String, dynamic>> quiz;
+  final DocumentSnapshot<Map<String, dynamic>> quiz;
   final int flashcardsCount;
   const QuizExecutionPage(
       {super.key, required this.quiz, required this.flashcardsCount});
@@ -43,7 +43,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                     color: Colors.black,
                   )),
               centerTitle: true,
-              title: Text('${widget.quiz.data()['name']}',
+              title: Text('${widget.quiz.data()!['name']}',
                   textAlign: TextAlign.left,
                   style: TextStyle(color: Colors.black)),
             ),
