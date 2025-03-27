@@ -4,6 +4,7 @@ import 'package:app/pages/tomato_method.dart';
 import 'package:app/tiles/home_tile.dart';
 import 'package:app/util/noti_service.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -14,10 +15,18 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+Future<void> requestNotificationPermission() async {
+  var status = await Permission.notification.status;
+  if (!status.isGranted) {
+    await Permission.notification.request();
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    requestNotificationPermission();
   }
 
   @override
