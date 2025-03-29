@@ -6,20 +6,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotiService().initNotification();
-  try {
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    runApp(const MyApp());
-  } catch (e) {
-    print("Errore nell'inizializzazione di Firebase: $e");
-  }
+  await NotiService().sendRandomDailyNotification();
+  runApp(const MyApp());
+  Future.delayed(Duration.zero, () async {
+    final NotificationAppLaunchDetails? details = await NotiService()
+        .notificationsPlugin
+        .getNotificationAppLaunchDetails();
+
+    if (details?.didNotificationLaunchApp ?? false) {
+      final String? payload = details?.notificationResponse?.payload;
+      if (payload != null) {
+        NotiService.handleNotificationPayload(payload);
+      }
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {

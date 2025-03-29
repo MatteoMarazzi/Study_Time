@@ -38,6 +38,15 @@ class NotiService {
         onDidReceiveBackgroundNotificationResponse:
             onDidReceiveNotificationResponse,
         onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
+    final NotificationAppLaunchDetails? details =
+        await notificationsPlugin.getNotificationAppLaunchDetails();
+
+    if (details?.didNotificationLaunchApp ?? false) {
+      final String? payload = details?.notificationResponse?.payload;
+      if (payload != null) {
+        handleNotificationPayload(payload);
+      }
+    }
   }
 
   NotificationDetails notificationDetails() {
@@ -123,34 +132,38 @@ class NotiService {
     );
   }
 
+  static void handleNotificationPayload(String payload) async {
+    print("Payload ricevuto all'avvio: $payload");
+
+    final quizSnapshot = await FirebaseFirestore.instance
+        .collection('quizzes')
+        .doc(payload)
+        .get();
+
+    if (quizSnapshot.exists) {
+      final flashcardsCount = await FirebaseFirestore.instance
+          .collection('quizzes')
+          .doc(payload)
+          .collection('flashcards')
+          .get()
+          .then((snapshot) => snapshot.size);
+
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) => QuizExecutionPage(
+            quiz: quizSnapshot,
+            flashcardsCount: flashcardsCount,
+          ),
+        ),
+      );
+    }
+  }
+
   static void onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
     final String? payload = notificationResponse.payload;
-    print("Payload ricevuto: $payload");
-    if (notificationResponse.payload != null &&
-        notificationResponse.payload!.isNotEmpty) {
-      final quizSnapshot = await FirebaseFirestore.instance
-          .collection('quizzes')
-          .doc(payload)
-          .get();
-
-      if (quizSnapshot.exists) {
-        final flashcardsCount = await FirebaseFirestore.instance
-            .collection('quizzes')
-            .doc(payload)
-            .collection('flashcards')
-            .get()
-            .then((snapshot) => snapshot.size);
-
-        navigatorKey.currentState?.push(
-          MaterialPageRoute(
-            builder: (context) => QuizExecutionPage(
-              quiz: quizSnapshot,
-              flashcardsCount: flashcardsCount,
-            ),
-          ),
-        );
-      }
+    if (payload != null && payload.isNotEmpty) {
+      handleNotificationPayload(payload);
     }
   }
 }
