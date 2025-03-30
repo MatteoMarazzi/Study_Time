@@ -16,7 +16,6 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotiService().initNotification();
-  await NotiService().sendRandomDailyNotification();
   runApp(const MyApp());
   Future.delayed(Duration.zero, () async {
     final NotificationAppLaunchDetails? details = await NotiService()
