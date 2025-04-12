@@ -83,6 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
           'minutiStudio': 25,
           'minutiPausa': 4,
           'ripetizioni': 4,
+          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
         });
 
         await firestore
@@ -96,6 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
           'minutiStudio': 0,
           'minutiPausa': 0,
           'ripetizioni': 0,
+          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
         });
 
         await firestore
@@ -109,6 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
           'minutiStudio': 0,
           'minutiPausa': 0,
           'ripetizioni': 0,
+          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
         });
       }
 

@@ -474,7 +474,8 @@ class _StudySessionState extends State<StudySession> {
                         .update({
                       'minutiStudio': counterStudio,
                       'minutiPausa': counterPausa,
-                      'ripetizioni': counterRipetizioni
+                      'ripetizioni': counterRipetizioni,
+                      'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
                     });
                     Navigator.of(context).push(
                       MaterialPageRoute(

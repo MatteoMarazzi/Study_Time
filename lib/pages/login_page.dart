@@ -73,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           'minutiStudio': 25,
           'minutiPausa': 4,
           'ripetizioni': 4,
+          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
         });
 
         await firestore
@@ -86,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
           'minutiStudio': 0,
           'minutiPausa': 0,
           'ripetizioni': 0,
+          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
         });
 
         await firestore
@@ -99,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
           'minutiStudio': 0,
           'minutiPausa': 0,
           'ripetizioni': 0,
+          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
         });
       }
       if (mounted) {
