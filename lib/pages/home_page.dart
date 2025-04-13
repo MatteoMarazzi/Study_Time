@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors
+import 'dart:math';
+
 import 'package:app/pages/home_quiz_page.dart';
+import 'package:app/pages/quiz_execution_page.dart';
 import 'package:app/pages/sessionPage.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:app/tiles/home_tile.dart';
@@ -31,6 +34,30 @@ class _MyHomePageState extends State<MyHomePage> {
     requestNotificationPermission();
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getRandomQuiz() async {
+    var snapshot = await FirebaseFirestore.instance
+        .collection('quizzes')
+        .where('creator', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    List<DocumentSnapshot<Map<String, dynamic>>> quizzesWithFlashcards = [];
+
+    for (var quiz in snapshot.docs) {
+      var flashcardsSnapshot =
+          await quiz.reference.collection('flashcards').limit(1).get();
+
+      if (flashcardsSnapshot.docs.isNotEmpty) {
+        quizzesWithFlashcards.add(quiz);
+      }
+    }
+
+    var random = Random();
+    var randomQuiz =
+        quizzesWithFlashcards[random.nextInt(quizzesWithFlashcards.length)];
+
+    return randomQuiz;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
           var latestSession = snapshot.data!.docs.first;
+
           return Center(
               child: Column(
             // ignore: prefer_const_literals_to_create_immutables
@@ -125,8 +153,8 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SessionPage(
@@ -155,6 +183,49 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Studia con l'ultima sessione di studio avviata",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            //decoration: TextDecoration.underline,
+                            decorationThickness: 1,
+                          ),
+                        ),
+                      ),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                    onTap: () async {
+                      var randomQuiz = await getRandomQuiz();
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QuizExecutionPage(
+                                  quiz: randomQuiz,
+                                )),
+                      );
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Ripassa le flashcard di un quiz casuale",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22,

@@ -126,7 +126,6 @@ class _QuizPageState extends State<QuizPage> {
         context,
         MaterialPageRoute(
             builder: (context) => QuizExecutionPage(
-                  flashcardsCount: flashcardsCount,
                   quiz: widget.quiz,
                 )));
   }

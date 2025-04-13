@@ -5,9 +5,7 @@ import 'package:flip_card/flip_card.dart';
 
 class QuizExecutionPage extends StatefulWidget {
   final DocumentSnapshot<Map<String, dynamic>> quiz;
-  final int flashcardsCount;
-  const QuizExecutionPage(
-      {super.key, required this.quiz, required this.flashcardsCount});
+  const QuizExecutionPage({super.key, required this.quiz});
 
   @override
   State<QuizExecutionPage> createState() => _QuizExecutionPageState();
@@ -31,6 +29,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
             return const Center(child: CircularProgressIndicator());
           }
           final flashcards = snapshot.data!.docs;
+          final flashcardsCount = snapshot.data!.size;
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -80,7 +79,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 top: 8.0,
                                 right: 8.0,
                                 child: Text(
-                                  'Flashcard ${currentIndex + 1} di ${widget.flashcardsCount}',
+                                  'Flashcard ${currentIndex + 1} di ${flashcardsCount}',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
@@ -121,7 +120,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 top: 8.0,
                                 right: 8.0,
                                 child: Text(
-                                  'Flashcard ${currentIndex + 1} di ${widget.flashcardsCount}',
+                                  'Flashcard ${currentIndex + 1} di ${flashcardsCount}',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
@@ -145,7 +144,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                        onPressed: previousCard,
+                        onPressed: () => previousCard(flashcardsCount),
                         icon: Icon(Icons.chevron_left),
                       ),
                       Container(
@@ -166,7 +165,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 'difficulty':
                                     difficultyToInt(Difficulty.difficile)
                               });
-                              nextCard();
+                              nextCard(flashcardsCount);
                             },
                             style: ButtonStyle(
                               animationDuration: const Duration(seconds: 5),
@@ -203,7 +202,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                   .update({
                                 'difficulty': difficultyToInt(Difficulty.facile)
                               });
-                              nextCard();
+                              nextCard(flashcardsCount);
                             },
                             style: ButtonStyle(
                               animationDuration: const Duration(seconds: 5),
@@ -224,7 +223,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                         ),
                       ),
                       IconButton(
-                        onPressed: nextCard,
+                        onPressed: () => nextCard(flashcardsCount),
                         icon: Icon(Icons.chevron_right),
                       ),
                     ],
@@ -236,19 +235,18 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
         });
   }
 
-  void previousCard() {
+  void previousCard(int flashcardsCount) {
     setState(() {
-      currentIndex = (currentIndex - 1 >= 0)
-          ? currentIndex - 1
-          : widget.flashcardsCount - 1;
+      currentIndex =
+          (currentIndex - 1 >= 0) ? currentIndex - 1 : flashcardsCount - 1;
       cardKey = GlobalKey<FlipCardState>();
     });
   }
 
-  void nextCard() {
+  void nextCard(int flashcardsCount) {
     setState(() {
       currentIndex =
-          (currentIndex + 1 < widget.flashcardsCount) ? currentIndex + 1 : 0;
+          (currentIndex + 1 < flashcardsCount) ? currentIndex + 1 : 0;
       cardKey = GlobalKey<FlipCardState>();
     });
   }

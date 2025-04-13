@@ -141,18 +141,10 @@ class NotiService {
         .get();
 
     if (quizSnapshot.exists) {
-      final flashcardsCount = await FirebaseFirestore.instance
-          .collection('quizzes')
-          .doc(payload)
-          .collection('flashcards')
-          .get()
-          .then((snapshot) => snapshot.size);
-
       navigatorKey.currentState?.push(
         MaterialPageRoute(
           builder: (context) => QuizExecutionPage(
             quiz: quizSnapshot,
-            flashcardsCount: flashcardsCount,
           ),
         ),
       );
