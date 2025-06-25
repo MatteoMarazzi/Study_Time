@@ -116,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
       }
 
       if (mounted) {
-        NotiService().sendRandomDailyNotification();
+        NotiService().sendDailyNotificationForRandomQuiz(18, 0);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

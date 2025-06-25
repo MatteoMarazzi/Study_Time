@@ -170,16 +170,16 @@ class ProfilePageState extends State<ProfilePage> {
                     width: 350,
                     height: 100,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: const [
                         BoxShadow(
                             color: Colors.black,
-                            offset: Offset(1, 0),
                             spreadRadius: 1,
                             blurRadius: 1,
                             blurStyle: BlurStyle.normal),
                       ],
                       color: const Color.fromARGB(255, 230, 233, 235),
-                      border: Border.all(width: 2, color: Colors.black),
+                      border: Border.all(width: 1, color: Colors.black),
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
@@ -219,16 +219,16 @@ class ProfilePageState extends State<ProfilePage> {
                     width: 350,
                     height: 150,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: const [
                         BoxShadow(
                             color: Colors.black,
-                            offset: Offset(1, 0),
                             spreadRadius: 1,
                             blurRadius: 1,
                             blurStyle: BlurStyle.normal),
                       ],
                       color: const Color.fromARGB(255, 230, 233, 235),
-                      border: Border.all(width: 2, color: Colors.black),
+                      border: Border.all(width: 1, color: Colors.black),
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
@@ -275,16 +275,16 @@ class ProfilePageState extends State<ProfilePage> {
                     width: 350,
                     height: 100,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                       boxShadow: const [
                         BoxShadow(
                             color: Colors.black,
-                            offset: Offset(1, 0),
                             spreadRadius: 1,
                             blurRadius: 1,
                             blurStyle: BlurStyle.normal),
                       ],
                       color: const Color.fromARGB(255, 230, 233, 235),
-                      border: Border.all(width: 2, color: Colors.black),
+                      border: Border.all(width: 1, color: Colors.black),
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(8.0),

@@ -169,18 +169,20 @@ class _StudySessionState extends State<StudySession> {
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop(false); // Passing false as result
+              Navigator.of(context).pop(false);
             },
             icon: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             )),
+        title: Text("IMPOSTA SESSIONE",
+            style: const TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                //decoration: TextDecoration.underline,
+                decorationThickness: 1)),
         centerTitle: true,
-        title: const Text(
-          'Imposta sessione di studio',
-          style: TextStyle(
-              color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
-        ),
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),

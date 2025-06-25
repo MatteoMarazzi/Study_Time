@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       }
       if (mounted) {
-        NotiService().sendRandomDailyNotification();
+        NotiService().sendDailyNotificationForRandomQuiz(18, 0);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

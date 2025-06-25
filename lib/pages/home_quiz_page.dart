@@ -32,6 +32,7 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
         "name": quizNameController.text.trim(),
         "description": quizDescriptionController.text.trim(),
         "color": rgbToHex(selectedColor),
+        "reviewEnabled": true
       });
       quizNameController.clear();
       quizDescriptionController.clear();
@@ -151,15 +152,26 @@ class _HomeQuizPageState extends State<HomeQuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: const Text('QUIZ',
-            textAlign: TextAlign.left, style: TextStyle(color: Colors.black)),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          elevation: 0,
+        ),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            'I TUOI QUIZ',
+            style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                //decoration: TextDecoration.underline,
+                decorationThickness: 1),
+          ),
           Container(
             height: 100,
             padding:

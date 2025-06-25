@@ -44,7 +44,12 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
               centerTitle: true,
               title: Text('${widget.quiz.data()!['name']}',
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.black)),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      //decoration: TextDecoration.underline,
+                      decorationThickness: 1)),
             ),
             body: Center(
               child: Column(

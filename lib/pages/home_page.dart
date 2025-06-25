@@ -6,6 +6,7 @@ import 'package:app/pages/quiz_execution_page.dart';
 import 'package:app/pages/sessionPage.dart';
 import 'package:app/pages/tomato_method.dart';
 import 'package:app/tiles/home_tile.dart';
+import 'package:app/util/noti_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,23 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     requestNotificationPermission();
+  }
+
+  TimeOfDay? _selectedTime;
+
+  Future<void> _pickTime() async {
+    final now = TimeOfDay.now();
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime ?? now,
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedTime = picked;
+      });
+      NotiService().sendDailyNotificationForRandomQuiz(
+          _selectedTime!.hour, _selectedTime!.minute);
+    }
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getRandomQuiz() async {
@@ -88,35 +106,16 @@ class _MyHomePageState extends State<MyHomePage> {
             // ignore: prefer_const_literals_to_create_immutables
             children: [
               //aggiunta spazio per le notifiche
-              Container(
-                height: 300,
-                width: 350,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2.3,
-                  ),
-                  borderRadius: BorderRadius.circular(40),
-                  color: Color.fromARGB(255, 239, 231, 231),
-                ),
-                child: Column(
-                  children: const [
-                    SizedBox(height: 8),
-                    Text(
-                      "RIPASSANDO",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          shadows: [
-                            /*Shadow(
-                        offset: Offset(1, 2),
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        blurRadius: 10,
-                      )*/
-                          ],
-                          fontSize: 23),
-                    )
-                  ],
-                ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'STUDY TIME',
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    //decoration: TextDecoration.underline,
+                    decorationThickness: 1),
               ),
 
               SizedBox(height: 20),
@@ -132,10 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 weightImage: 250,
               ),
               SizedBox(height: 20),
-              //SingleChildScrollView(
-              // scrollDirection: Axis.horizontal,
-              //child: Row(
-              // children: [
               HomeTile(
                 standard: 1,
                 color: Colors.black,
@@ -150,93 +145,179 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SessionPage(
-                              ripetizioni: latestSession['ripetizioni'],
-                              minutiStudio: latestSession['minutiStudio'],
-                              minutiPausa: latestSession['minutiPausa']),
+
+              Container(
+                  width: 400,
+                  height: 400,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(width: 4, color: Colors.yellow),
+                    color: const Color.fromARGB(236, 238, 232, 185),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "AZIONI RAPIDE",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          //decoration: TextDecoration.underline,
+                          decorationThickness: 1,
                         ),
-                      );
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                        color: Colors.white,
                       ),
-                      child: Padding(
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Studia con l'ultima sessione di studio avviata",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            //decoration: TextDecoration.underline,
-                            decorationThickness: 1,
-                          ),
-                        ),
+                        child: GestureDetector(
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SessionPage(
+                                      ripetizioni: latestSession['ripetizioni'],
+                                      minutiStudio:
+                                          latestSession['minutiStudio'],
+                                      minutiPausa:
+                                          latestSession['minutiPausa']),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 100,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                                color: Colors.white,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "RIPETI ULTIMA SESSIONE",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      //decoration: TextDecoration.underline,
+                                      decorationThickness: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )),
                       ),
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                    onTap: () async {
-                      var randomQuiz = await getRandomQuiz();
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => QuizExecutionPage(
-                                  quiz: randomQuiz,
-                                )),
-                      );
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                        color: Colors.white,
-                      ),
-                      child: Padding(
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Ripassa le flashcard di un quiz casuale",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            //decoration: TextDecoration.underline,
-                            decorationThickness: 1,
+                        child: GestureDetector(
+                            onTap: () async {
+                              var randomQuiz = await getRandomQuiz();
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => QuizExecutionPage(
+                                          quiz: randomQuiz,
+                                        )),
+                              );
+                            },
+                            child: Container(
+                              width: 500,
+                              height: 100,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                                color: Colors.white,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "RIPASSA FLASHCARDS",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      //decoration: TextDecoration.underline,
+                                      decorationThickness: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: _pickTime,
+                          child: Container(
+                            height: 100,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'NOTIFICHE GIORNALIERE',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    _selectedTime != null
+                                        ? 'Il prossimo ripasso sarà alle: ${_selectedTime!.format(context)}'
+                                        : 'Tocca per impostare l\'orario',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    )),
-              ),
+                    ],
+                  )),
             ],
           ));
         },

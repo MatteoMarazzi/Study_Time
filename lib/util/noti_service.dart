@@ -70,8 +70,6 @@ class NotiService {
 
   Future<void> scheduleNotification(
       {int id = 1,
-      required String title,
-      required String body,
       required int hour,
       required int minute,
       required String quizId}) async {
@@ -79,6 +77,8 @@ class NotiService {
 
     var scheduleDate =
         tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
+    String title = 'Notifica giornaliera';
+    String body = 'Ripassa delle flashcard casuali';
 
     await notificationsPlugin.zonedSchedule(
         id, title, body, scheduleDate, notificationDetails(),
@@ -92,11 +92,12 @@ class NotiService {
     await notificationsPlugin.cancelAll();
   }
 
-  Future<void> sendRandomDailyNotification() async {
+  Future<void> sendDailyNotificationForRandomQuiz(int hour, int minute) async {
     final random = Random();
     final quizzesSnapshot = await FirebaseFirestore.instance
         .collection('quizzes')
         .where('creator', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('reviewEnabled', isEqualTo: true)
         .get();
     if (quizzesSnapshot.docs.isEmpty) {
       return;
@@ -117,15 +118,7 @@ class NotiService {
     final randomQuiz =
         quizzesWithFlashcards[random.nextInt(quizzesWithFlashcards.length)];
 
-    int hour = random.nextInt(10) + 9;
-    int minute = random.nextInt(60);
-
-    String title = 'Notifica giornaliera';
-    String body = 'Ripassa delle flashcard casuali';
-
     await scheduleNotification(
-      title: title,
-      body: body,
       hour: hour,
       minute: minute,
       quizId: randomQuiz.id,
