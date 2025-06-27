@@ -354,14 +354,14 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 200,
+                  height: 465,
                   child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.vertical,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 0.8,
+                      crossAxisSpacing: 1,
+                      childAspectRatio: 2.6,
                     ),
                     padding: const EdgeInsets.all(8),
                     itemCount: snapshot.data!.docs.length,

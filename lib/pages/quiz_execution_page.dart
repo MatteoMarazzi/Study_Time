@@ -90,6 +90,17 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
+                              Positioned(
+                                bottom: 8.0,
+                                left: 50,
+                                child: Text(
+                                  'Clicca per vedere la risposta',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                               Center(
                                 child: Text(
                                   snapshot.data!.docs[currentIndex]
@@ -127,6 +138,17 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 child: Text(
                                   'Flashcard ${currentIndex + 1} di ${flashcardsCount}',
                                   style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 8.0,
+                                left: 50,
+                                child: Text(
+                                  'Clicca per vedere la domanda',
+                                  style: TextStyle(
+                                      color: Colors.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 ),

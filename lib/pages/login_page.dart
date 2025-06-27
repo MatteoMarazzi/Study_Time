@@ -47,63 +47,56 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  Future<void> _updateStreakOnLogin() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+
+    final today = DateTime.now();
+    final todayMid = DateTime(today.year, today.month, today.day);
+
+    await FirebaseFirestore.instance.runTransaction((tx) async {
+      final snap = await tx.get(userRef);
+      final data = snap.data() ?? {};
+
+      final lastTs = (data['lastAccessDate'] as Timestamp?)?.toDate();
+      int newStreak = 1;
+
+      if (lastTs != null) {
+        final lastMid = DateTime(
+          lastTs.year,
+          lastTs.month,
+          lastTs.day,
+        );
+        final diff = todayMid.difference(lastMid).inDays;
+        if (diff == 0) {
+          return;
+        } else if (diff == 1) {
+          newStreak = (data['currentStreak'] ?? 0) + 1;
+        }
+      }
+      final todayKey =
+          "${todayMid.year}-${todayMid.month.toString().padLeft(2, '0')}-${todayMid.day.toString().padLeft(2, '0')}";
+
+      tx.set(
+          userRef,
+          {
+            'lastAccessDate': Timestamp.fromDate(todayMid),
+            'currentStreak': newStreak,
+            'loginHistory.$todayKey': true,
+          },
+          SetOptions(merge: true));
+    });
+  }
+
   Future<void> loginUserWithEmailAndPassword() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      final firestore = FirebaseFirestore.instance;
 
-      final sessionsSnapshot = await firestore
-          .collection('sessions')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('sessions')
-          .get();
+      await _updateStreakOnLogin();
 
-      if (sessionsSnapshot.docs.isEmpty) {
-        await firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('sessions')
-            .doc('standard')
-            .set({
-          'creator': FirebaseAuth.instance.currentUser!.uid,
-          'title': 'STANDARD',
-          'minutiStudio': 25,
-          'minutiPausa': 4,
-          'ripetizioni': 4,
-          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
-        });
-
-        await firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('sessions')
-            .doc('personalizzata1')
-            .set({
-          'creator': FirebaseAuth.instance.currentUser!.uid,
-          'title': 'PERSONALIZZATA 1',
-          'minutiStudio': 0,
-          'minutiPausa': 0,
-          'ripetizioni': 0,
-          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
-        });
-
-        await firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('sessions')
-            .doc('personalizzata2')
-            .set({
-          'creator': FirebaseAuth.instance.currentUser!.uid,
-          'title': 'PERSONALIZZATA 2',
-          'minutiStudio': 0,
-          'minutiPausa': 0,
-          'ripetizioni': 0,
-          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
-        });
-      }
       if (mounted) {
         NotiService().sendDailyNotificationForRandomQuiz(18, 0);
         Navigator.pushReplacement(

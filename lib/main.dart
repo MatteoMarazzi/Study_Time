@@ -2,8 +2,10 @@ import 'package:app/pages/main_page.dart';
 import 'package:app/pages/sign_up_page.dart';
 import 'package:app/firebase_options.dart';
 import 'package:app/util/noti_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -15,6 +17,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (kDebugMode) {
+    FirebaseFirestore.instance.settings =
+        const Settings(persistenceEnabled: false);
+  }
+
   await NotiService().initNotification();
   runApp(const MyApp());
   Future.delayed(Duration.zero, () async {

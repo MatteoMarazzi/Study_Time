@@ -58,9 +58,15 @@ class _SignUpPageState extends State<SignUpPage> {
           password: passwordController.text.trim());
 
       final firestore = FirebaseFirestore.instance;
+      final todayMid = DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+      );
+      final dateKey =
+          "${todayMid.year}-${todayMid.month.toString().padLeft(2, '0')}-${todayMid.day.toString().padLeft(2, '0')}";
 
-      final sessionsSnapshot = await firestore.collection('sessions').get();
-      await FirebaseFirestore.instance
+      await firestore
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
@@ -69,51 +75,50 @@ class _SignUpPageState extends State<SignUpPage> {
         "createdAt": FieldValue.serverTimestamp(),
         "completedSessions": 0,
         "studyTime": 0,
+        "currentStreak": 1,
+        "lastAccessDate": todayMid,
+        'loginHistory': {dateKey: true},
       });
 
-      if (sessionsSnapshot.docs.isEmpty) {
-        await firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('sessions')
-            .doc('standard')
-            .set({
-          'creator': FirebaseAuth.instance.currentUser!.uid,
-          'title': 'STANDARD',
-          'minutiStudio': 25,
-          'minutiPausa': 4,
-          'ripetizioni': 4,
-          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
-        });
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('sessions')
+          .doc('standard')
+          .set({
+        'creator': FirebaseAuth.instance.currentUser!.uid,
+        'title': 'STANDARD',
+        'minutiStudio': 25,
+        'minutiPausa': 4,
+        'ripetizioni': 4,
+        'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
+      });
 
-        await firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('sessions')
-            .doc('personalizzata1')
-            .set({
-          'creator': FirebaseAuth.instance.currentUser!.uid,
-          'title': 'PERSONALIZZATA 1',
-          'minutiStudio': 0,
-          'minutiPausa': 0,
-          'ripetizioni': 0,
-          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
-        });
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('sessions')
+          .doc('personalizzata1')
+          .set({
+        'creator': FirebaseAuth.instance.currentUser!.uid,
+        'title': 'PERSONALIZZATA 1',
+        'minutiStudio': 0,
+        'minutiPausa': 0,
+        'ripetizioni': 0,
+      });
 
-        await firestore
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('sessions')
-            .doc('personalizzata2')
-            .set({
-          'creator': FirebaseAuth.instance.currentUser!.uid,
-          'title': 'PERSONALIZZATA 2',
-          'minutiStudio': 0,
-          'minutiPausa': 0,
-          'ripetizioni': 0,
-          'ultimoAvvio': Timestamp.fromDate(DateTime.now()),
-        });
-      }
+      await firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('sessions')
+          .doc('personalizzata2')
+          .set({
+        'creator': FirebaseAuth.instance.currentUser!.uid,
+        'title': 'PERSONALIZZATA 2',
+        'minutiStudio': 0,
+        'minutiPausa': 0,
+        'ripetizioni': 0,
+      });
 
       if (mounted) {
         NotiService().sendDailyNotificationForRandomQuiz(18, 0);
