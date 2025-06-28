@@ -94,7 +94,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 bottom: 8.0,
                                 left: 50,
                                 child: Text(
-                                  'Clicca per vedere la risposta',
+                                  'Tocca per vedere la risposta',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -146,7 +146,7 @@ class _QuizExecutionPageState extends State<QuizExecutionPage> {
                                 bottom: 8.0,
                                 left: 50,
                                 child: Text(
-                                  'Clicca per vedere la domanda',
+                                  'Tocca per vedere la domanda',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,

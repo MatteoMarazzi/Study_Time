@@ -2,6 +2,7 @@ import 'package:app/pages/flashcards_editor_page.dart';
 import 'package:app/pages/quiz_execution_page.dart';
 import 'package:app/util/common_functions.dart';
 import 'package:app/tiles/flashcard_tile.dart';
+import 'package:app/util/review_notification_toggle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -139,7 +140,6 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    //Size screenSize = MediaQuery.of(context).size;
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('quizzes')
@@ -186,10 +186,19 @@ class _QuizPageState extends State<QuizPage> {
                       //decoration: TextDecoration.underline,
                       decorationThickness: 1)),
               centerTitle: true,
+              actions: [
+                ReviewNotificationToggle(
+                  quizId: widget.quiz.id,
+                  initialValue: _reviewEnabled,
+                ),
+              ],
             ),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 10,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
@@ -311,39 +320,6 @@ class _QuizPageState extends State<QuizPage> {
                   height: 40,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 33, top: 15),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Notifiche : ',
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Checkbox(
-                          value: _reviewEnabled,
-                          onChanged: (bool? newValue) async {
-                            if (newValue == null) return;
-                            // aggiorno subito lo stato locale
-                            setState(() => _reviewEnabled = newValue);
-                            // e poi salvo su Firestore
-                            await FirebaseFirestore.instance
-                                .collection('quizzes')
-                                .doc(widget.quiz.id)
-                                .update({'reviewEnabled': newValue});
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 33, top: 15),
                     child: Text(
                       '${flashcardsCount} Flashcards',
                       style: TextStyle(
@@ -354,14 +330,16 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 465,
+                  height: 20,
+                ),
+                Expanded(
                   child: GridView.builder(
                     scrollDirection: Axis.vertical,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       crossAxisSpacing: 1,
-                      childAspectRatio: 2.6,
+                      childAspectRatio: 2.3,
                     ),
                     padding: const EdgeInsets.all(8),
                     itemCount: snapshot.data!.docs.length,

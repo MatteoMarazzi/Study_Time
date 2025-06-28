@@ -52,7 +52,7 @@ class _FlashcardsEditorPageState extends State<FlashcardsEditorPage> {
         ),
         centerTitle: true,
         title: const Text(
-          'Questions Editor',
+          'FLASHCARD EDITOR',
           textAlign: TextAlign.left,
           style: TextStyle(color: Colors.black),
         ),

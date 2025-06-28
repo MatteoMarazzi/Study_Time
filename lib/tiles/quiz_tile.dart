@@ -40,7 +40,7 @@ class QuizTile extends StatelessWidget {
                     quizName,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 24,
+                      fontSize: 22,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

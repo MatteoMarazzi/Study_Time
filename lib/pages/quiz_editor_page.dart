@@ -58,7 +58,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
         ),
         centerTitle: true,
         title: const Text(
-          'QUIZ Editor',
+          'QUIZ EDITOR',
           textAlign: TextAlign.left,
           style: TextStyle(color: Colors.black),
         ),
@@ -84,7 +84,7 @@ class _QuizEditorPageState extends State<QuizEditorPage> {
                         height: 8,
                       ),
                       TextField(
-                        maxLength: 28,
+                        maxLength: 19,
                         controller: widget.controller,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
