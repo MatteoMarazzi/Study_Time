@@ -87,17 +87,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/tomato.png
-     - assets/allarm_clock.png
      - assets/tomato_2.png
-     - assets/quiz_1.png
-     - assets/exam_1.png
-     - assets/music_1.png
-     - assets/calendar.png
-     - assets/study.json
-     - assets/calendar_1.json
      - assets/ragazzo_studioso.png
      - assets/icon/icon.png
-     - assets/spezzacatene.png
      - assets/corridore.png
      - assets/default-avatar.png
 

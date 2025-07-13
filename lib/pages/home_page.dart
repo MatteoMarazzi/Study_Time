@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:math';
 
-import 'package:app/pages/home_quiz_page.dart';
 import 'package:app/pages/quiz_editor_page.dart';
 import 'package:app/pages/quiz_execution_page.dart';
 import 'package:app/pages/sessionPage.dart';
@@ -187,7 +186,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: CircularProgressIndicator(),
             );
           }
-          var latestSession = snapshot.data!.docs.first;
+          var latestSession = null;
+          try {
+            latestSession = snapshot.data!.docs.first;
+          } catch (e) {}
 
           return Center(
               child: Column(
@@ -318,15 +320,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       icon: Icons.flash_on,
                       label: 'Ripeti ultima sessione',
                       onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SessionPage(
-                                ripetizioni: latestSession['ripetizioni'],
-                                minutiStudio: latestSession['minutiStudio'],
-                                minutiPausa: latestSession['minutiPausa']),
-                          ),
-                        );
+                        if (latestSession != null) {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SessionPage(
+                                  ripetizioni: latestSession['ripetizioni'],
+                                  minutiStudio: latestSession['minutiStudio'],
+                                  minutiPausa: latestSession['minutiPausa']),
+                            ),
+                          );
+                        }
                       },
                     ),
                     _buildActionCard(
